@@ -13,18 +13,6 @@
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Declaration>
-        <Class IRI="#Docker"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Kubernetes"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Mesos"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#container"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#deployment_unit"/>
     </Declaration>
     <Declaration>
@@ -35,9 +23,6 @@
     </Declaration>
     <Declaration>
         <Class IRI="#platform"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#pod"/>
     </Declaration>
     <Declaration>
         <Class IRI="#storage"/>
@@ -67,27 +52,17 @@
         <DataProperty IRI="#storage"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#Container"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Docker"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#Kubernetes"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#Pod"/>
     </Declaration>
-    <SubClassOf>
-        <Class IRI="#Docker"/>
-        <Class IRI="#platform"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Kubernetes"/>
-        <Class IRI="#platform"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Mesos"/>
-        <Class IRI="#platform"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#container"/>
-        <Class IRI="#deployment_unit"/>
-    </SubClassOf>
     <SubClassOf>
         <Class IRI="#deployment_unit"/>
         <Class IRI="#microservice_orchestration"/>
@@ -101,13 +76,35 @@
         <Class IRI="#microservice_orchestration"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#pod"/>
-        <Class IRI="#deployment_unit"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="#storage"/>
         <Class IRI="#microservice_orchestration"/>
     </SubClassOf>
+    <ClassAssertion>
+        <Class IRI="#deployment_unit"/>
+        <NamedIndividual IRI="#Container"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#platform"/>
+        <NamedIndividual IRI="#Docker"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#platform"/>
+        <NamedIndividual IRI="#Kubernetes"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#deployment_unit"/>
+        <NamedIndividual IRI="#Pod"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#platformDeploys"/>
+        <NamedIndividual IRI="#Docker"/>
+        <NamedIndividual IRI="#Container"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#platformDeploys"/>
+        <NamedIndividual IRI="#Kubernetes"/>
+        <NamedIndividual IRI="#Pod"/>
+    </ObjectPropertyAssertion>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#deploymentunitHostedBy"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
@@ -121,9 +118,21 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#deploymentunitHostedBy"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#platformComposedBy"/>
         <Class IRI="#microservice_orchestration"/>
     </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#platformDeploys"/>
+        <Class IRI="#microservice_orchestration"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#deploymentunitHostedBy"/>
+        <Class IRI="#hosts"/>
+    </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#platformComposedBy"/>
         <Class IRI="#deployment_unit"/>
@@ -139,6 +148,10 @@
     <ObjectPropertyRange>
         <ObjectProperty IRI="#platformComposedBy"/>
         <Class IRI="#storage"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#platformDeploys"/>
+        <Class IRI="#deployment_unit"/>
     </ObjectPropertyRange>
     <SubDataPropertyOf>
         <DataProperty IRI="#deployment_unit"/>
