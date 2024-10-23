@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <Ontology xmlns="http://www.w3.org/2002/07/owl#"
-     xml:base="http://www.semanticweb.org/giannis/ontologies/2024/9/untitled-ontology-5"
+     xml:base="http://www.semanticweb.org/container-ontologies/2024/"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     ontologyIRI="http://www.semanticweb.org/giannis/ontologies/2024/9/untitled-ontology-5">
-    <Prefix name="" IRI="http://www.semanticweb.org/giannis/ontologies/2024/9/untitled-ontology-5/"/>
+     ontologyIRI="http://www.semanticweb.org/container-ontologies/2024/">
+    <Prefix name="" IRI="http://www.semanticweb.org/container-ontologies/2024//"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
     <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
@@ -16,16 +16,28 @@
         <Class IRI="#deployment_unit"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#ephimeral"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#hosts"/>
     </Declaration>
     <Declaration>
         <Class IRI="#microservice_orchestration"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#persistent"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#platform"/>
     </Declaration>
     <Declaration>
         <Class IRI="#storage"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="storageReservesDiskSpace"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#deploymentunitBinds"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#deploymentunitHostedBy"/>
@@ -35,6 +47,9 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#platformDeploys"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#platformGenerates"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#deployment_unit"/>
@@ -52,6 +67,12 @@
         <DataProperty IRI="#storage"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="Physical_Machine"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Virtual_Machine"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#Container"/>
     </Declaration>
     <Declaration>
@@ -63,13 +84,24 @@
     <Declaration>
         <NamedIndividual IRI="#Pod"/>
     </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Volume"/>
+    </Declaration>
     <SubClassOf>
         <Class IRI="#deployment_unit"/>
         <Class IRI="#microservice_orchestration"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#ephimeral"/>
+        <Class IRI="#storage"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#hosts"/>
         <Class IRI="#microservice_orchestration"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#persistent"/>
+        <Class IRI="#storage"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#platform"/>
@@ -80,6 +112,14 @@
         <Class IRI="#microservice_orchestration"/>
     </SubClassOf>
     <ClassAssertion>
+        <Class IRI="#hosts"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#hosts"/>
+        <NamedIndividual IRI="Virtual_Machine"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#deployment_unit"/>
         <NamedIndividual IRI="#Container"/>
     </ClassAssertion>
@@ -95,6 +135,15 @@
         <Class IRI="#deployment_unit"/>
         <NamedIndividual IRI="#Pod"/>
     </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#persistent"/>
+        <NamedIndividual IRI="#Volume"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <NamedIndividual IRI="#Container"/>
+        <NamedIndividual IRI="#Volume"/>
+    </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#platformDeploys"/>
         <NamedIndividual IRI="#Docker"/>
@@ -105,6 +154,19 @@
         <NamedIndividual IRI="#Kubernetes"/>
         <NamedIndividual IRI="#Pod"/>
     </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <NamedIndividual IRI="#Pod"/>
+        <NamedIndividual IRI="#Volume"/>
+    </ObjectPropertyAssertion>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="storageReservesDiskSpace"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#deploymentunitHostedBy"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
@@ -117,6 +179,26 @@
         <ObjectProperty IRI="#platformDeploys"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#platformGenerates"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="storageReservesDiskSpace"/>
+        <Class IRI="#ephimeral"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="storageReservesDiskSpace"/>
+        <Class IRI="#persistent"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="storageReservesDiskSpace"/>
+        <Class IRI="#storage"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#deploymentunitHostedBy"/>
         <Class IRI="#deployment_unit"/>
@@ -129,6 +211,26 @@
         <ObjectProperty IRI="#platformDeploys"/>
         <Class IRI="#microservice_orchestration"/>
     </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#platformGenerates"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="storageReservesDiskSpace"/>
+        <Class IRI="#hosts"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <Class IRI="#ephimeral"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <Class IRI="#persistent"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <Class IRI="#storage"/>
+    </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#deploymentunitHostedBy"/>
         <Class IRI="#hosts"/>
@@ -152,6 +254,10 @@
     <ObjectPropertyRange>
         <ObjectProperty IRI="#platformDeploys"/>
         <Class IRI="#deployment_unit"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#platformGenerates"/>
+        <Class IRI="#storage"/>
     </ObjectPropertyRange>
     <SubDataPropertyOf>
         <DataProperty IRI="#deployment_unit"/>
