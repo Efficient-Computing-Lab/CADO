@@ -13,6 +13,9 @@
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Declaration>
+        <Class IRI="group_by"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#deployment_unit"/>
     </Declaration>
     <Declaration>
@@ -32,6 +35,15 @@
     </Declaration>
     <Declaration>
         <Class IRI="#storage"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="multipleContainers"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="multipleNamespaces"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="multiplePods"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="storageReservesDiskSpace"/>
@@ -67,6 +79,9 @@
         <DataProperty IRI="#storage"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="Namespace"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="Physical_Machine"/>
     </Declaration>
     <Declaration>
@@ -87,6 +102,10 @@
     <Declaration>
         <NamedIndividual IRI="#Volume"/>
     </Declaration>
+    <SubClassOf>
+        <Class IRI="group_by"/>
+        <Class IRI="#microservice_orchestration"/>
+    </SubClassOf>
     <SubClassOf>
         <Class IRI="#deployment_unit"/>
         <Class IRI="#microservice_orchestration"/>
@@ -112,6 +131,10 @@
         <Class IRI="#microservice_orchestration"/>
     </SubClassOf>
     <ClassAssertion>
+        <Class IRI="group_by"/>
+        <NamedIndividual IRI="Namespace"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#hosts"/>
         <NamedIndividual IRI="Physical_Machine"/>
     </ClassAssertion>
@@ -140,6 +163,11 @@
         <NamedIndividual IRI="#Volume"/>
     </ClassAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="multiplePods"/>
+        <NamedIndividual IRI="Namespace"/>
+        <NamedIndividual IRI="#Pod"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="#deploymentunitBinds"/>
         <NamedIndividual IRI="#Container"/>
         <NamedIndividual IRI="#Volume"/>
@@ -150,15 +178,37 @@
         <NamedIndividual IRI="#Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="multipleNamespaces"/>
+        <NamedIndividual IRI="#Kubernetes"/>
+        <NamedIndividual IRI="Namespace"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="#platformDeploys"/>
         <NamedIndividual IRI="#Kubernetes"/>
         <NamedIndividual IRI="#Pod"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="multipleContainers"/>
+        <NamedIndividual IRI="#Pod"/>
+        <NamedIndividual IRI="#Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#deploymentunitBinds"/>
         <NamedIndividual IRI="#Pod"/>
         <NamedIndividual IRI="#Volume"/>
     </ObjectPropertyAssertion>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="multipleContainers"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="multipleNamespaces"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="multiplePods"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="storageReservesDiskSpace"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
