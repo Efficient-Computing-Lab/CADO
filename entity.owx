@@ -16,6 +16,9 @@
         <Class IRI="group_by"/>
     </Declaration>
     <Declaration>
+        <Class IRI="subplatform"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#deployment_unit"/>
     </Declaration>
     <Declaration>
@@ -44,6 +47,9 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="multiplePods"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="platformUtilizesSubplatform"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="storageReservesDiskSpace"/>
@@ -79,6 +85,12 @@
         <DataProperty IRI="#storage"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="Hashicorp_Nomad"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Mesos_Marathon"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="Namespace"/>
     </Declaration>
     <Declaration>
@@ -105,6 +117,10 @@
     <SubClassOf>
         <Class IRI="group_by"/>
         <Class IRI="#microservice_orchestration"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="subplatform"/>
+        <Class IRI="#platform"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#deployment_unit"/>
@@ -131,6 +147,14 @@
         <Class IRI="#microservice_orchestration"/>
     </SubClassOf>
     <ClassAssertion>
+        <Class IRI="#platform"/>
+        <NamedIndividual IRI="Hashicorp_Nomad"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#platform"/>
+        <NamedIndividual IRI="Mesos_Marathon"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="group_by"/>
         <NamedIndividual IRI="Namespace"/>
     </ClassAssertion>
@@ -147,8 +171,16 @@
         <NamedIndividual IRI="#Container"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="subplatform"/>
+        <NamedIndividual IRI="#Docker"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#platform"/>
         <NamedIndividual IRI="#Docker"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="subplatform"/>
+        <NamedIndividual IRI="#Kubernetes"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#platform"/>
@@ -162,6 +194,16 @@
         <Class IRI="#persistent"/>
         <NamedIndividual IRI="#Volume"/>
     </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="platformUtilizesSubplatform"/>
+        <NamedIndividual IRI="Hashicorp_Nomad"/>
+        <NamedIndividual IRI="#Docker"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="platformUtilizesSubplatform"/>
+        <NamedIndividual IRI="Mesos_Marathon"/>
+        <NamedIndividual IRI="#Docker"/>
+    </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="multiplePods"/>
         <NamedIndividual IRI="Namespace"/>
@@ -234,6 +276,26 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="multipleContainers"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="multipleNamespaces"/>
+        <Class IRI="subplatform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="multipleNamespaces"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="multiplePods"/>
+        <Class IRI="group_by"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="platformUtilizesSubplatform"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="storageReservesDiskSpace"/>
         <Class IRI="#ephimeral"/>
     </ObjectPropertyDomain>
@@ -265,6 +327,22 @@
         <ObjectProperty IRI="#platformGenerates"/>
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="multipleContainers"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="multipleNamespaces"/>
+        <Class IRI="group_by"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="multiplePods"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="platformUtilizesSubplatform"/>
+        <Class IRI="subplatform"/>
+    </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="storageReservesDiskSpace"/>
         <Class IRI="#hosts"/>
