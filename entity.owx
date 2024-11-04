@@ -494,13 +494,38 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>multipleContainers</IRI>
+        <Literal>A low-level relationship that can be found in Kubernetes and Docker/Docker Swarm instances. Since containers are the smallest deployment unit that a platform can utilize, a deployment unit can consist of multiple containers.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>multipleNamespaces</IRI>
+        <Literal>A low-level relationship that can be found In Kubernetes instance, multiple namespaces can be created to provide isolated environments for applications.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>multiplePods</IRI>
+        <Literal>A low-level relationship that can be found In Kubernetes instance, the deployment unit is the pod, which can contain one or more containers that run different types of components.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>number_of_replicas</IRI>
         <Literal>A property that describes the number of the instances of the same Docker image</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>platformUtilizesSubplatform</IRI>
+        <Literal>A high-level relationship that indicates the capability of a high-level platform to utilize a more technically oriented platform.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>runtime_environment</IRI>
         <Literal>This class defines the environment that enables the platform to instantiate and run application</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>storageReservesDiskSpace</IRI>
+        <Literal>It is a high-level relationship that indicates the reservation that persistent storage makes on a host in order to claim disk space.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -511,6 +536,16 @@
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#deployment_unit</IRI>
         <Literal>This class represents the deployment unit that a microservice orchestration platform uses in order to start an application</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#deploymentunitBinds</IRI>
+        <Literal>It is a high-level relationship depicting that a deployment unit can reserve persistent storage.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#deploymentunitHostedBy</IRI>
+        <Literal>It is a high-level relationship depicting that a deployment unit is intended to target a host.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -536,6 +571,16 @@
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#platform</IRI>
         <Literal>This class describes the orchestration tool that would perform the deployment of applications</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#platformComposedBy</IRI>
+        <Literal>A high-level relationship that indicates which classes compose the microservice orchestration ontology.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#platformDeploys</IRI>
+        <Literal>A high-level relationship that indicates the platform is responsible for the orchestration and deployment of deployment units.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
