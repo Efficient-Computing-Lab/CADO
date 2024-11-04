@@ -16,6 +16,12 @@
         <Class IRI="group_by"/>
     </Declaration>
     <Declaration>
+        <Class IRI="minimal_deployment_unit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="runtime_environment"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="subplatform"/>
     </Declaration>
     <Declaration>
@@ -70,6 +76,12 @@
         <ObjectProperty IRI="#platformGenerates"/>
     </Declaration>
     <Declaration>
+        <DataProperty IRI="description"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="number_of_replicas"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="#deployment_unit"/>
     </Declaration>
     <Declaration>
@@ -85,7 +97,19 @@
         <DataProperty IRI="#storage"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="Containerd"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Docker_Swarm"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Docker_Swarm_Services"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="Hashicorp_Nomad"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Kubernetes_Services"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Mesos_Marathon"/>
@@ -119,6 +143,14 @@
         <Class IRI="#microservice_orchestration"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="minimal_deployment_unit"/>
+        <Class IRI="#deployment_unit"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="runtime_environment"/>
+        <Class IRI="#microservice_orchestration"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="subplatform"/>
         <Class IRI="#platform"/>
     </SubClassOf>
@@ -146,6 +178,18 @@
         <Class IRI="#storage"/>
         <Class IRI="#microservice_orchestration"/>
     </SubClassOf>
+    <ClassAssertion>
+        <Class IRI="runtime_environment"/>
+        <NamedIndividual IRI="Containerd"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#platform"/>
+        <NamedIndividual IRI="Docker_Swarm"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="group_by"/>
+        <NamedIndividual IRI="Docker_Swarm_Services"/>
+    </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#platform"/>
         <NamedIndividual IRI="Hashicorp_Nomad"/>
@@ -167,15 +211,15 @@
         <NamedIndividual IRI="Virtual_Machine"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="minimal_deployment_unit"/>
+        <NamedIndividual IRI="#Container"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#deployment_unit"/>
         <NamedIndividual IRI="#Container"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class IRI="subplatform"/>
-        <NamedIndividual IRI="#Docker"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#platform"/>
+        <Class IRI="runtime_environment"/>
         <NamedIndividual IRI="#Docker"/>
     </ClassAssertion>
     <ClassAssertion>
@@ -196,8 +240,23 @@
     </ClassAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="platformUtilizesSubplatform"/>
+        <NamedIndividual IRI="Docker_Swarm"/>
+        <NamedIndividual IRI="#Docker"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="multipleContainers"/>
+        <NamedIndividual IRI="Docker_Swarm_Services"/>
+        <NamedIndividual IRI="#Container"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="platformUtilizesSubplatform"/>
         <NamedIndividual IRI="Hashicorp_Nomad"/>
         <NamedIndividual IRI="#Docker"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="multiplePods"/>
+        <NamedIndividual IRI="Kubernetes_Services"/>
+        <NamedIndividual IRI="#Pod"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="platformUtilizesSubplatform"/>
@@ -329,7 +388,7 @@
     </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="multipleContainers"/>
-        <Class IRI="#deployment_unit"/>
+        <Class IRI="minimal_deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="multipleNamespaces"/>
@@ -388,6 +447,14 @@
         <Class IRI="#storage"/>
     </ObjectPropertyRange>
     <SubDataPropertyOf>
+        <DataProperty IRI="description"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="number_of_replicas"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
         <DataProperty IRI="#deployment_unit"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
@@ -407,6 +474,74 @@
         <DataProperty IRI="#storage"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
+    <DataPropertyDomain>
+        <DataProperty IRI="description"/>
+        <Class IRI="#microservice_orchestration"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="number_of_replicas"/>
+        <Class IRI="group_by"/>
+    </DataPropertyDomain>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>group_by</IRI>
+        <Literal>This class defines the grouping options for deployed components based on each application or component type.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>minimal_deployment_unit</IRI>
+        <Literal>This class is a subclass of deployment_unit. It describes the ability to have a main deployment unit that contains smaller units.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>number_of_replicas</IRI>
+        <Literal>A property that describes the number of the instances of the same Docker image</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>runtime_environment</IRI>
+        <Literal>This class defines the environment that enables the platform to instantiate and run application</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>subplatform</IRI>
+        <Literal>This is a subclass of the platform class. It semantically represents that a platform could be used by another high level platform.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#deployment_unit</IRI>
+        <Literal>This class represents the deployment unit that a microservice orchestration platform uses in order to start an application</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#ephimeral</IRI>
+        <Literal>This class resembles the option of microservice orchestration platforms to save data of application components in an ephimeral manner</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hosts</IRI>
+        <Literal>This class describe that machines that will host the application components</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#microservice_orchestration</IRI>
+        <Literal>The purpose of this class is to describe the high level semantics that compose famous microservice orchestration tools</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#persistent</IRI>
+        <Literal>This class resembles the option of microservice orchestration platforms to save data of application components in an persistent manner</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#platform</IRI>
+        <Literal>This class describes the orchestration tool that would perform the deployment of applications</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#storage</IRI>
+        <Literal>This class explains how microservice orchestration tools manage data storage for each application.</Literal>
+    </AnnotationAssertion>
 </Ontology>
 
 
