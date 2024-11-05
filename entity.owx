@@ -118,6 +118,9 @@
         <NamedIndividual IRI="Namespace"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="Network"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="Physical_Machine"/>
     </Declaration>
     <Declaration>
@@ -203,6 +206,10 @@
         <NamedIndividual IRI="Namespace"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="group_by"/>
+        <NamedIndividual IRI="Network"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#hosts"/>
         <NamedIndividual IRI="Physical_Machine"/>
     </ClassAssertion>
@@ -269,6 +276,11 @@
         <NamedIndividual IRI="#Pod"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="multipleContainers"/>
+        <NamedIndividual IRI="Network"/>
+        <NamedIndividual IRI="#Container"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="#deploymentunitBinds"/>
         <NamedIndividual IRI="#Container"/>
         <NamedIndividual IRI="#Volume"/>
@@ -279,6 +291,11 @@
         <NamedIndividual IRI="#Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#platformGenerates"/>
+        <NamedIndividual IRI="#Docker"/>
+        <NamedIndividual IRI="#Volume"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="multipleNamespaces"/>
         <NamedIndividual IRI="#Kubernetes"/>
         <NamedIndividual IRI="Namespace"/>
@@ -287,6 +304,11 @@
         <ObjectProperty IRI="#platformDeploys"/>
         <NamedIndividual IRI="#Kubernetes"/>
         <NamedIndividual IRI="#Pod"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#platformGenerates"/>
+        <NamedIndividual IRI="#Kubernetes"/>
+        <NamedIndividual IRI="#Volume"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="multipleContainers"/>
@@ -581,6 +603,11 @@
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#platformDeploys</IRI>
         <Literal>A high-level relationship that indicates the platform is responsible for the orchestration and deployment of deployment units.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#platformGenerates</IRI>
+        <Literal>This high-level relationship depicts the platform creating suitable storage tailored to the specific requirements of the application component.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
