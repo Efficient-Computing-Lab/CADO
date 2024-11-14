@@ -16,10 +16,25 @@
         <Class IRI="group_by"/>
     </Declaration>
     <Declaration>
+        <Class IRI="image"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="image_registry"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="minimal_deployment_unit"/>
     </Declaration>
     <Declaration>
+        <Class IRI="private_image_registry"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="public_image_registry"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="runtime_environment"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="secrets"/>
     </Declaration>
     <Declaration>
         <Class IRI="subplatform"/>
@@ -46,7 +61,13 @@
         <Class IRI="#storage"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="loginTo"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="multipleContainers"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="multipleImages"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="multipleNamespaces"/>
@@ -55,25 +76,28 @@
         <ObjectProperty IRI="multiplePods"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="platformUtilizesSubplatform"/>
+        <ObjectProperty IRI="pulls"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="storageReservesDiskSpace"/>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <ObjectProperty IRI="utilizes"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#deploymentunitHostedBy"/>
+        <ObjectProperty IRI="#binds"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#platformComposedBy"/>
+        <ObjectProperty IRI="#composedBy"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#platformDeploys"/>
+        <ObjectProperty IRI="#deploys"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#platformGenerates"/>
+        <ObjectProperty IRI="#generates"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hostedBy"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="description"/>
@@ -97,13 +121,22 @@
         <DataProperty IRI="#storage"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="CRIO"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="Containerd"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Docker_Engine"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Docker_Swarm"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Docker_Swarm_Services"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Dockerd"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Hashicorp_Nomad"/>
@@ -122,6 +155,9 @@
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Physical_Machine"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="RunC"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Virtual_Machine"/>
@@ -146,11 +182,31 @@
         <Class IRI="#microservice_orchestration"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="image"/>
+        <Class IRI="#microservice_orchestration"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="image_registry"/>
+        <Class IRI="#microservice_orchestration"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="minimal_deployment_unit"/>
         <Class IRI="#deployment_unit"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="private_image_registry"/>
+        <Class IRI="image_registry"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="public_image_registry"/>
+        <Class IRI="image_registry"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="runtime_environment"/>
+        <Class IRI="#microservice_orchestration"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="secrets"/>
         <Class IRI="#microservice_orchestration"/>
     </SubClassOf>
     <SubClassOf>
@@ -181,9 +237,21 @@
         <Class IRI="#storage"/>
         <Class IRI="#microservice_orchestration"/>
     </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="private_image_registry"/>
+        <Class IRI="public_image_registry"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="runtime_environment"/>
+        <NamedIndividual IRI="CRIO"/>
+    </ClassAssertion>
     <ClassAssertion>
         <Class IRI="runtime_environment"/>
         <NamedIndividual IRI="Containerd"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="runtime_environment"/>
+        <NamedIndividual IRI="Docker_Engine"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#platform"/>
@@ -192,6 +260,10 @@
     <ClassAssertion>
         <Class IRI="group_by"/>
         <NamedIndividual IRI="Docker_Swarm_Services"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="runtime_environment"/>
+        <NamedIndividual IRI="Dockerd"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#platform"/>
@@ -212,6 +284,10 @@
     <ClassAssertion>
         <Class IRI="#hosts"/>
         <NamedIndividual IRI="Physical_Machine"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="runtime_environment"/>
+        <NamedIndividual IRI="RunC"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#hosts"/>
@@ -246,7 +322,27 @@
         <NamedIndividual IRI="#Volume"/>
     </ClassAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="platformUtilizesSubplatform"/>
+        <ObjectProperty IRI="utilizes"/>
+        <NamedIndividual IRI="CRIO"/>
+        <NamedIndividual IRI="RunC"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="utilizes"/>
+        <NamedIndividual IRI="Docker_Engine"/>
+        <NamedIndividual IRI="Containerd"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="utilizes"/>
+        <NamedIndividual IRI="Docker_Engine"/>
+        <NamedIndividual IRI="Dockerd"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="utilizes"/>
+        <NamedIndividual IRI="Docker_Engine"/>
+        <NamedIndividual IRI="RunC"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="utilizes"/>
         <NamedIndividual IRI="Docker_Swarm"/>
         <NamedIndividual IRI="#Docker"/>
     </ObjectPropertyAssertion>
@@ -256,7 +352,7 @@
         <NamedIndividual IRI="#Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="platformUtilizesSubplatform"/>
+        <ObjectProperty IRI="utilizes"/>
         <NamedIndividual IRI="Hashicorp_Nomad"/>
         <NamedIndividual IRI="#Docker"/>
     </ObjectPropertyAssertion>
@@ -266,7 +362,7 @@
         <NamedIndividual IRI="#Pod"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="platformUtilizesSubplatform"/>
+        <ObjectProperty IRI="utilizes"/>
         <NamedIndividual IRI="Mesos_Marathon"/>
         <NamedIndividual IRI="#Docker"/>
     </ObjectPropertyAssertion>
@@ -281,17 +377,27 @@
         <NamedIndividual IRI="#Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <ObjectProperty IRI="#binds"/>
         <NamedIndividual IRI="#Container"/>
         <NamedIndividual IRI="#Volume"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#platformDeploys"/>
+        <ObjectProperty IRI="utilizes"/>
+        <NamedIndividual IRI="#Docker"/>
+        <NamedIndividual IRI="Docker_Engine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#deploys"/>
         <NamedIndividual IRI="#Docker"/>
         <NamedIndividual IRI="#Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#platformGenerates"/>
+        <ObjectProperty IRI="#generates"/>
+        <NamedIndividual IRI="#Docker"/>
+        <NamedIndividual IRI="Network"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#generates"/>
         <NamedIndividual IRI="#Docker"/>
         <NamedIndividual IRI="#Volume"/>
     </ObjectPropertyAssertion>
@@ -301,12 +407,22 @@
         <NamedIndividual IRI="Namespace"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#platformDeploys"/>
+        <ObjectProperty IRI="utilizes"/>
+        <NamedIndividual IRI="#Kubernetes"/>
+        <NamedIndividual IRI="CRIO"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="utilizes"/>
+        <NamedIndividual IRI="#Kubernetes"/>
+        <NamedIndividual IRI="Containerd"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#deploys"/>
         <NamedIndividual IRI="#Kubernetes"/>
         <NamedIndividual IRI="#Pod"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#platformGenerates"/>
+        <ObjectProperty IRI="#generates"/>
         <NamedIndividual IRI="#Kubernetes"/>
         <NamedIndividual IRI="#Volume"/>
     </ObjectPropertyAssertion>
@@ -316,12 +432,20 @@
         <NamedIndividual IRI="#Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <ObjectProperty IRI="#binds"/>
         <NamedIndividual IRI="#Pod"/>
         <NamedIndividual IRI="#Volume"/>
     </ObjectPropertyAssertion>
     <SubObjectPropertyOf>
+        <ObjectProperty IRI="loginTo"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
         <ObjectProperty IRI="multipleContainers"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="multipleImages"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -333,32 +457,52 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="storageReservesDiskSpace"/>
+        <ObjectProperty IRI="pulls"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="#deploymentunitHostedBy"/>
+        <ObjectProperty IRI="#binds"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="#platformComposedBy"/>
+        <ObjectProperty IRI="#composedBy"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="#platformDeploys"/>
+        <ObjectProperty IRI="#deploys"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="#platformGenerates"/>
+        <ObjectProperty IRI="#generates"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hostedBy"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="loginTo"/>
+        <Class IRI="secrets"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="multipleContainers"/>
         <Class IRI="#deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="multipleImages"/>
+        <Class IRI="image_registry"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="multipleImages"/>
+        <Class IRI="private_image_registry"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="multipleImages"/>
+        <Class IRI="public_image_registry"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="multipleNamespaces"/>
@@ -373,46 +517,58 @@
         <Class IRI="group_by"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="platformUtilizesSubplatform"/>
+        <ObjectProperty IRI="pulls"/>
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="storageReservesDiskSpace"/>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
         <Class IRI="#ephimeral"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="storageReservesDiskSpace"/>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
         <Class IRI="#persistent"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="storageReservesDiskSpace"/>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
         <Class IRI="#storage"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="#deploymentunitBinds"/>
-        <Class IRI="#deployment_unit"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#deploymentunitHostedBy"/>
-        <Class IRI="#deployment_unit"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#platformComposedBy"/>
-        <Class IRI="#microservice_orchestration"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#platformDeploys"/>
-        <Class IRI="#microservice_orchestration"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#platformGenerates"/>
+        <ObjectProperty IRI="utilizes"/>
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#binds"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#composedBy"/>
+        <Class IRI="#microservice_orchestration"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#deploys"/>
+        <Class IRI="#microservice_orchestration"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#generates"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hostedBy"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="loginTo"/>
+        <Class IRI="private_image_registry"/>
+    </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="multipleContainers"/>
         <Class IRI="minimal_deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="multipleImages"/>
+        <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="multipleNamespaces"/>
         <Class IRI="group_by"/>
     </ObjectPropertyRange>
@@ -421,52 +577,72 @@
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="platformUtilizesSubplatform"/>
+        <ObjectProperty IRI="pulls"/>
+        <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
+        <Class IRI="#hosts"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="utilizes"/>
+        <Class IRI="runtime_environment"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="utilizes"/>
         <Class IRI="subplatform"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="storageReservesDiskSpace"/>
-        <Class IRI="#hosts"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <ObjectProperty IRI="#binds"/>
         <Class IRI="#ephimeral"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <ObjectProperty IRI="#binds"/>
         <Class IRI="#persistent"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#deploymentunitBinds"/>
+        <ObjectProperty IRI="#binds"/>
         <Class IRI="#storage"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#deploymentunitHostedBy"/>
-        <Class IRI="#hosts"/>
+        <ObjectProperty IRI="#composedBy"/>
+        <Class IRI="runtime_environment"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#platformComposedBy"/>
+        <ObjectProperty IRI="#composedBy"/>
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#platformComposedBy"/>
+        <ObjectProperty IRI="#composedBy"/>
         <Class IRI="#hosts"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#platformComposedBy"/>
+        <ObjectProperty IRI="#composedBy"/>
         <Class IRI="#platform"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#platformComposedBy"/>
+        <ObjectProperty IRI="#composedBy"/>
         <Class IRI="#storage"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#platformDeploys"/>
+        <ObjectProperty IRI="#deploys"/>
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#platformGenerates"/>
+        <ObjectProperty IRI="#generates"/>
+        <Class IRI="group_by"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#generates"/>
+        <Class IRI="secrets"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#generates"/>
         <Class IRI="#storage"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hostedBy"/>
+        <Class IRI="#hosts"/>
     </ObjectPropertyRange>
     <SubDataPropertyOf>
         <DataProperty IRI="description"/>
@@ -506,8 +682,38 @@
     </DataPropertyDomain>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>CRIO</IRI>
+        <Literal>CRIO provides a Kubernetes-optimized runtime that pulls images and prepares containers for execution based on Kubernetes’ needs.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>Containerd</IRI>
+        <Literal>Containerd manages unpacking the image for runtime use.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>Docker_Engine</IRI>
+        <Literal>Docker Engine acts as the runtime environment responsible for managing the lifecycle of containers on a single machine. This includes creating, starting, stopping, and deleting containers.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>Dockerd</IRI>
+        <Literal>Dockerd is responsible for pulling images, interacting directly with registries.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>RunC</IRI>
+        <Literal>Runc creates and runs containers from those unpacked images.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>group_by</IRI>
         <Literal>This class defines the grouping options for deployed components based on each application or component type.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>image</IRI>
+        <Literal>This class describes Docker images</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -517,17 +723,17 @@
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>multipleContainers</IRI>
-        <Literal>A low-level relationship that can be found in Kubernetes and Docker/Docker Swarm instances. Since containers are the smallest deployment unit that a platform can utilize, a deployment unit can consist of multiple containers.</Literal>
+        <Literal>It is a relationship that can be found in Kubernetes and Docker/Docker Swarm instances. Since containers are the smallest deployment unit that a platform can utilize, a deployment unit can consist of multiple containers.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>multipleNamespaces</IRI>
-        <Literal>A low-level relationship that can be found In Kubernetes instance, multiple namespaces can be created to provide isolated environments for applications.</Literal>
+        <Literal>It is a relationship that can be found In Kubernetes instance, multiple namespaces can be created to provide isolated environments for applications.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>multiplePods</IRI>
-        <Literal>A low-level relationship that can be found In Kubernetes instance, the deployment unit is the pod, which can contain one or more containers that run different types of components.</Literal>
+        <Literal>It is a relationship that can be found In Kubernetes instance, the deployment unit is the pod, which can contain one or more containers that run different types of components.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -536,8 +742,8 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>platformUtilizesSubplatform</IRI>
-        <Literal>A high-level relationship that indicates the capability of a high-level platform to utilize a more technically oriented platform.</Literal>
+        <IRI>reservesDiskSpaceOn</IRI>
+        <Literal>It is a relationship that indicates the reservation that persistent storage makes on a host in order to claim disk space.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -546,8 +752,8 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>storageReservesDiskSpace</IRI>
-        <Literal>It is a high-level relationship that indicates the reservation that persistent storage makes on a host in order to claim disk space.</Literal>
+        <IRI>secrets</IRI>
+        <Literal>This class defines the need to store credentials of private image registries as secrets in a platform in order to login and pull images</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -556,23 +762,48 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>utilizes</IRI>
+        <Literal>It is a relationship that indicates the capability of a high-level platform to utilize a more technically oriented platform or a runtime environment.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Docker</IRI>
+        <Literal>Docker is a comprehensive platform for developing, shipping, and running applications in containers, providing tools for containerization, image management, and orchestration to streamline application deployment.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#binds</IRI>
+        <Literal>It is a relationship depicting that a deployment unit can reserve persistent storage.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#composedBy</IRI>
+        <Literal>It is a relationship that indicates which classes compose the microservice orchestration ontology.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#deployment_unit</IRI>
         <Literal>This class represents the deployment unit that a microservice orchestration platform uses in order to start an application</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#deploymentunitBinds</IRI>
-        <Literal>It is a high-level relationship depicting that a deployment unit can reserve persistent storage.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#deploymentunitHostedBy</IRI>
-        <Literal>It is a high-level relationship depicting that a deployment unit is intended to target a host.</Literal>
+        <IRI>#deploys</IRI>
+        <Literal>It is a relationship that indicates the platform is responsible for the orchestration and deployment of deployment units.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#ephimeral</IRI>
         <Literal>This class resembles the option of microservice orchestration platforms to save data of application components in an ephimeral manner</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#generates</IRI>
+        <Literal>It is a relationship depicts the platform creating suitable storage, or networking (grouping) tailored to the specific requirements of the application component.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hostedBy</IRI>
+        <Literal>It is a relationship depicting that a deployment unit is intended to target a host.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -593,21 +824,6 @@
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#platform</IRI>
         <Literal>This class describes the orchestration tool that would perform the deployment of applications</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#platformComposedBy</IRI>
-        <Literal>A high-level relationship that indicates which classes compose the microservice orchestration ontology.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#platformDeploys</IRI>
-        <Literal>A high-level relationship that indicates the platform is responsible for the orchestration and deployment of deployment units.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#platformGenerates</IRI>
-        <Literal>This high-level relationship depicts the platform creating suitable storage tailored to the specific requirements of the application component.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
