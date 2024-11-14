@@ -61,10 +61,16 @@
         <Class IRI="#storage"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="convertsToContainer"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="loginTo"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="multipleContainers"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="multipleHosts"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="multipleImages"/>
@@ -80,6 +86,15 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="reservesDiskSpaceOn"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="runningIntanceOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="storedIn"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="unpacks"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="utilizes"/>
@@ -128,6 +143,9 @@
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Docker_Engine"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Docker_Image"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Docker_Swarm"/>
@@ -254,6 +272,10 @@
         <NamedIndividual IRI="Docker_Engine"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="image"/>
+        <NamedIndividual IRI="Docker_Image"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#platform"/>
         <NamedIndividual IRI="Docker_Swarm"/>
     </ClassAssertion>
@@ -268,6 +290,10 @@
     <ClassAssertion>
         <Class IRI="#platform"/>
         <NamedIndividual IRI="Hashicorp_Nomad"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="group_by"/>
+        <NamedIndividual IRI="Kubernetes_Services"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#platform"/>
@@ -321,10 +347,37 @@
         <Class IRI="#persistent"/>
         <NamedIndividual IRI="#Volume"/>
     </ClassAssertion>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="CRIO"/>
+        <NamedIndividual IRI="Containerd"/>
+        <NamedIndividual IRI="Docker_Engine"/>
+        <NamedIndividual IRI="Dockerd"/>
+        <NamedIndividual IRI="RunC"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="Docker_Swarm"/>
+        <NamedIndividual IRI="#Docker"/>
+        <NamedIndividual IRI="#Kubernetes"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="Docker_Swarm_Services"/>
+        <NamedIndividual IRI="Kubernetes_Services"/>
+        <NamedIndividual IRI="Namespace"/>
+        <NamedIndividual IRI="Network"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#Container"/>
+        <NamedIndividual IRI="#Pod"/>
+    </DifferentIndividuals>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
         <NamedIndividual IRI="CRIO"/>
         <NamedIndividual IRI="RunC"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="unpacks"/>
+        <NamedIndividual IRI="Containerd"/>
+        <NamedIndividual IRI="Docker_Image"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
@@ -342,6 +395,26 @@
         <NamedIndividual IRI="RunC"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="storedIn"/>
+        <NamedIndividual IRI="Docker_Image"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="storedIn"/>
+        <NamedIndividual IRI="Docker_Image"/>
+        <NamedIndividual IRI="Virtual_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="multipleHosts"/>
+        <NamedIndividual IRI="Docker_Swarm"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="multipleHosts"/>
+        <NamedIndividual IRI="Docker_Swarm"/>
+        <NamedIndividual IRI="Virtual_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
         <NamedIndividual IRI="Docker_Swarm"/>
         <NamedIndividual IRI="#Docker"/>
@@ -350,6 +423,11 @@
         <ObjectProperty IRI="multipleContainers"/>
         <NamedIndividual IRI="Docker_Swarm_Services"/>
         <NamedIndividual IRI="#Container"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="pulls"/>
+        <NamedIndividual IRI="Dockerd"/>
+        <NamedIndividual IRI="Docker_Image"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
@@ -377,6 +455,16 @@
         <NamedIndividual IRI="#Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="convertsToContainer"/>
+        <NamedIndividual IRI="RunC"/>
+        <NamedIndividual IRI="Docker_Image"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="runningIntanceOf"/>
+        <NamedIndividual IRI="#Container"/>
+        <NamedIndividual IRI="Docker_Image"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="#binds"/>
         <NamedIndividual IRI="#Container"/>
         <NamedIndividual IRI="#Volume"/>
@@ -400,6 +488,16 @@
         <ObjectProperty IRI="#generates"/>
         <NamedIndividual IRI="#Docker"/>
         <NamedIndividual IRI="#Volume"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="multipleHosts"/>
+        <NamedIndividual IRI="#Kubernetes"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="multipleHosts"/>
+        <NamedIndividual IRI="#Kubernetes"/>
+        <NamedIndividual IRI="Virtual_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="multipleNamespaces"/>
@@ -437,11 +535,19 @@
         <NamedIndividual IRI="#Volume"/>
     </ObjectPropertyAssertion>
     <SubObjectPropertyOf>
+        <ObjectProperty IRI="convertsToContainer"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
         <ObjectProperty IRI="loginTo"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="multipleContainers"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="multipleHosts"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -465,6 +571,18 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
+        <ObjectProperty IRI="runningIntanceOf"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="storedIn"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="unpacks"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
         <ObjectProperty IRI="#binds"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
@@ -485,12 +603,20 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="convertsToContainer"/>
+        <Class IRI="runtime_environment"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="loginTo"/>
         <Class IRI="secrets"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="multipleContainers"/>
         <Class IRI="#deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="multipleHosts"/>
+        <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="multipleImages"/>
@@ -518,6 +644,10 @@
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="pulls"/>
+        <Class IRI="runtime_environment"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="pulls"/>
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -531,6 +661,26 @@
     <ObjectPropertyDomain>
         <ObjectProperty IRI="reservesDiskSpaceOn"/>
         <Class IRI="#storage"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="runningIntanceOf"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="runningIntanceOf"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="storedIn"/>
+        <Class IRI="image"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="unpacks"/>
+        <Class IRI="runtime_environment"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="unpacks"/>
+        <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="utilizes"/>
@@ -557,12 +707,20 @@
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyDomain>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="convertsToContainer"/>
+        <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="loginTo"/>
         <Class IRI="private_image_registry"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="multipleContainers"/>
         <Class IRI="minimal_deployment_unit"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="multipleHosts"/>
+        <Class IRI="#hosts"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="multipleImages"/>
@@ -583,6 +741,18 @@
     <ObjectPropertyRange>
         <ObjectProperty IRI="reservesDiskSpaceOn"/>
         <Class IRI="#hosts"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="runningIntanceOf"/>
+        <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="storedIn"/>
+        <Class IRI="#hosts"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="unpacks"/>
+        <Class IRI="image"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="utilizes"/>
