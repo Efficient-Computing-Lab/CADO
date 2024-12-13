@@ -696,7 +696,7 @@
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#deploys"/>
-        <Class IRI="#MOON"/>
+        <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#generates"/>
