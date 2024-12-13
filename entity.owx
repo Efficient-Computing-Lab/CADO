@@ -70,7 +70,7 @@
         <ObjectProperty IRI="loginTo"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="multipleContainers"/>
+        <ObjectProperty IRI="multipleGroupby"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="multipleHosts"/>
@@ -79,13 +79,13 @@
         <ObjectProperty IRI="multipleImages"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="multipleNamespaces"/>
+        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="multiplePods"/>
+        <ObjectProperty IRI="multipleRunningContainers"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="pulls"/>
+        <ObjectProperty IRI="pullsImageFrom"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="reservesDiskSpaceOn"/>
@@ -420,12 +420,12 @@
         <NamedIndividual IRI="#Docker"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multipleContainers"/>
+        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
         <NamedIndividual IRI="Docker_Swarm_Services"/>
         <NamedIndividual IRI="#Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="pulls"/>
+        <ObjectProperty IRI="pullsImageFrom"/>
         <NamedIndividual IRI="Dockerd"/>
         <NamedIndividual IRI="Docker_Image"/>
     </ObjectPropertyAssertion>
@@ -435,22 +435,12 @@
         <NamedIndividual IRI="#Docker"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multiplePods"/>
-        <NamedIndividual IRI="Kubernetes_Services"/>
-        <NamedIndividual IRI="#Pod"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
         <NamedIndividual IRI="Mesos_Marathon"/>
         <NamedIndividual IRI="#Docker"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multiplePods"/>
-        <NamedIndividual IRI="Namespace"/>
-        <NamedIndividual IRI="#Pod"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multipleContainers"/>
+        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
         <NamedIndividual IRI="Network"/>
         <NamedIndividual IRI="#Container"/>
     </ObjectPropertyAssertion>
@@ -490,6 +480,11 @@
         <NamedIndividual IRI="#Volume"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="multipleGroupby"/>
+        <NamedIndividual IRI="#Kubernetes"/>
+        <NamedIndividual IRI="Namespace"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="multipleHosts"/>
         <NamedIndividual IRI="#Kubernetes"/>
         <NamedIndividual IRI="Physical_Machine"/>
@@ -498,11 +493,6 @@
         <ObjectProperty IRI="multipleHosts"/>
         <NamedIndividual IRI="#Kubernetes"/>
         <NamedIndividual IRI="Virtual_Machine"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multipleNamespaces"/>
-        <NamedIndividual IRI="#Kubernetes"/>
-        <NamedIndividual IRI="Namespace"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
@@ -525,7 +515,7 @@
         <NamedIndividual IRI="#Volume"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multipleContainers"/>
+        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
         <NamedIndividual IRI="#Pod"/>
         <NamedIndividual IRI="#Container"/>
     </ObjectPropertyAssertion>
@@ -547,7 +537,7 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="multipleContainers"/>
+        <ObjectProperty IRI="multipleGroupby"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -559,15 +549,11 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="multipleNamespaces"/>
+        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="multiplePods"/>
-        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
-    </SubObjectPropertyOf>
-    <SubObjectPropertyOf>
-        <ObjectProperty IRI="pulls"/>
+        <ObjectProperty IRI="pullsImageFrom"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -615,8 +601,12 @@
         <Class IRI="secrets"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleContainers"/>
-        <Class IRI="#deployment_unit"/>
+        <ObjectProperty IRI="multipleGroupby"/>
+        <Class IRI="subplatform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="multipleGroupby"/>
+        <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="multipleHosts"/>
@@ -635,23 +625,19 @@
         <Class IRI="public_image_registry"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleNamespaces"/>
-        <Class IRI="subplatform"/>
+        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
+        <Class IRI="#deployment_unit"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleNamespaces"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="multiplePods"/>
+        <ObjectProperty IRI="multipleRunningContainers"/>
         <Class IRI="group_by"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="pulls"/>
+        <ObjectProperty IRI="pullsImageFrom"/>
         <Class IRI="runtime_environment"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="pulls"/>
+        <ObjectProperty IRI="pullsImageFrom"/>
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -696,6 +682,10 @@
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#deploys"/>
+        <Class IRI="#MOON"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#deploys"/>
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -747,8 +737,8 @@
         <Class IRI="private_image_registry"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="multipleContainers"/>
-        <Class IRI="minimal_deployment_unit"/>
+        <ObjectProperty IRI="multipleGroupby"/>
+        <Class IRI="group_by"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="multipleHosts"/>
@@ -759,16 +749,16 @@
         <Class IRI="image"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="multipleNamespaces"/>
-        <Class IRI="group_by"/>
+        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
+        <Class IRI="minimal_deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="multiplePods"/>
+        <ObjectProperty IRI="multipleRunningContainers"/>
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="pulls"/>
-        <Class IRI="image"/>
+        <ObjectProperty IRI="pullsImageFrom"/>
+        <Class IRI="image_registry"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="reservesDiskSpaceOn"/>
@@ -889,6 +879,11 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>composedBy</IRI>
+        <Literal>A platform is composed by its key features</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>group_by</IRI>
         <Literal>This class defines the grouping options for deployed components based on each application or component type.</Literal>
     </AnnotationAssertion>
@@ -904,18 +899,13 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>multipleContainers</IRI>
-        <Literal>It is a relationship that can be found in Kubernetes and Docker/Docker Swarm instances. Since containers are the smallest deployment unit that a platform can utilize, a deployment unit can consist of multiple containers.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>multipleNamespaces</IRI>
+        <IRI>multipleGroupby</IRI>
         <Literal>It is a relationship that can be found In Kubernetes instance, multiple namespaces can be created to provide isolated environments for applications.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>multiplePods</IRI>
-        <Literal>It is a relationship that can be found In Kubernetes instance, the deployment unit is the pod, which can contain one or more containers that run different types of components.</Literal>
+        <IRI>multipleMinimalDeploymentUnits</IRI>
+        <Literal>It is a relationship that can be found in Kubernetes and Docker/Docker Swarm instances. Since containers are the smallest deployment unit that a platform can utilize, a deployment unit can consist of multiple containers.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -970,7 +960,7 @@
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#deploys</IRI>
-        <Literal>It is a relationship that indicates the platform is responsible for the orchestration and deployment of deployment units.</Literal>
+        <Literal>A platform should be able to deploy a component with the supported deployment unit on its environment.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
