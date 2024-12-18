@@ -786,14 +786,6 @@
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#binds"/>
-        <Class IRI="#ephimeral"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#binds"/>
-        <Class IRI="#persistent"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#binds"/>
         <Class IRI="#storage"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
