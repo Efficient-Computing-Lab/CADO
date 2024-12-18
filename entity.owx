@@ -61,7 +61,7 @@
         <Class IRI="#storage"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="composedBy"/>
+        <ObjectProperty IRI="composedOf"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="convertsToContainer"/>
@@ -136,7 +136,7 @@
         <DataProperty IRI="#storage"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="CRIO"/>
+        <NamedIndividual IRI="CRI-O"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Containerd"/>
@@ -261,7 +261,7 @@
     </DisjointClasses>
     <ClassAssertion>
         <Class IRI="runtime_environment"/>
-        <NamedIndividual IRI="CRIO"/>
+        <NamedIndividual IRI="CRI-O"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="runtime_environment"/>
@@ -348,7 +348,7 @@
         <NamedIndividual IRI="#Volume"/>
     </ClassAssertion>
     <DifferentIndividuals>
-        <NamedIndividual IRI="CRIO"/>
+        <NamedIndividual IRI="CRI-O"/>
         <NamedIndividual IRI="Containerd"/>
         <NamedIndividual IRI="Docker_Engine"/>
         <NamedIndividual IRI="Dockerd"/>
@@ -371,7 +371,7 @@
     </DifferentIndividuals>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
-        <NamedIndividual IRI="CRIO"/>
+        <NamedIndividual IRI="CRI-O"/>
         <NamedIndividual IRI="RunC"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
@@ -497,7 +497,7 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
         <NamedIndividual IRI="#Kubernetes"/>
-        <NamedIndividual IRI="CRIO"/>
+        <NamedIndividual IRI="CRI-O"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
@@ -525,7 +525,7 @@
         <NamedIndividual IRI="#Volume"/>
     </ObjectPropertyAssertion>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="composedBy"/>
+        <ObjectProperty IRI="composedOf"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -589,7 +589,7 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="composedBy"/>
+        <ObjectProperty IRI="composedOf"/>
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -697,35 +697,35 @@
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyDomain>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="composedBy"/>
+        <ObjectProperty IRI="composedOf"/>
         <Class IRI="group_by"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="composedBy"/>
+        <ObjectProperty IRI="composedOf"/>
         <Class IRI="image"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="composedBy"/>
+        <ObjectProperty IRI="composedOf"/>
         <Class IRI="image_registry"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="composedBy"/>
+        <ObjectProperty IRI="composedOf"/>
         <Class IRI="runtime_environment"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="composedBy"/>
+        <ObjectProperty IRI="composedOf"/>
         <Class IRI="secrets"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="composedBy"/>
+        <ObjectProperty IRI="composedOf"/>
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="composedBy"/>
+        <ObjectProperty IRI="composedOf"/>
         <Class IRI="#hosts"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="composedBy"/>
+        <ObjectProperty IRI="composedOf"/>
         <Class IRI="#storage"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
@@ -854,7 +854,7 @@
     </DataPropertyDomain>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>CRIO</IRI>
+        <IRI>CRI-O</IRI>
         <Literal>CRIO provides a Kubernetes-optimized runtime that pulls images and prepares containers for execution based on Kubernetes’ needs.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
@@ -879,7 +879,7 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>composedBy</IRI>
+        <IRI>composedOf</IRI>
         <Literal>A platform is composed by its key features</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
