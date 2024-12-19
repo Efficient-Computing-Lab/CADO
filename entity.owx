@@ -82,7 +82,7 @@
         <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="multipleRunningContainers"/>
+        <ObjectProperty IRI="multipleRunningInstances"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="pullsImageFrom"/>
@@ -629,7 +629,7 @@
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleRunningContainers"/>
+        <ObjectProperty IRI="multipleRunningInstances"/>
         <Class IRI="group_by"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -753,7 +753,7 @@
         <Class IRI="minimal_deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="multipleRunningContainers"/>
+        <ObjectProperty IRI="multipleRunningInstances"/>
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
