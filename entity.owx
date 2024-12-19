@@ -46,7 +46,7 @@
         <Class IRI="#deployment_unit"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#ephimeral"/>
+        <Class IRI="#ephemeral"/>
     </Declaration>
     <Declaration>
         <Class IRI="#hosts"/>
@@ -236,7 +236,7 @@
         <Class IRI="#MOON"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#ephimeral"/>
+        <Class IRI="#ephemeral"/>
         <Class IRI="#storage"/>
     </SubClassOf>
     <SubClassOf>
@@ -642,7 +642,7 @@
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="reservesDiskSpaceOn"/>
-        <Class IRI="#ephimeral"/>
+        <Class IRI="#ephemeral"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="reservesDiskSpaceOn"/>
@@ -956,7 +956,7 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#ephimeral</IRI>
+        <IRI>#ephemeral</IRI>
         <Literal>This class resembles the option of microservice orchestration platforms to save data of application components in an ephimeral manner</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
