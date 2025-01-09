@@ -770,6 +770,18 @@
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="storedIn"/>
+        <Class IRI="image_registry"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="storedIn"/>
+        <Class IRI="private_image_registry"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="storedIn"/>
+        <Class IRI="public_image_registry"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="storedIn"/>
         <Class IRI="#hosts"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
