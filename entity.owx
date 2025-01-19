@@ -67,13 +67,13 @@
         <ObjectProperty IRI="convertsToContainer"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="generateGroupBy"/>
+        <ObjectProperty IRI="generatesGroupBy"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="generateSecret"/>
+        <ObjectProperty IRI="generatesSecret"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="generateStorage"/>
+        <ObjectProperty IRI="generatesStorage"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="includesImage"/>
@@ -155,6 +155,9 @@
     </Declaration>
     <Declaration>
         <DataProperty IRI="ports"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="related_image"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="restart_policy"/>
@@ -484,7 +487,7 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="pullsImageFrom"/>
         <NamedIndividual IRI="Dockerd"/>
-        <NamedIndividual IRI="Wordpress_Docker_Image"/>
+        <NamedIndividual IRI="Dockerhub"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="includesImage"/>
@@ -617,14 +620,14 @@
         <Literal>example_password</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
-        <DataProperty IRI="image_name"/>
-        <NamedIndividual IRI="MySQL_Docker_Container"/>
-        <Literal>mysql:5.7</Literal>
-    </DataPropertyAssertion>
-    <DataPropertyAssertion>
         <DataProperty IRI="networks"/>
         <NamedIndividual IRI="MySQL_Docker_Container"/>
         <Literal>wordpress_network</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="related_image"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <Literal>mysql:5.7</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="restart_policy"/>
@@ -687,11 +690,6 @@
         <Literal>root</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
-        <DataProperty IRI="image_name"/>
-        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
-        <Literal>wordpress:latest</Literal>
-    </DataPropertyAssertion>
-    <DataPropertyAssertion>
         <DataProperty IRI="networks"/>
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
         <Literal>wordpress_network</Literal>
@@ -700,6 +698,11 @@
         <DataProperty IRI="ports"/>
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
         <Literal>8080:80</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="related_image"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <Literal>wordpress:latest</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="restart_policy"/>
@@ -725,15 +728,15 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="generateGroupBy"/>
+        <ObjectProperty IRI="generatesGroupBy"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="generateSecret"/>
+        <ObjectProperty IRI="generatesSecret"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="generateStorage"/>
+        <ObjectProperty IRI="generatesStorage"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -797,15 +800,15 @@
         <Class IRI="runtime_environment"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="generateGroupBy"/>
+        <ObjectProperty IRI="generatesGroupBy"/>
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="generateSecret"/>
+        <ObjectProperty IRI="generatesSecret"/>
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="generateStorage"/>
+        <ObjectProperty IRI="generatesStorage"/>
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -937,15 +940,15 @@
         <Class IRI="image"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="generateGroupBy"/>
+        <ObjectProperty IRI="generatesGroupBy"/>
         <Class IRI="group_by"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="generateSecret"/>
+        <ObjectProperty IRI="generatesSecret"/>
         <Class IRI="secrets"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="generateStorage"/>
+        <ObjectProperty IRI="generatesStorage"/>
         <Class IRI="#storage"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
@@ -1061,6 +1064,10 @@
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
+        <DataProperty IRI="related_image"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
         <DataProperty IRI="restart_policy"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
@@ -1153,14 +1160,6 @@
         <Class IRI="image"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
-        <DataProperty IRI="image_name"/>
-        <Class IRI="minimal_deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="image_name"/>
-        <Class IRI="#deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
         <DataProperty IRI="networks"/>
         <Class IRI="minimal_deployment_unit"/>
     </DataPropertyDomain>
@@ -1174,6 +1173,14 @@
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="ports"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="related_image"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="related_image"/>
         <Class IRI="#deployment_unit"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
@@ -1250,6 +1257,10 @@
     </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="ports"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="related_image"/>
         <Datatype abbreviatedIRI="xsd:string"/>
     </DataPropertyRange>
     <DataPropertyRange>
