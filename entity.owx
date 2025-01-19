@@ -6,7 +6,7 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      ontologyIRI="http://www.semanticweb.org/container-ontologies/2024/">
-    <Prefix name="" IRI="http://www.semanticweb.org/container-ontologies/2024//"/>
+    <Prefix name="" IRI="http://www.semanticweb.org/container-ontologies/2024/"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
     <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
@@ -67,6 +67,21 @@
         <ObjectProperty IRI="convertsToContainer"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="generateGroupBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="generateSecret"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="generateStorage"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="includesImage"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="includesRunningContainer"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="loginTo"/>
     </Declaration>
     <Declaration>
@@ -76,13 +91,7 @@
         <ObjectProperty IRI="multipleHosts"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="multipleImages"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="multipleRunningInstances"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="pullsImageFrom"/>
@@ -94,7 +103,7 @@
         <ObjectProperty IRI="runningIntanceOf"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="storedIn"/>
+        <ObjectProperty IRI="savedTo"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="unpacks"/>
@@ -107,9 +116,6 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#deploys"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#generates"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#hostedBy"/>
@@ -184,6 +190,9 @@
         <NamedIndividual IRI="Dockerd"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="Dockerhub"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="Hashicorp_Nomad"/>
     </Declaration>
     <Declaration>
@@ -294,10 +303,6 @@
         <Class IRI="#storage"/>
         <Class IRI="#MOON"/>
     </SubClassOf>
-    <DisjointClasses>
-        <Class IRI="private_image_registry"/>
-        <Class IRI="public_image_registry"/>
-    </DisjointClasses>
     <ClassAssertion>
         <Class IRI="runtime_environment"/>
         <NamedIndividual IRI="CRI-O"/>
@@ -327,6 +332,10 @@
         <NamedIndividual IRI="Dockerd"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="public_image_registry"/>
+        <NamedIndividual IRI="Dockerhub"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#platform"/>
         <NamedIndividual IRI="Hashicorp_Nomad"/>
     </ClassAssertion>
@@ -337,10 +346,6 @@
     <ClassAssertion>
         <Class IRI="#platform"/>
         <NamedIndividual IRI="Mesos_Marathon"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="minimal_deployment_unit"/>
-        <NamedIndividual IRI="MySQL_Docker_Container"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#deployment_unit"/>
@@ -393,10 +398,6 @@
     <ClassAssertion>
         <Class IRI="#deployment_unit"/>
         <NamedIndividual IRI="#Pod"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="minimal_deployment_unit"/>
-        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#deployment_unit"/>
@@ -481,13 +482,18 @@
         <NamedIndividual IRI="#Docker"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
-        <NamedIndividual IRI="Docker_Swarm_Services"/>
-        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
         <ObjectProperty IRI="pullsImageFrom"/>
         <NamedIndividual IRI="Dockerd"/>
+        <NamedIndividual IRI="Wordpress_Docker_Image"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="includesImage"/>
+        <NamedIndividual IRI="Dockerhub"/>
+        <NamedIndividual IRI="MySQL_Docker_Image"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="includesImage"/>
+        <NamedIndividual IRI="Dockerhub"/>
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
@@ -511,29 +517,19 @@
         <NamedIndividual IRI="MySQL_Docker_Volume"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="storedIn"/>
+        <ObjectProperty IRI="savedTo"/>
         <NamedIndividual IRI="MySQL_Docker_Image"/>
         <NamedIndividual IRI="Physical_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="storedIn"/>
-        <NamedIndividual IRI="MySQL_Docker_Image"/>
-        <NamedIndividual IRI="Virtual_Machine"/>
+        <ObjectProperty IRI="includesRunningContainer"/>
+        <NamedIndividual IRI="Network"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
+        <ObjectProperty IRI="includesRunningContainer"/>
         <NamedIndividual IRI="Network"/>
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="storedIn"/>
-        <NamedIndividual IRI="Physical_Machine"/>
-        <NamedIndividual IRI="Physical_Machine"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="storedIn"/>
-        <NamedIndividual IRI="Physical_Machine"/>
-        <NamedIndividual IRI="Virtual_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="convertsToContainer"/>
@@ -541,14 +537,9 @@
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="storedIn"/>
+        <ObjectProperty IRI="savedTo"/>
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
         <NamedIndividual IRI="Physical_Machine"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="storedIn"/>
-        <NamedIndividual IRI="Wordpress_Docker_Image"/>
-        <NamedIndividual IRI="Virtual_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
@@ -564,16 +555,6 @@
         <ObjectProperty IRI="#deploys"/>
         <NamedIndividual IRI="#Docker"/>
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#generates"/>
-        <NamedIndividual IRI="#Docker"/>
-        <NamedIndividual IRI="Network"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#generates"/>
-        <NamedIndividual IRI="#Docker"/>
-        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="multipleGroupby"/>
@@ -604,21 +585,6 @@
         <ObjectProperty IRI="#deploys"/>
         <NamedIndividual IRI="#Kubernetes"/>
         <NamedIndividual IRI="#Pod"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#generates"/>
-        <NamedIndividual IRI="#Kubernetes"/>
-        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
-        <NamedIndividual IRI="#Pod"/>
-        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#binds"/>
-        <NamedIndividual IRI="#Pod"/>
-        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="runningIntanceOf"/>
@@ -679,11 +645,6 @@
         <DataProperty IRI="volume_name"/>
         <NamedIndividual IRI="MySQL_Docker_Volume"/>
         <Literal>mysql_data</Literal>
-    </DataPropertyAssertion>
-    <DataPropertyAssertion>
-        <DataProperty IRI="image_name"/>
-        <NamedIndividual IRI="Physical_Machine"/>
-        <Literal>mysql:5.7</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="image_name"/>
@@ -764,6 +725,22 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
+        <ObjectProperty IRI="generateGroupBy"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="generateSecret"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="generateStorage"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="includesImage"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
         <ObjectProperty IRI="loginTo"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
@@ -773,10 +750,6 @@
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="multipleHosts"/>
-        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
-    </SubObjectPropertyOf>
-    <SubObjectPropertyOf>
-        <ObjectProperty IRI="multipleImages"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -796,7 +769,7 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="storedIn"/>
+        <ObjectProperty IRI="savedTo"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -812,10 +785,6 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="#generates"/>
-        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
-    </SubObjectPropertyOf>
-    <SubObjectPropertyOf>
         <ObjectProperty IRI="#hostedBy"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
@@ -826,6 +795,34 @@
     <ObjectPropertyDomain>
         <ObjectProperty IRI="convertsToContainer"/>
         <Class IRI="runtime_environment"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="generateGroupBy"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="generateSecret"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="generateStorage"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesImage"/>
+        <Class IRI="image_registry"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesImage"/>
+        <Class IRI="private_image_registry"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesImage"/>
+        <Class IRI="public_image_registry"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesRunningContainer"/>
+        <Class IRI="group_by"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="loginTo"/>
@@ -844,24 +841,8 @@
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleImages"/>
-        <Class IRI="image_registry"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleImages"/>
-        <Class IRI="private_image_registry"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleImages"/>
-        <Class IRI="public_image_registry"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
         <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
         <Class IRI="#deployment_unit"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleRunningInstances"/>
-        <Class IRI="group_by"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="pullsImageFrom"/>
@@ -892,7 +873,7 @@
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="storedIn"/>
+        <ObjectProperty IRI="savedTo"/>
         <Class IRI="image"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -913,14 +894,6 @@
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#deploys"/>
-        <Class IRI="#MOON"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#deploys"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#generates"/>
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -964,6 +937,26 @@
         <Class IRI="image"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="generateGroupBy"/>
+        <Class IRI="group_by"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="generateSecret"/>
+        <Class IRI="secrets"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="generateStorage"/>
+        <Class IRI="#storage"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="includesImage"/>
+        <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="includesRunningContainer"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="loginTo"/>
         <Class IRI="private_image_registry"/>
     </ObjectPropertyRange>
@@ -976,16 +969,8 @@
         <Class IRI="#hosts"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="multipleImages"/>
-        <Class IRI="image"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
         <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
         <Class IRI="minimal_deployment_unit"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="multipleRunningInstances"/>
-        <Class IRI="#deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="pullsImageFrom"/>
@@ -1000,19 +985,7 @@
         <Class IRI="image"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="storedIn"/>
-        <Class IRI="image_registry"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="storedIn"/>
-        <Class IRI="private_image_registry"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="storedIn"/>
-        <Class IRI="public_image_registry"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="storedIn"/>
+        <ObjectProperty IRI="savedTo"/>
         <Class IRI="#hosts"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
@@ -1034,18 +1007,6 @@
     <ObjectPropertyRange>
         <ObjectProperty IRI="#deploys"/>
         <Class IRI="#deployment_unit"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#generates"/>
-        <Class IRI="group_by"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#generates"/>
-        <Class IRI="secrets"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#generates"/>
-        <Class IRI="#storage"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#hostedBy"/>
@@ -1406,11 +1367,6 @@
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#ephemeral</IRI>
         <Literal>This class resembles the option of microservice orchestration platforms to save data of application components in an ephimeral manner</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#generates</IRI>
-        <Literal>It is a relationship depicts the platform creating suitable storage, or networking (grouping) tailored to the specific requirements of the application component.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
