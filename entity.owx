@@ -557,6 +557,11 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#deploys"/>
         <NamedIndividual IRI="#Docker"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#deploys"/>
+        <NamedIndividual IRI="#Docker"/>
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
