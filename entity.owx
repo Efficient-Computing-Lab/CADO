@@ -115,25 +115,52 @@
         <ObjectProperty IRI="#hostedBy"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="description"/>
+        <DataProperty IRI="container_name"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="number_of_replicas"/>
+        <DataProperty IRI="depends_on"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#deployment_unit"/>
+        <DataProperty IRI="driver"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#hosts"/>
+        <DataProperty IRI="env_mysql_database"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#microservice_orchestration"/>
+        <DataProperty IRI="env_mysql_root_password"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#platform"/>
+        <DataProperty IRI="env_wordpress_db_host"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#storage"/>
+        <DataProperty IRI="env_wordpress_db_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="env_wordpress_db_password"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="env_wordpress_db_user"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="image_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="networks"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="ports"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="restart_policy"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="version"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="volume_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="volumes"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="CRI-O"/>
@@ -142,10 +169,10 @@
         <NamedIndividual IRI="Containerd"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="Docker_Engine"/>
+        <NamedIndividual IRI="Docker_Compose"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="Docker_Image"/>
+        <NamedIndividual IRI="Docker_Engine"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Docker_Swarm"/>
@@ -166,6 +193,15 @@
         <NamedIndividual IRI="Mesos_Marathon"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="MySQL_Docker_Image"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="MySQL_Docker_Volume"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="Namespace"/>
     </Declaration>
     <Declaration>
@@ -181,7 +217,7 @@
         <NamedIndividual IRI="Virtual_Machine"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#Container"/>
+        <NamedIndividual IRI="Wordpress_Docker_Image"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#Docker"/>
@@ -193,7 +229,10 @@
         <NamedIndividual IRI="#Pod"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#Volume"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
     </Declaration>
     <SubClassOf>
         <Class IRI="group_by"/>
@@ -268,12 +307,12 @@
         <NamedIndividual IRI="Containerd"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class IRI="runtime_environment"/>
-        <NamedIndividual IRI="Docker_Engine"/>
+        <Class IRI="subplatform"/>
+        <NamedIndividual IRI="Docker_Compose"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class IRI="image"/>
-        <NamedIndividual IRI="Docker_Image"/>
+        <Class IRI="runtime_environment"/>
+        <NamedIndividual IRI="Docker_Engine"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#platform"/>
@@ -300,6 +339,22 @@
         <NamedIndividual IRI="Mesos_Marathon"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="minimal_deployment_unit"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#deployment_unit"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="image"/>
+        <NamedIndividual IRI="MySQL_Docker_Image"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#persistent"/>
+        <NamedIndividual IRI="MySQL_Docker_Volume"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="group_by"/>
         <NamedIndividual IRI="Namespace"/>
     </ClassAssertion>
@@ -320,12 +375,8 @@
         <NamedIndividual IRI="Virtual_Machine"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class IRI="minimal_deployment_unit"/>
-        <NamedIndividual IRI="#Container"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#deployment_unit"/>
-        <NamedIndividual IRI="#Container"/>
+        <Class IRI="image"/>
+        <NamedIndividual IRI="Wordpress_Docker_Image"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="runtime_environment"/>
@@ -344,8 +395,16 @@
         <NamedIndividual IRI="#Pod"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="minimal_deployment_unit"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#deployment_unit"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#persistent"/>
-        <NamedIndividual IRI="#Volume"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
     </ClassAssertion>
     <DifferentIndividuals>
         <NamedIndividual IRI="CRI-O"/>
@@ -366,8 +425,20 @@
         <NamedIndividual IRI="Network"/>
     </DifferentIndividuals>
     <DifferentIndividuals>
-        <NamedIndividual IRI="#Container"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="MySQL_Docker_Image"/>
+        <NamedIndividual IRI="Wordpress_Docker_Image"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="MySQL_Docker_Volume"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
         <NamedIndividual IRI="#Pod"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
     </DifferentIndividuals>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
@@ -377,7 +448,7 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="unpacks"/>
         <NamedIndividual IRI="Containerd"/>
-        <NamedIndividual IRI="Docker_Image"/>
+        <NamedIndividual IRI="Wordpress_Docker_Image"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
@@ -393,16 +464,6 @@
         <ObjectProperty IRI="utilizes"/>
         <NamedIndividual IRI="Docker_Engine"/>
         <NamedIndividual IRI="RunC"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="storedIn"/>
-        <NamedIndividual IRI="Docker_Image"/>
-        <NamedIndividual IRI="Physical_Machine"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="storedIn"/>
-        <NamedIndividual IRI="Docker_Image"/>
-        <NamedIndividual IRI="Virtual_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="multipleHosts"/>
@@ -422,12 +483,12 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
         <NamedIndividual IRI="Docker_Swarm_Services"/>
-        <NamedIndividual IRI="#Container"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="pullsImageFrom"/>
         <NamedIndividual IRI="Dockerd"/>
-        <NamedIndividual IRI="Docker_Image"/>
+        <NamedIndividual IRI="Wordpress_Docker_Image"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
@@ -440,24 +501,59 @@
         <NamedIndividual IRI="#Docker"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="runningIntanceOf"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <NamedIndividual IRI="MySQL_Docker_Image"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#binds"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <NamedIndividual IRI="MySQL_Docker_Volume"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="storedIn"/>
+        <NamedIndividual IRI="MySQL_Docker_Image"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="storedIn"/>
+        <NamedIndividual IRI="MySQL_Docker_Image"/>
+        <NamedIndividual IRI="Virtual_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
         <NamedIndividual IRI="Network"/>
-        <NamedIndividual IRI="#Container"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="storedIn"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="storedIn"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+        <NamedIndividual IRI="Virtual_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="convertsToContainer"/>
         <NamedIndividual IRI="RunC"/>
-        <NamedIndividual IRI="Docker_Image"/>
+        <NamedIndividual IRI="Wordpress_Docker_Image"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="runningIntanceOf"/>
-        <NamedIndividual IRI="#Container"/>
-        <NamedIndividual IRI="Docker_Image"/>
+        <ObjectProperty IRI="storedIn"/>
+        <NamedIndividual IRI="Wordpress_Docker_Image"/>
+        <NamedIndividual IRI="Physical_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#binds"/>
-        <NamedIndividual IRI="#Container"/>
-        <NamedIndividual IRI="#Volume"/>
+        <ObjectProperty IRI="storedIn"/>
+        <NamedIndividual IRI="Wordpress_Docker_Image"/>
+        <NamedIndividual IRI="Virtual_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="utilizes"/>
+        <NamedIndividual IRI="#Docker"/>
+        <NamedIndividual IRI="Docker_Compose"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
@@ -467,7 +563,7 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#deploys"/>
         <NamedIndividual IRI="#Docker"/>
-        <NamedIndividual IRI="#Container"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#generates"/>
@@ -477,7 +573,7 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#generates"/>
         <NamedIndividual IRI="#Docker"/>
-        <NamedIndividual IRI="#Volume"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="multipleGroupby"/>
@@ -512,18 +608,153 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#generates"/>
         <NamedIndividual IRI="#Kubernetes"/>
-        <NamedIndividual IRI="#Volume"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
         <NamedIndividual IRI="#Pod"/>
-        <NamedIndividual IRI="#Container"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#binds"/>
         <NamedIndividual IRI="#Pod"/>
-        <NamedIndividual IRI="#Volume"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
     </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="runningIntanceOf"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <NamedIndividual IRI="Wordpress_Docker_Image"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#binds"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="version"/>
+        <NamedIndividual IRI="Docker_Compose"/>
+        <Literal>3.7</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="container_name"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <Literal>mysql</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="env_mysql_database"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <Literal>example_db</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="env_mysql_root_password"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <Literal>example_password</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="image_name"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <Literal>mysql:5.7</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="networks"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <Literal>wordpress_network</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="restart_policy"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <Literal>always</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="volumes"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <Literal>mysql_data:/var/lib/mysql</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="image_name"/>
+        <NamedIndividual IRI="MySQL_Docker_Image"/>
+        <Literal>mysql:5.7</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="volume_name"/>
+        <NamedIndividual IRI="MySQL_Docker_Volume"/>
+        <Literal>mysql_data</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="image_name"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+        <Literal>mysql:5.7</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="image_name"/>
+        <NamedIndividual IRI="Wordpress_Docker_Image"/>
+        <Literal>wordpress:latest</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="version"/>
+        <NamedIndividual IRI="#Docker"/>
+        <Literal>24.0.2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="container_name"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <Literal>wordpress</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="depends_on"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <Literal>mysql</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="env_wordpress_db_host"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <Literal>mysql:3306</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="env_wordpress_db_name"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <Literal>example_db</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="env_wordpress_db_password"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <Literal>example_password</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="env_wordpress_db_user"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <Literal>root</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="image_name"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <Literal>wordpress:latest</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="networks"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <Literal>wordpress_network</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="ports"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <Literal>8080:80</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="restart_policy"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <Literal>always</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="volumes"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <Literal>wordpress_data:/var/www/html</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="volume_name"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
+        <Literal>wordpress_data</Literal>
+    </DataPropertyAssertion>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="composedOf"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
@@ -821,41 +1052,261 @@
         <Class IRI="#hosts"/>
     </ObjectPropertyRange>
     <SubDataPropertyOf>
-        <DataProperty IRI="description"/>
+        <DataProperty IRI="container_name"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
-        <DataProperty IRI="number_of_replicas"/>
+        <DataProperty IRI="depends_on"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
-        <DataProperty IRI="#deployment_unit"/>
+        <DataProperty IRI="driver"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
-        <DataProperty IRI="#hosts"/>
+        <DataProperty IRI="env_mysql_database"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
-        <DataProperty IRI="#microservice_orchestration"/>
+        <DataProperty IRI="env_mysql_root_password"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
-        <DataProperty IRI="#platform"/>
+        <DataProperty IRI="env_wordpress_db_host"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
-        <DataProperty IRI="#storage"/>
+        <DataProperty IRI="env_wordpress_db_name"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="env_wordpress_db_password"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="env_wordpress_db_user"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="image_name"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="networks"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="ports"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="restart_policy"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="version"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="volume_name"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="volumes"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <DataPropertyDomain>
-        <DataProperty IRI="description"/>
-        <Class IRI="#MOON"/>
+        <DataProperty IRI="container_name"/>
+        <Class IRI="minimal_deployment_unit"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
-        <DataProperty IRI="number_of_replicas"/>
+        <DataProperty IRI="container_name"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="depends_on"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="depends_on"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="driver"/>
         <Class IRI="group_by"/>
     </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="driver"/>
+        <Class IRI="#persistent"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="env_mysql_database"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="env_mysql_database"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="env_mysql_root_password"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="env_mysql_root_password"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="env_wordpress_db_host"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="env_wordpress_db_host"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="env_wordpress_db_name"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="env_wordpress_db_name"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="env_wordpress_db_password"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="env_wordpress_db_password"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="env_wordpress_db_user"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="env_wordpress_db_user"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="image_name"/>
+        <Class IRI="image"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="image_name"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="image_name"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="networks"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="networks"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="ports"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="ports"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="restart_policy"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="restart_policy"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="version"/>
+        <Class IRI="subplatform"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="version"/>
+        <Class IRI="#platform"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="volume_name"/>
+        <Class IRI="#persistent"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="volumes"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="volumes"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="container_name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="depends_on"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="driver"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="env_mysql_database"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="env_mysql_root_password"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="env_wordpress_db_host"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="env_wordpress_db_name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="env_wordpress_db_password"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="env_wordpress_db_user"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="image_name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="networks"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="ports"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="restart_policy"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="version"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="volume_name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="volumes"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>CRI-O</IRI>
@@ -893,11 +1344,6 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>image</IRI>
-        <Literal>This class describes Docker images</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>minimal_deployment_unit</IRI>
         <Literal>This class is a subclass of deployment_unit. It describes the ability to have a main deployment unit that contains smaller units.</Literal>
     </AnnotationAssertion>
@@ -910,11 +1356,6 @@
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>multipleMinimalDeploymentUnits</IRI>
         <Literal>It is a relationship that can be found in Kubernetes and Docker/Docker Swarm instances. Since containers are the smallest deployment unit that a platform can utilize, a deployment unit can consist of multiple containers.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>number_of_replicas</IRI>
-        <Literal>A property that describes the number of the instances of the same Docker image</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -958,11 +1399,6 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#deployment_unit</IRI>
-        <Literal>This class represents the deployment unit that a microservice orchestration platform uses in order to start an application</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#deploys</IRI>
         <Literal>A platform should be able to deploy a component with the supported deployment unit on its environment.</Literal>
     </AnnotationAssertion>
@@ -983,23 +1419,8 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#hosts</IRI>
-        <Literal>This class describe that machines that will host the application components</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#persistent</IRI>
         <Literal>This class resembles the option of microservice orchestration platforms to save data of application components in an persistent manner</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#platform</IRI>
-        <Literal>This class describes the orchestration tool that would perform the deployment of applications</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#storage</IRI>
-        <Literal>This class explains how microservice orchestration tools manage data storage for each application.</Literal>
     </AnnotationAssertion>
 </Ontology>
 
