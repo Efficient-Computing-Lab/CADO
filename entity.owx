@@ -100,7 +100,7 @@
         <ObjectProperty IRI="reservesDiskSpaceOn"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="runningIntanceOf"/>
+        <ObjectProperty IRI="runningInstanceOf"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="savedTo"/>
@@ -452,6 +452,11 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="unpacks"/>
         <NamedIndividual IRI="Containerd"/>
+        <NamedIndividual IRI="MySQL_Docker_Image"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="unpacks"/>
+        <NamedIndividual IRI="Containerd"/>
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
@@ -485,6 +490,16 @@
         <NamedIndividual IRI="#Docker"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#deploys"/>
+        <NamedIndividual IRI="Docker_Swarm"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#deploys"/>
+        <NamedIndividual IRI="Docker_Swarm"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="pullsImageFrom"/>
         <NamedIndividual IRI="Dockerd"/>
         <NamedIndividual IRI="Dockerhub"/>
@@ -510,7 +525,7 @@
         <NamedIndividual IRI="#Docker"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="runningIntanceOf"/>
+        <ObjectProperty IRI="runningInstanceOf"/>
         <NamedIndividual IRI="MySQL_Docker_Container"/>
         <NamedIndividual IRI="MySQL_Docker_Image"/>
     </ObjectPropertyAssertion>
@@ -522,6 +537,11 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="savedTo"/>
         <NamedIndividual IRI="MySQL_Docker_Image"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
+        <NamedIndividual IRI="MySQL_Docker_Volume"/>
         <NamedIndividual IRI="Physical_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
@@ -537,12 +557,17 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="convertsToContainer"/>
         <NamedIndividual IRI="RunC"/>
+        <NamedIndividual IRI="MySQL_Docker_Image"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="convertsToContainer"/>
+        <NamedIndividual IRI="RunC"/>
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="savedTo"/>
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
-        <NamedIndividual IRI="Physical_Machine"/>
+        <NamedIndividual IRI="Virtual_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
@@ -595,7 +620,7 @@
         <NamedIndividual IRI="#Pod"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="runningIntanceOf"/>
+        <ObjectProperty IRI="runningInstanceOf"/>
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
     </ObjectPropertyAssertion>
@@ -603,6 +628,11 @@
         <ObjectProperty IRI="#binds"/>
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
         <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
+        <NamedIndividual IRI="Virtual_Machine"/>
     </ObjectPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="version"/>
@@ -773,7 +803,7 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="runningIntanceOf"/>
+        <ObjectProperty IRI="runningInstanceOf"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -873,11 +903,11 @@
         <Class IRI="#storage"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="runningIntanceOf"/>
+        <ObjectProperty IRI="runningInstanceOf"/>
         <Class IRI="minimal_deployment_unit"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="runningIntanceOf"/>
+        <ObjectProperty IRI="runningInstanceOf"/>
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -989,7 +1019,7 @@
         <Class IRI="#hosts"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="runningIntanceOf"/>
+        <ObjectProperty IRI="runningInstanceOf"/>
         <Class IRI="image"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
