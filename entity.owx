@@ -76,7 +76,13 @@
         <ObjectProperty IRI="generatesStorage"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="includesHost"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="includesImage"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="includesMinimalDeploymentUnit"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="includesRunningContainer"/>
@@ -86,12 +92,6 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="multipleGroupby"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="multipleHosts"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="pullsImageFrom"/>
@@ -214,6 +214,9 @@
         <NamedIndividual IRI="MySQL_Docker_Volume"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="MySQL_Pod"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="Namespace"/>
     </Declaration>
     <Declaration>
@@ -230,6 +233,9 @@
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Wordpress_Pod"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#Docker"/>
@@ -363,6 +369,10 @@
         <NamedIndividual IRI="MySQL_Docker_Volume"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="#deployment_unit"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="group_by"/>
         <NamedIndividual IRI="Namespace"/>
     </ClassAssertion>
@@ -385,6 +395,10 @@
     <ClassAssertion>
         <Class IRI="image"/>
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#deployment_unit"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="runtime_environment"/>
@@ -475,12 +489,12 @@
         <NamedIndividual IRI="RunC"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multipleHosts"/>
+        <ObjectProperty IRI="includesHost"/>
         <NamedIndividual IRI="Docker_Swarm"/>
         <NamedIndividual IRI="Physical_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multipleHosts"/>
+        <ObjectProperty IRI="includesHost"/>
         <NamedIndividual IRI="Docker_Swarm"/>
         <NamedIndividual IRI="Virtual_Machine"/>
     </ObjectPropertyAssertion>
@@ -535,6 +549,11 @@
         <NamedIndividual IRI="MySQL_Docker_Volume"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hostedBy"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="savedTo"/>
         <NamedIndividual IRI="MySQL_Docker_Image"/>
         <NamedIndividual IRI="Physical_Machine"/>
@@ -570,6 +589,21 @@
         <NamedIndividual IRI="Virtual_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="generatesGroupBy"/>
+        <NamedIndividual IRI="#Docker"/>
+        <NamedIndividual IRI="Network"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="generatesStorage"/>
+        <NamedIndividual IRI="#Docker"/>
+        <NamedIndividual IRI="MySQL_Docker_Volume"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="generatesStorage"/>
+        <NamedIndividual IRI="#Docker"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="utilizes"/>
         <NamedIndividual IRI="#Docker"/>
         <NamedIndividual IRI="Docker_Compose"/>
@@ -590,17 +624,17 @@
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multipleGroupby"/>
+        <ObjectProperty IRI="generatesGroupBy"/>
         <NamedIndividual IRI="#Kubernetes"/>
         <NamedIndividual IRI="Namespace"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multipleHosts"/>
+        <ObjectProperty IRI="includesHost"/>
         <NamedIndividual IRI="#Kubernetes"/>
         <NamedIndividual IRI="Physical_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="multipleHosts"/>
+        <ObjectProperty IRI="includesHost"/>
         <NamedIndividual IRI="#Kubernetes"/>
         <NamedIndividual IRI="Virtual_Machine"/>
     </ObjectPropertyAssertion>
@@ -610,14 +644,14 @@
         <NamedIndividual IRI="CRI-O"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="utilizes"/>
+        <ObjectProperty IRI="#deploys"/>
         <NamedIndividual IRI="#Kubernetes"/>
-        <NamedIndividual IRI="Containerd"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#deploys"/>
         <NamedIndividual IRI="#Kubernetes"/>
-        <NamedIndividual IRI="#Pod"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="runningInstanceOf"/>
@@ -628,6 +662,11 @@
         <ObjectProperty IRI="#binds"/>
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
         <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hostedBy"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+        <NamedIndividual IRI="Virtual_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="reservesDiskSpaceOn"/>
@@ -693,6 +732,11 @@
         <DataProperty IRI="version"/>
         <NamedIndividual IRI="#Docker"/>
         <Literal>24.0.2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="version"/>
+        <NamedIndividual IRI="#Kubernetes"/>
+        <Literal>1.29.5</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="container_name"/>
@@ -775,7 +819,15 @@
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
+        <ObjectProperty IRI="includesHost"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
         <ObjectProperty IRI="includesImage"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="includesMinimalDeploymentUnit"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -784,14 +836,6 @@
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="multipleGroupby"/>
-        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
-    </SubObjectPropertyOf>
-    <SubObjectPropertyOf>
-        <ObjectProperty IRI="multipleHosts"/>
-        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
-    </SubObjectPropertyOf>
-    <SubObjectPropertyOf>
-        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -847,6 +891,10 @@
         <Class IRI="#platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesHost"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="includesImage"/>
         <Class IRI="image_registry"/>
     </ObjectPropertyDomain>
@@ -857,6 +905,10 @@
     <ObjectPropertyDomain>
         <ObjectProperty IRI="includesImage"/>
         <Class IRI="public_image_registry"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesMinimalDeploymentUnit"/>
+        <Class IRI="#deployment_unit"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="includesRunningContainer"/>
@@ -873,14 +925,6 @@
     <ObjectPropertyDomain>
         <ObjectProperty IRI="multipleGroupby"/>
         <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleHosts"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
-        <Class IRI="#deployment_unit"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="pullsImageFrom"/>
@@ -987,8 +1031,16 @@
         <Class IRI="#storage"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="includesHost"/>
+        <Class IRI="#hosts"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="includesImage"/>
         <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="includesMinimalDeploymentUnit"/>
+        <Class IRI="minimal_deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="includesRunningContainer"/>
@@ -1001,14 +1053,6 @@
     <ObjectPropertyRange>
         <ObjectProperty IRI="multipleGroupby"/>
         <Class IRI="group_by"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="multipleHosts"/>
-        <Class IRI="#hosts"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="multipleMinimalDeploymentUnits"/>
-        <Class IRI="minimal_deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="pullsImageFrom"/>
@@ -1351,6 +1395,11 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>includesMinimalDeploymentUnit</IRI>
+        <Literal>It is a relationship that can be found in Kubernetes and Docker/Docker Swarm instances. Since containers are the smallest deployment unit that a platform can utilize, a deployment unit can consist of multiple containers.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>minimal_deployment_unit</IRI>
         <Literal>This class is a subclass of deployment_unit. It describes the ability to have a main deployment unit that contains smaller units.</Literal>
     </AnnotationAssertion>
@@ -1358,11 +1407,6 @@
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>multipleGroupby</IRI>
         <Literal>It is a relationship that can be found In Kubernetes instance, multiple namespaces can be created to provide isolated environments for applications.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>multipleMinimalDeploymentUnits</IRI>
-        <Literal>It is a relationship that can be found in Kubernetes and Docker/Docker Swarm instances. Since containers are the smallest deployment unit that a platform can utilize, a deployment unit can consist of multiple containers.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
