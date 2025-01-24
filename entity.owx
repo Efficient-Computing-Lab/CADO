@@ -85,7 +85,7 @@
         <ObjectProperty IRI="includesMinimalDeploymentUnit"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="includesRunningContainer"/>
+        <ObjectProperty IRI="includesRunningInstance"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="loginTo"/>
@@ -127,6 +127,9 @@
         <DataProperty IRI="depends_on"/>
     </Declaration>
     <Declaration>
+        <DataProperty IRI="deployment_name"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="driver"/>
     </Declaration>
     <Declaration>
@@ -151,6 +154,12 @@
         <DataProperty IRI="image_name"/>
     </Declaration>
     <Declaration>
+        <DataProperty IRI="namespace_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="network_name"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="networks"/>
     </Declaration>
     <Declaration>
@@ -160,10 +169,28 @@
         <DataProperty IRI="related_image"/>
     </Declaration>
     <Declaration>
+        <DataProperty IRI="related_namespace"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="related_volume"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="replicas"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="reserved_storage"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="restart_policy"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="version"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="volume_host_path"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="volume_mount_path"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="volume_name"/>
@@ -214,6 +241,9 @@
         <NamedIndividual IRI="MySQL_Docker_Volume"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="MySQL_Kubernetes_Volume"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="MySQL_Pod"/>
     </Declaration>
     <Declaration>
@@ -233,6 +263,9 @@
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="Wordpress_Pod"/>
@@ -312,6 +345,10 @@
         <Class IRI="#storage"/>
         <Class IRI="#MOON"/>
     </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#ephemeral"/>
+        <Class IRI="#persistent"/>
+    </DisjointClasses>
     <ClassAssertion>
         <Class IRI="runtime_environment"/>
         <NamedIndividual IRI="CRI-O"/>
@@ -395,6 +432,10 @@
     <ClassAssertion>
         <Class IRI="image"/>
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#persistent"/>
+        <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#deployment_unit"/>
@@ -564,12 +605,47 @@
         <NamedIndividual IRI="Physical_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="includesRunningContainer"/>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
+        <NamedIndividual IRI="MySQL_Kubernetes_Volume"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="includesRunningInstance"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="runningInstanceOf"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <NamedIndividual IRI="MySQL_Docker_Image"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#binds"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <NamedIndividual IRI="MySQL_Docker_Volume"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hostedBy"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <NamedIndividual IRI="Physical_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="includesRunningInstance"/>
+        <NamedIndividual IRI="Namespace"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="includesRunningInstance"/>
+        <NamedIndividual IRI="Namespace"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="includesRunningInstance"/>
         <NamedIndividual IRI="Network"/>
         <NamedIndividual IRI="MySQL_Docker_Container"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="includesRunningContainer"/>
+        <ObjectProperty IRI="includesRunningInstance"/>
         <NamedIndividual IRI="Network"/>
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
     </ObjectPropertyAssertion>
@@ -587,6 +663,31 @@
         <ObjectProperty IRI="savedTo"/>
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
         <NamedIndividual IRI="Virtual_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
+        <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/>
+        <NamedIndividual IRI="Virtual_Machine"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="includesMinimalDeploymentUnit"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="runningInstanceOf"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <NamedIndividual IRI="Wordpress_Docker_Image"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#binds"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hostedBy"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <NamedIndividual IRI="Physical_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="generatesGroupBy"/>
@@ -724,9 +825,149 @@
         <Literal>mysql_data</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
+        <DataProperty IRI="reserved_storage"/>
+        <NamedIndividual IRI="MySQL_Kubernetes_Volume"/>
+        <Literal>1 Gi</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="volume_host_path"/>
+        <NamedIndividual IRI="MySQL_Kubernetes_Volume"/>
+        <Literal>/mnt/data/mysql</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="volume_name"/>
+        <NamedIndividual IRI="MySQL_Kubernetes_Volume"/>
+        <Literal>mysql-pv</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="container_name"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <Literal>mysql</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="deployment_name"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <Literal>mysql-deployment</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="env_mysql_database"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <Literal>example_db</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="env_mysql_root_password"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <Literal>example_password</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="related_image"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <Literal>mysql:5.7</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="related_namespace"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <Literal>wordpress-namespace</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="replicas"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <Literal>1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="volume_mount_path"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <Literal>/var/lib/mysql</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="namespace_name"/>
+        <NamedIndividual IRI="Namespace"/>
+        <Literal>wordpress-namespace</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="network_name"/>
+        <NamedIndividual IRI="Network"/>
+        <Literal>wordpress_network</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
         <DataProperty IRI="image_name"/>
         <NamedIndividual IRI="Wordpress_Docker_Image"/>
         <Literal>wordpress:latest</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="reserved_storage"/>
+        <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/>
+        <Literal>1 Gi</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="volume_host_path"/>
+        <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/>
+        <Literal>/mnt/data/wordpress</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="volume_name"/>
+        <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/>
+        <Literal>wordpress-pv</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="container_name"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <Literal>wordpress</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="deployment_name"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <Literal>wordpress-deployment</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="env_wordpress_db_host"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <Literal>mysql:3306</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="env_wordpress_db_name"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <Literal>example_db</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="env_wordpress_db_password"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <Literal>example_password</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="env_wordpress_db_user"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <Literal>root</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="ports"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <Literal>80</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="related_image"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <Literal>wordpress:latest</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="related_namespace"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <Literal>wordpress-namespace</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="related_volume"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <Literal>wordpress-volume</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="replicas"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <Literal>1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="volume_mount_path"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+        <Literal>/var/www/html</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="version"/>
@@ -911,7 +1152,7 @@
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="includesRunningContainer"/>
+        <ObjectProperty IRI="includesRunningInstance"/>
         <Class IRI="group_by"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -933,10 +1174,6 @@
     <ObjectPropertyDomain>
         <ObjectProperty IRI="pullsImageFrom"/>
         <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="reservesDiskSpaceOn"/>
-        <Class IRI="#ephemeral"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="reservesDiskSpaceOn"/>
@@ -1043,7 +1280,7 @@
         <Class IRI="minimal_deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="includesRunningContainer"/>
+        <ObjectProperty IRI="includesRunningInstance"/>
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
@@ -1103,6 +1340,10 @@
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
+        <DataProperty IRI="deployment_name"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
         <DataProperty IRI="driver"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
@@ -1135,6 +1376,14 @@
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
+        <DataProperty IRI="namespace_name"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="network_name"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
         <DataProperty IRI="networks"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
@@ -1147,11 +1396,35 @@
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
+        <DataProperty IRI="related_namespace"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="related_volume"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="replicas"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="reserved_storage"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
         <DataProperty IRI="restart_policy"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
         <DataProperty IRI="version"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="volume_host_path"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="volume_mount_path"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
@@ -1176,6 +1449,10 @@
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="depends_on"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="deployment_name"/>
         <Class IRI="#deployment_unit"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
@@ -1239,6 +1516,14 @@
         <Class IRI="image"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
+        <DataProperty IRI="namespace_name"/>
+        <Class IRI="group_by"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="network_name"/>
+        <Class IRI="group_by"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
         <DataProperty IRI="networks"/>
         <Class IRI="minimal_deployment_unit"/>
     </DataPropertyDomain>
@@ -1261,6 +1546,26 @@
     <DataPropertyDomain>
         <DataProperty IRI="related_image"/>
         <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="related_namespace"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="related_namespace"/>
+        <Class IRI="#persistent"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="related_volume"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="replicas"/>
+        <Class IRI="#deployment_unit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="reserved_storage"/>
+        <Class IRI="#persistent"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="restart_policy"/>
@@ -1277,6 +1582,14 @@
     <DataPropertyDomain>
         <DataProperty IRI="version"/>
         <Class IRI="#platform"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="volume_host_path"/>
+        <Class IRI="#persistent"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="volume_mount_path"/>
+        <Class IRI="#deployment_unit"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="volume_name"/>
@@ -1296,6 +1609,10 @@
     </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="depends_on"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="deployment_name"/>
         <Datatype abbreviatedIRI="xsd:string"/>
     </DataPropertyRange>
     <DataPropertyRange>
@@ -1331,6 +1648,14 @@
         <Datatype abbreviatedIRI="xsd:string"/>
     </DataPropertyRange>
     <DataPropertyRange>
+        <DataProperty IRI="namespace_name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="network_name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
         <DataProperty IRI="networks"/>
         <Datatype abbreviatedIRI="xsd:string"/>
     </DataPropertyRange>
@@ -1343,11 +1668,35 @@
         <Datatype abbreviatedIRI="xsd:string"/>
     </DataPropertyRange>
     <DataPropertyRange>
+        <DataProperty IRI="related_namespace"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="related_volume"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="replicas"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="reserved_storage"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
         <DataProperty IRI="restart_policy"/>
         <Datatype abbreviatedIRI="xsd:string"/>
     </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="version"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="volume_host_path"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="volume_mount_path"/>
         <Datatype abbreviatedIRI="xsd:string"/>
     </DataPropertyRange>
     <DataPropertyRange>
