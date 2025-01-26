@@ -277,9 +277,6 @@
         <NamedIndividual IRI="#Kubernetes"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#Pod"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
     </Declaration>
     <Declaration>
@@ -394,6 +391,10 @@
         <NamedIndividual IRI="Mesos_Marathon"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="minimal_deployment_unit"/>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#deployment_unit"/>
         <NamedIndividual IRI="MySQL_Docker_Container"/>
     </ClassAssertion>
@@ -404,6 +405,10 @@
     <ClassAssertion>
         <Class IRI="#persistent"/>
         <NamedIndividual IRI="MySQL_Docker_Volume"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#persistent"/>
+        <NamedIndividual IRI="MySQL_Kubernetes_Volume"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#deployment_unit"/>
@@ -454,8 +459,8 @@
         <NamedIndividual IRI="#Kubernetes"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class IRI="#deployment_unit"/>
-        <NamedIndividual IRI="#Pod"/>
+        <Class IRI="minimal_deployment_unit"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#deployment_unit"/>
@@ -485,6 +490,14 @@
     </DifferentIndividuals>
     <DifferentIndividuals>
         <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="MySQL_Docker_Container"/>
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
     </DifferentIndividuals>
     <DifferentIndividuals>
@@ -496,7 +509,15 @@
         <NamedIndividual IRI="#Wordpress_Docker_Volume"/>
     </DifferentIndividuals>
     <DifferentIndividuals>
-        <NamedIndividual IRI="#Pod"/>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <NamedIndividual IRI="Wordpress_Pod"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="MySQL_Pod"/>
+        <NamedIndividual IRI="#Wordpress_Docker_Container"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="Wordpress_Pod"/>
         <NamedIndividual IRI="#Wordpress_Docker_Container"/>
     </DifferentIndividuals>
     <ObjectPropertyAssertion>
@@ -610,7 +631,7 @@
         <NamedIndividual IRI="Physical_Machine"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="includesRunningInstance"/>
+        <ObjectProperty IRI="includesMinimalDeploymentUnit"/>
         <NamedIndividual IRI="MySQL_Pod"/>
         <NamedIndividual IRI="MySQL_Docker_Container"/>
     </ObjectPropertyAssertion>
@@ -1185,10 +1206,6 @@
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="runningInstanceOf"/>
-        <Class IRI="minimal_deployment_unit"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="runningInstanceOf"/>
         <Class IRI="#deployment_unit"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -1437,15 +1454,7 @@
     </SubDataPropertyOf>
     <DataPropertyDomain>
         <DataProperty IRI="container_name"/>
-        <Class IRI="minimal_deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="container_name"/>
         <Class IRI="#deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="depends_on"/>
-        <Class IRI="minimal_deployment_unit"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="depends_on"/>
@@ -1465,15 +1474,7 @@
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="env_mysql_database"/>
-        <Class IRI="minimal_deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="env_mysql_database"/>
         <Class IRI="#deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="env_mysql_root_password"/>
-        <Class IRI="minimal_deployment_unit"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="env_mysql_root_password"/>
@@ -1481,15 +1482,7 @@
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="env_wordpress_db_host"/>
-        <Class IRI="minimal_deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="env_wordpress_db_host"/>
         <Class IRI="#deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="env_wordpress_db_name"/>
-        <Class IRI="minimal_deployment_unit"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="env_wordpress_db_name"/>
@@ -1497,15 +1490,7 @@
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="env_wordpress_db_password"/>
-        <Class IRI="minimal_deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="env_wordpress_db_password"/>
         <Class IRI="#deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="env_wordpress_db_user"/>
-        <Class IRI="minimal_deployment_unit"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="env_wordpress_db_user"/>
@@ -1525,23 +1510,11 @@
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="networks"/>
-        <Class IRI="minimal_deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="networks"/>
         <Class IRI="#deployment_unit"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="ports"/>
-        <Class IRI="minimal_deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="ports"/>
         <Class IRI="#deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="related_image"/>
-        <Class IRI="minimal_deployment_unit"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="related_image"/>
@@ -1550,10 +1523,6 @@
     <DataPropertyDomain>
         <DataProperty IRI="related_namespace"/>
         <Class IRI="#deployment_unit"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="related_namespace"/>
-        <Class IRI="#persistent"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="related_volume"/>
@@ -1566,10 +1535,6 @@
     <DataPropertyDomain>
         <DataProperty IRI="reserved_storage"/>
         <Class IRI="#persistent"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="restart_policy"/>
-        <Class IRI="minimal_deployment_unit"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="restart_policy"/>
@@ -1594,10 +1559,6 @@
     <DataPropertyDomain>
         <DataProperty IRI="volume_name"/>
         <Class IRI="#persistent"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="volumes"/>
-        <Class IRI="minimal_deployment_unit"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="volumes"/>
