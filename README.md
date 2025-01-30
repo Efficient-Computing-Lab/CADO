@@ -25,11 +25,16 @@ The platform class is designed to describe container platforms such as Docker or
 
 ![Alt text](./platform-class.jpg)
 
-MOON models key processes in container platforms using object properties. When a deployment request is made, the platform first checks for the image locally; if unavailable, it pulls the image from a registry (pullsImageFrom). Private registries require credentials, generating secrets (generatesSecrets). Storage and container groupings are also created using generatesStorage and generatesGroupBy. The deploys property represents the deployment of components using supported formats. Platforms manage multiple applications by organizing components in isolated environments (multipleGroupBy).
+MOON models key processes in container platforms using object properties. When a deployment request is made, the platform first checks for the image locally; if unavailable, it pulls the image from a registry (**pullsImageFrom**). Private registries require credentials, generating secrets (**generatesSecrets**). Storage and container groupings are also created using **generatesStorage** and **generatesGroupBy**. The deploys property represents the deployment of components using supported formats. Platforms manage multiple applications by organizing components in isolated environments (**multipleGroupBy**).
 
-Runtime environments handle image pulling, unpacking, and container operations (utilize). Platforms cluster multiple hosts for container orchestration, represented by the includesHost property.
+Runtime environments handle image pulling, unpacking, and container operations (**utilize**). Platforms cluster multiple hosts for container orchestration, represented by the **includesHost** property.
 
 ## Runtime Environment Class
+MOON models the **runtime environment** as a crucial component of container orchestration using the **runtime_environment** class. This environment handles tasks such as pulling images from registries (**pullingImageFrom**), unpacking them (**unpacks**), and converting them into running containers (**convertsToContainer**). An image is a lightweight, standalone package containing all dependencies, while a container is its active instance running in isolation. These relationships are visually represented in the MOON ontology.
+
+![Alt text](./runtime-environment-class.jpg)
+
+
 ## Deployment Unit Class
 ## Group By Class
 ## Host Class
