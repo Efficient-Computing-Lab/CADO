@@ -21,6 +21,9 @@ MOON defines nine key classes related to container platforms. The platform class
 9. [Secrets Class](#secrets-class)
 
 ## Platform Class
+
+![Alt text](./platform-class.jpg)
+
 ## Runtime Environment Class
 ## Deployment Unit Class
 ## Group By Class
