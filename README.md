@@ -43,6 +43,9 @@ The **deployment_unit** class in MOON defines the deployment units supported by 
 Container orchestration aims to find a capable host for the application component within a container. MOON uses the **hostedBy** object property to link the **deployment_unit** class with the **host** class, representing where the container is hosted. The **deployment_unit** class also uses the **runningInstanceOf** property to indicate that a container is a running instance of a Docker image. If the container generates output data that requires storage, MOON connects the **deployment_unit** to **storage** through the **bind** object property. Additionally, MOON supports an object property to link **deployment_unit** with **minimal_deployment_unit** for use in certain deployment scenarios.
 
 ## Group By Class
+MOON includes the **group_by** class to represent Docker networks, Docker services, Kubernetes services, and Kubernetes namespaces. It uses the **includesRunningInstance** object property to link the **group_by** class with the **deployment_unit** class, illustrating the relationship between these entities and containers or pods.
+
+![Alt text](./group-by-class.jpg)
 ## Host Class
 ## Storage Class
 ## Image Class
