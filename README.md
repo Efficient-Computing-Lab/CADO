@@ -36,8 +36,11 @@ MOON models the **runtime environment** as a crucial component of container orch
 
 
 ## Deployment Unit Class
+The **deployment_unit** class in MOON defines the deployment units supported by platforms, with containers being the most common. Containers are isolated environments based on Docker images to facilitate application components. This class can represent both containers and application components. However, Kubernetes uses **pods** as its deployment unit, which can host multiple containers. To account for this, MOON introduces the **minimal_deployment_unit** class as a subclass of **deployment_unit**. The relationship between these classes is captured through the **hasSubclass** object property.
 
 ![Alt text](./deployment-unit-class.jpg)
+
+Container orchestration aims to find a capable host for the application component within a container. MOON uses the **hostedBy** object property to link the **deployment_unit** class with the **host** class, representing where the container is hosted. The **deployment_unit** class also uses the **runningInstanceOf** property to indicate that a container is a running instance of a Docker image. If the container generates output data that requires storage, MOON connects the **deployment_unit** to **storage** through the **bind** object property. Additionally, MOON supports an object property to link **deployment_unit** with **minimal_deployment_unit** for use in certain deployment scenarios.
 
 ## Group By Class
 ## Host Class
