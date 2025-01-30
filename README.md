@@ -21,7 +21,7 @@ MOON defines nine key classes related to container platforms. The platform class
 9. [Secrets Class](#secrets-class)
 
 ## Platform Class
-The platform class is designed to describe container platforms such as Docker or Kubernetes. A state-of-the-art container platform is composed of several key concepts that are required to orchestrate application components. These concepts are, in fact, sibling classes of the platform class. In the MOON ontology, the composedOf object property represents a high-level relationship that links the platform class with its sibling classes. Semantically, this means that the platform class is formed by the combination of its sibling classes.
+The **platform** class is designed to describe container platforms such as Docker or Kubernetes. A state-of-the-art container platform is composed of several key concepts that are required to orchestrate application components. These concepts are, in fact, sibling classes of the platform class. In the MOON ontology, the composedOf object property represents a high-level relationship that links the platform class with its sibling classes. Semantically, this means that the platform class is formed by the combination of its sibling classes.
 
 ![Alt text](./platform-class.jpg)
 
@@ -46,7 +46,11 @@ Container orchestration aims to find a capable host for the application componen
 MOON includes the **group_by** class to represent Docker networks, Docker services, Kubernetes services, and Kubernetes namespaces. It uses the **includesRunningInstance** object property to link the **group_by** class with the **deployment_unit** class, illustrating the relationship between these entities and containers or pods.
 
 ![Alt text](./group-by-class.jpg)
+
 ## Host Class
+The **host** class in MOON is unique in that it has no outgoing object properties. This is because hosts do not trigger orchestration actions themselves in Docker or Kubernetes; instead, runtime environments are responsible for pulling and storing Docker images. Therefore, the **host** class is considered a passive entity, with only incoming object properties.
+
+
 ## Storage Class
 ## Image Class
 ## Image Registry Class
