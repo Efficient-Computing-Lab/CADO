@@ -21,8 +21,13 @@ MOON defines nine key classes related to container platforms. The platform class
 9. [Secrets Class](#secrets-class)
 
 ## Platform Class
+The platform class is designed to describe container platforms such as Docker or Kubernetes. A state-of-the-art container platform is composed of several key concepts that are required to orchestrate application components. These concepts are, in fact, sibling classes of the platform class. In the MOON ontology, the composedOf object property represents a high-level relationship that links the platform class with its sibling classes. Semantically, this means that the platform class is formed by the combination of its sibling classes.
 
 ![Alt text](./platform-class.jpg)
+
+MOON models key processes in container platforms using object properties. When a deployment request is made, the platform first checks for the image locally; if unavailable, it pulls the image from a registry (pullsImageFrom). Private registries require credentials, generating secrets (generatesSecrets). Storage and container groupings are also created using generatesStorage and generatesGroupBy. The deploys property represents the deployment of components using supported formats. Platforms manage multiple applications by organizing components in isolated environments (multipleGroupBy).
+
+Runtime environments handle image pulling, unpacking, and container operations (utilize). Platforms cluster multiple hosts for container orchestration, represented by the includesHost property.
 
 ## Runtime Environment Class
 ## Deployment Unit Class
