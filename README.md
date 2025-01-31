@@ -64,7 +64,7 @@ MOON models this relationship using the **hasSubclass** property, linking **stor
 ## Image Class
 The **image** class in MOON represents Docker images, which are self-contained, executable packages with all necessary code, libraries, and dependencies. Developers can use pre-existing images or create custom ones, often built from public or private registries. These images are stored in registries and retrieved by platforms like Docker or Kubernetes for deployment. To model this process, the **image** class includes the **savedTo** object property, indicating that images are stored on local hosts before being used to create containers.
 
-![Alt text](./image-class.jpg)
+<img src="image-class.jpg" alt="Description" width="300"/>
 
 ## Image Registry Class
 The **image_registry** class in MOON represents repositories that store and manage Docker images, either publicly or privately. Popular registries include **Docker Hub**, which provides public and private repositories with features like versioning and automated builds, and **Quay**, which offers enhanced security and enterprise-level management. Additionally, the **Docker Registry** image allows users to create private or public repositories for image distribution.  
@@ -77,7 +77,6 @@ MOON distinguishes between **public_image_registry** and **private_image_registr
 
 The **secrets** class in MOON represents authentication credentials used by container platforms to access private image registries. It includes the **loginTo** object property, which models the authentication process.
 
-![Alt text](./secrets-class.jpg)
 <img src="secrets-class.jpg" alt="Description" width="300"/>
 
 In **Docker**, authentication is handled via the `docker login` command before orchestration begins, while **Kubernetes** uses declarative secrets that can be dynamically created and managed during orchestration. Both platforms store credentials in Base64-encoded format to enable secure **push** and **pull** operations from private registries.
