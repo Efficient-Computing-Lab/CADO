@@ -52,6 +52,31 @@ The **host** class in MOON is unique in that it has no outgoing object propertie
 
 
 ## Storage Class
+The **storage** class in MOON represents the overall storage capabilities of container platforms and is closely linked to the **host** class, which allocates disk space for deployed containers. Storage is categorized into two types: **ephemeral** and **persistent**, represented by corresponding subclasses.  
+
+- **Ephemeral storage** exists only for the duration of a container or pod, used for temporary files or scratch data. In Docker, the writable layer of a container is ephemeral, while in Kubernetes, ephemeral storage includes local empty directories and container layers.  
+- **Persistent storage** allows data to survive beyond container lifecycles, managed through volumes in Docker and Kubernetes. These volumes can use cloud storage, network file systems, or local disks.  
+
+MOON models this relationship using the **hasSubclass** property, linking **storage** to its **ephemeral** and **persistent** subclasses. The **reservesDiskSpaceOn** property represents disk allocation on a host for **storage** and **persistent** classes but does not apply to **ephemeral** storage, as it is temporary.
+
+![Alt text](./storage-class.jpg)
+
 ## Image Class
+The **image** class in MOON represents Docker images, which are self-contained, executable packages with all necessary code, libraries, and dependencies. Developers can use pre-existing images or create custom ones, often built from public or private registries. These images are stored in registries and retrieved by platforms like Docker or Kubernetes for deployment. To model this process, the **image** class includes the **savedTo** object property, indicating that images are stored on local hosts before being used to create containers.
+
+![Alt text](./image-class.jpg)
+
 ## Image Registry Class
+The **image_registry** class in MOON represents repositories that store and manage Docker images, either publicly or privately. Popular registries include **Docker Hub**, which provides public and private repositories with features like versioning and automated builds, and **Quay**, which offers enhanced security and enterprise-level management. Additionally, the **Docker Registry** image allows users to create private or public repositories for image distribution.  
+
+![Alt text](./image-registry-class.jpg)
+
+MOON distinguishes between **public_image_registry** and **private_image_registry** subclasses to indicate access restrictions. The **includesImage** object property links registries to stored images. However, MOON does not yet have a specific class for describing repositories within a registry.
+
 ## Secrets Class
+
+The **secrets** class in MOON represents authentication credentials used by container platforms to access private image registries. It includes the **loginTo** object property, which models the authentication process.
+
+![Alt text](./secrets-class.jpg)
+
+In **Docker**, authentication is handled via the `docker login` command before orchestration begins, while **Kubernetes** uses declarative secrets that can be dynamically created and managed during orchestration. Both platforms store credentials in Base64-encoded format to enable secure **push** and **pull** operations from private registries.
