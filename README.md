@@ -64,7 +64,7 @@ MOON models this relationship using the **hasSubclass** property, linking **stor
 ## Image Class
 The **image** class in MOON represents Docker images, which are self-contained, executable packages with all necessary code, libraries, and dependencies. Developers can use pre-existing images or create custom ones, often built from public or private registries. These images are stored in registries and retrieved by platforms like Docker or Kubernetes for deployment. To model this process, the **image** class includes the **savedTo** object property, indicating that images are stored on local hosts before being used to create containers.
 
-<img src="image-class.jpg" alt="Description" width="300" height="200"/>
+<img src="image-class.jpg" alt="Description" height="200"/>
 
 ## Image Registry Class
 The **image_registry** class in MOON represents repositories that store and manage Docker images, either publicly or privately. Popular registries include **Docker Hub**, which provides public and private repositories with features like versioning and automated builds, and **Quay**, which offers enhanced security and enterprise-level management. Additionally, the **Docker Registry** image allows users to create private or public repositories for image distribution.  
