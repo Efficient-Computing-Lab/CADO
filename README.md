@@ -45,7 +45,7 @@ Container orchestration aims to find a capable host for the application componen
 ## Group By Class
 MOON includes the **group_by** class to represent Docker networks, Docker services, Kubernetes services, and Kubernetes namespaces. It uses the **includesRunningInstance** object property to link the **group_by** class with the **deployment_unit** class, illustrating the relationship between these entities and containers or pods.
 
-<img src="group-by-class.jpg" alt="Description"  width="200"/>
+<img src="group-by-class.jpg" alt="Description"  width="300"/>
 
 ## Host Class
 The **host** class in MOON is unique in that it has no outgoing object properties. This is because hosts do not trigger orchestration actions themselves in Docker or Kubernetes; instead, runtime environments are responsible for pulling and storing Docker images. Therefore, the **host** class is considered a passive entity, with only incoming object properties.
