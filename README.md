@@ -78,5 +78,6 @@ MOON distinguishes between **public_image_registry** and **private_image_registr
 The **secrets** class in MOON represents authentication credentials used by container platforms to access private image registries. It includes the **loginTo** object property, which models the authentication process.
 
 ![Alt text](./secrets-class.jpg)
+<img src="secrets-class.jpg" alt="Description" width="300"/>
 
 In **Docker**, authentication is handled via the `docker login` command before orchestration begins, while **Kubernetes** uses declarative secrets that can be dynamically created and managed during orchestration. Both platforms store credentials in Base64-encoded format to enable secure **push** and **pull** operations from private registries.
