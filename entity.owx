@@ -40,7 +40,7 @@
         <Class IRI="subplatform"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#MOON"/>
+        <Class IRI="#CADO"/>
     </Declaration>
     <Declaration>
         <Class IRI="#deployment_unit"/>
@@ -284,15 +284,15 @@
     </Declaration>
     <SubClassOf>
         <Class IRI="group_by"/>
-        <Class IRI="#MOON"/>
+        <Class IRI="#CADO"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="image"/>
-        <Class IRI="#MOON"/>
+        <Class IRI="#CADO"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="image_registry"/>
-        <Class IRI="#MOON"/>
+        <Class IRI="#CADO"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="minimal_deployment_unit"/>
@@ -308,11 +308,11 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="runtime_environment"/>
-        <Class IRI="#MOON"/>
+        <Class IRI="#CADO"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="secrets"/>
-        <Class IRI="#MOON"/>
+        <Class IRI="#CADO"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="subplatform"/>
@@ -320,7 +320,7 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#deployment_unit"/>
-        <Class IRI="#MOON"/>
+        <Class IRI="#CADO"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#ephemeral"/>
@@ -328,7 +328,7 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#hosts"/>
-        <Class IRI="#MOON"/>
+        <Class IRI="#CADO"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#persistent"/>
@@ -336,11 +336,11 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#platform"/>
-        <Class IRI="#MOON"/>
+        <Class IRI="#CADO"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#storage"/>
-        <Class IRI="#MOON"/>
+        <Class IRI="#CADO"/>
     </SubClassOf>
     <DisjointClasses>
         <Class IRI="#ephemeral"/>
@@ -1745,13 +1745,13 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Docker</IRI>
-        <Literal>Docker is a comprehensive platform for developing, shipping, and running applications in containers, providing tools for containerization, image management, and orchestration to streamline application deployment.</Literal>
+        <IRI>#CADO</IRI>
+        <Literal>The purpose of this class is to describe the high level semantics that compose famous microservice orchestration tools</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#MOON</IRI>
-        <Literal>The purpose of this class is to describe the high level semantics that compose famous microservice orchestration tools</Literal>
+        <IRI>#Docker</IRI>
+        <Literal>Docker is a comprehensive platform for developing, shipping, and running applications in containers, providing tools for containerization, image management, and orchestration to streamline application deployment.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
