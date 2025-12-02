@@ -1,0 +1,202 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/container-ontologies/2024/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.semanticweb.org/container-ontologies/2024/individuals"> <Prefix name="" IRI="http://www.semanticweb.org/container-ontologies/2024/"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Import>entity.owx</Import>
+    <Declaration> <NamedIndividual IRI="CRI-O"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Containerd"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Docker_Compose"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Docker_Engine"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Docker_Swarm"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Docker_Swarm_Services"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Dockerd"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Dockerhub"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Hashicorp_Nomad"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Kubernetes_Services"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Mesos_Marathon"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="MySQL_Docker_Container"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="MySQL_Docker_Image"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="MySQL_Docker_Volume"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="MySQL_Pod"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Namespace"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Network"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Physical_Machine"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="RunC"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Virtual_Machine"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Wordpress_Docker_Image"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Wordpress_Pod"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Docker"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Kubernetes"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Wordpress_Docker_Container"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Wordpress_Docker_Volume"/> </Declaration>
+
+    <ClassAssertion> <Class IRI="runtime_environment"/> <NamedIndividual IRI="CRI-O"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="runtime_environment"/> <NamedIndividual IRI="Containerd"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="subplatform"/> <NamedIndividual IRI="Docker_Compose"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="runtime_environment"/> <NamedIndividual IRI="Docker_Engine"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#platform"/> <NamedIndividual IRI="Docker_Swarm"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="group_by"/> <NamedIndividual IRI="Docker_Swarm_Services"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="runtime_environment"/> <NamedIndividual IRI="Dockerd"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="public_image_registry"/> <NamedIndividual IRI="Dockerhub"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#platform"/> <NamedIndividual IRI="Hashicorp_Nomad"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="group_by"/> <NamedIndividual IRI="Kubernetes_Services"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#platform"/> <NamedIndividual IRI="Mesos_Marathon"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="minimal_deployment_unit"/> <NamedIndividual IRI="MySQL_Docker_Container"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#deployment_unit"/> <NamedIndividual IRI="MySQL_Docker_Container"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="image"/> <NamedIndividual IRI="MySQL_Docker_Image"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#persistent"/> <NamedIndividual IRI="MySQL_Docker_Volume"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#persistent"/> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#deployment_unit"/> <NamedIndividual IRI="MySQL_Pod"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="group_by"/> <NamedIndividual IRI="Namespace"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="group_by"/> <NamedIndividual IRI="Network"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#hosts"/> <NamedIndividual IRI="Physical_Machine"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="runtime_environment"/> <NamedIndividual IRI="RunC"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#hosts"/> <NamedIndividual IRI="Virtual_Machine"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="image"/> <NamedIndividual IRI="Wordpress_Docker_Image"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#persistent"/> <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#deployment_unit"/> <NamedIndividual IRI="Wordpress_Pod"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="runtime_environment"/> <NamedIndividual IRI="Docker"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="subplatform"/> <NamedIndividual IRI="Kubernetes"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#platform"/> <NamedIndividual IRI="Kubernetes"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="minimal_deployment_unit"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#deployment_unit"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#persistent"/> <NamedIndividual IRI="Wordpress_Docker_Volume"/> </ClassAssertion>
+
+    <DifferentIndividuals>
+        <NamedIndividual IRI="CRI-O"/> <NamedIndividual IRI="Containerd"/> <NamedIndividual IRI="Docker_Engine"/>
+        <NamedIndividual IRI="Dockerd"/> <NamedIndividual IRI="RunC"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="Docker_Swarm"/> <NamedIndividual IRI="Docker"/> <NamedIndividual IRI="Kubernetes"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="Docker_Swarm_Services"/> <NamedIndividual IRI="Kubernetes_Services"/>
+        <NamedIndividual IRI="Namespace"/> <NamedIndividual IRI="Network"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals> <NamedIndividual IRI="MySQL_Docker_Container"/> <NamedIndividual IRI="MySQL_Pod"/> </DifferentIndividuals>
+    <DifferentIndividuals> <NamedIndividual IRI="MySQL_Docker_Container"/> <NamedIndividual IRI="Wordpress_Pod"/> </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="MySQL_Docker_Container"/> <NamedIndividual IRI="Wordpress_Docker_Container"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals> <NamedIndividual IRI="MySQL_Docker_Image"/> <NamedIndividual IRI="Wordpress_Docker_Image"/> </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="MySQL_Docker_Volume"/> <NamedIndividual IRI="Wordpress_Docker_Volume"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals> <NamedIndividual IRI="MySQL_Pod"/> <NamedIndividual IRI="Wordpress_Pod"/> </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="MySQL_Pod"/> <NamedIndividual IRI="Wordpress_Docker_Container"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="Wordpress_Pod"/> <NamedIndividual IRI="Wordpress_Docker_Container"/>
+    </DifferentIndividuals>
+
+    <ObjectPropertyAssertion> <ObjectProperty IRI="utilizes"/> <NamedIndividual IRI="CRI-O"/> <NamedIndividual IRI="RunC"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="unpacks"/> <NamedIndividual IRI="Containerd"/> <NamedIndividual IRI="MySQL_Docker_Image"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="unpacks"/> <NamedIndividual IRI="Containerd"/> <NamedIndividual IRI="Wordpress_Docker_Image"/> </ObjectPropertyAssertion> <ObjectPropertyAssertion> <ObjectProperty IRI="utilizes"/> <NamedIndividual IRI="Docker_Engine"/> <NamedIndividual IRI="Containerd"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="utilizes"/> <NamedIndividual IRI="Docker_Engine"/> <NamedIndividual IRI="Dockerd"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="utilizes"/> <NamedIndividual IRI="Docker_Engine"/> <NamedIndividual IRI="RunC"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="includesHost"/> <NamedIndividual IRI="Docker_Swarm"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="includesHost"/> <NamedIndividual IRI="Docker_Swarm"/> <NamedIndividual IRI="Virtual_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="utilizes"/> <NamedIndividual IRI="Docker_Swarm"/> <NamedIndividual IRI="Docker"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#deploys"/> <NamedIndividual IRI="Docker_Swarm"/> <NamedIndividual IRI="MySQL_Docker_Container"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#deploys"/> <NamedIndividual IRI="Docker_Swarm"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="pullsImageFrom"/> <NamedIndividual IRI="Dockerd"/> <NamedIndividual IRI="Dockerhub"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="includesImage"/> <NamedIndividual IRI="Dockerhub"/> <NamedIndividual IRI="MySQL_Docker_Image"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="includesImage"/> <NamedIndividual IRI="Dockerhub"/> <NamedIndividual IRI="Wordpress_Docker_Image"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="utilizes"/> <NamedIndividual IRI="Hashicorp_Nomad"/> <NamedIndividual IRI="Docker"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="utilizes"/> <NamedIndividual IRI="Mesos_Marathon"/> <NamedIndividual IRI="Docker"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="runningInstanceOf"/> <NamedIndividual IRI="MySQL_Docker_Container"/> <NamedIndividual IRI="MySQL_Docker_Image"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#binds"/> <NamedIndividual IRI="MySQL_Docker_Container"/> <NamedIndividual IRI="MySQL_Docker_Volume"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#hostedBy"/> <NamedIndividual IRI="MySQL_Docker_Container"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="savedTo"/> <NamedIndividual IRI="MySQL_Docker_Image"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="reservesDiskSpaceOn"/> <NamedIndividual IRI="MySQL_Docker_Volume"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="reservesDiskSpaceOn"/> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="includesMinimalDeploymentUnit"/> <NamedIndividual IRI="MySQL_Pod"/> <NamedIndividual IRI="MySQL_Docker_Container"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="runningInstanceOf"/> <NamedIndividual IRI="MySQL_Pod"/> <NamedIndividual IRI="MySQL_Docker_Image"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#binds"/> <NamedIndividual IRI="MySQL_Pod"/> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#hostedBy"/> <NamedIndividual IRI="MySQL_Pod"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="includesRunningInstance"/> <NamedIndividual IRI="Namespace"/> <NamedIndividual IRI="MySQL_Pod"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="includesRunningInstance"/> <NamedIndividual IRI="Namespace"/> <NamedIndividual IRI="Wordpress_Pod"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="includesRunningInstance"/> <NamedIndividual IRI="Network"/> <NamedIndividual IRI="MySQL_Docker_Container"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="includesRunningInstance"/> <NamedIndividual IRI="Network"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="convertsToContainer"/> <NamedIndividual IRI="RunC"/> <NamedIndividual IRI="MySQL_Docker_Image"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="convertsToContainer"/> <NamedIndividual IRI="RunC"/> <NamedIndividual IRI="Wordpress_Docker_Image"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="savedTo"/> <NamedIndividual IRI="Wordpress_Docker_Image"/> <NamedIndividual IRI="Virtual_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="reservesDiskSpaceOn"/> <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/> <NamedIndividual IRI="Virtual_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="includesMinimalDeploymentUnit"/> <NamedIndividual IRI="Wordpress_Pod"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="runningInstanceOf"/> <NamedIndividual IRI="Wordpress_Pod"/> <NamedIndividual IRI="Wordpress_Docker_Image"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#binds"/> <NamedIndividual IRI="Wordpress_Pod"/> <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#hostedBy"/> <NamedIndividual IRI="Wordpress_Pod"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="generatesGroupBy"/> <NamedIndividual IRI="Docker"/> <NamedIndividual IRI="Network"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="generatesStorage"/> <NamedIndividual IRI="Docker"/> <NamedIndividual IRI="MySQL_Docker_Volume"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="generatesStorage"/> <NamedIndividual IRI="Docker"/> <NamedIndividual IRI="Wordpress_Docker_Volume"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="utilizes"/> <NamedIndividual IRI="Docker"/> <NamedIndividual IRI="Docker_Compose"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="utilizes"/> <NamedIndividual IRI="Docker"/> <NamedIndividual IRI="Docker_Engine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#deploys"/> <NamedIndividual IRI="Docker"/> <NamedIndividual IRI="MySQL_Docker_Container"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#deploys"/> <NamedIndividual IRI="Docker"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="generatesGroupBy"/> <NamedIndividual IRI="Kubernetes"/> <NamedIndividual IRI="Namespace"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="includesHost"/> <NamedIndividual IRI="Kubernetes"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="includesHost"/> <NamedIndividual IRI="Kubernetes"/> <NamedIndividual IRI="Virtual_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="utilizes"/> <NamedIndividual IRI="Kubernetes"/> <NamedIndividual IRI="CRI-O"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#deploys"/> <NamedIndividual IRI="Kubernetes"/> <NamedIndividual IRI="MySQL_Pod"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#deploys"/> <NamedIndividual IRI="Kubernetes"/> <NamedIndividual IRI="Wordpress_Pod"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="runningInstanceOf"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> <NamedIndividual IRI="Wordpress_Docker_Image"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#binds"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> <NamedIndividual IRI="Wordpress_Docker_Volume"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#hostedBy"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> <NamedIndividual IRI="Virtual_Machine"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="reservesDiskSpaceOn"/> <NamedIndividual IRI="Wordpress_Docker_Volume"/> <NamedIndividual IRI="Virtual_Machine"/> </ObjectPropertyAssertion>
+    
+    <DataPropertyAssertion> <DataProperty IRI="version"/> <NamedIndividual IRI="Docker_Compose"/> <Literal>3.7</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="container_name"/> <NamedIndividual IRI="MySQL_Docker_Container"/> <Literal>mysql</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="env_mysql_database"/> <NamedIndividual IRI="MySQL_Docker_Container"/> <Literal>example_db</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="env_mysql_root_password"/> <NamedIndividual IRI="MySQL_Docker_Container"/> <Literal>example_password</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="networks"/> <NamedIndividual IRI="MySQL_Docker_Container"/> <Literal>wordpress_network</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="related_image"/> <NamedIndividual IRI="MySQL_Docker_Container"/> <Literal>mysql:5.7</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="restart_policy"/> <NamedIndividual IRI="MySQL_Docker_Container"/> <Literal>always</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="volumes"/> <NamedIndividual IRI="MySQL_Docker_Container"/> <Literal>mysql_data:/var/lib/mysql</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="image_name"/> <NamedIndividual IRI="MySQL_Docker_Image"/> <Literal>mysql:5.7</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="volume_name"/> <NamedIndividual IRI="MySQL_Docker_Volume"/> <Literal>mysql_data</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="reserved_storage"/> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> <Literal>1 Gi</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="volume_host_path"/> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> <Literal>/mnt/data/mysql</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="volume_name"/> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> <Literal>mysql-pv</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="container_name"/> <NamedIndividual IRI="MySQL_Pod"/> <Literal>mysql</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="deployment_name"/> <NamedIndividual IRI="MySQL_Pod"/> <Literal>mysql-deployment</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="env_mysql_database"/> <NamedIndividual IRI="MySQL_Pod"/> <Literal>example_db</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="env_mysql_root_password"/> <NamedIndividual IRI="MySQL_Pod"/> <Literal>example_password</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="related_image"/> <NamedIndividual IRI="MySQL_Pod"/> <Literal>mysql:5.7</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="related_namespace"/> <NamedIndividual IRI="MySQL_Pod"/> <Literal>wordpress-namespace</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="replicas"/> <NamedIndividual IRI="MySQL_Pod"/> <Literal>1</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="volume_mount_path"/> <NamedIndividual IRI="MySQL_Pod"/> <Literal>/var/lib/mysql</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="namespace_name"/> <NamedIndividual IRI="Namespace"/> <Literal>wordpress-namespace</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="network_name"/> <NamedIndividual IRI="Network"/> <Literal>wordpress_network</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="image_name"/> <NamedIndividual IRI="Wordpress_Docker_Image"/> <Literal>wordpress:latest</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="reserved_storage"/> <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/> <Literal>1 Gi</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="volume_host_path"/> <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/> <Literal>/mnt/data/wordpress</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="container_name"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> <Literal>wordpress</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="related_image"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> <Literal>wordpress:latest</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="env_wordpress_db_host"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> <Literal>mysql</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="env_wordpress_db_name"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> <Literal>example_db</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="env_wordpress_db_password"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> <Literal>example_password</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="networks"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> <Literal>wordpress_network</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="container_name"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>wordpress</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="deployment_name"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>wordpress-deployment</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="related_image"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>wordpress:latest</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="related_namespace"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>wordpress-namespace</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="replicas"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>1</Literal> </DataPropertyAssertion>
+
+    <DataPropertyAssertion> <DataProperty IRI="env_wordpress_db_host"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>mysql</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="env_wordpress_db_name"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>example_db</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="env_wordpress_db_password"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>example_password</Literal> </DataPropertyAssertion>
+
+    <DataPropertyAssertion> <DataProperty IRI="volume_mount_path"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>/var/www/html</Literal> </DataPropertyAssertion>
+    </Ontology>

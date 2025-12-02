@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  mysql:
+    container_name: mysql
+    networks:
+    - wordpress_network
+    image: mysql:5.7
+    restart: always
+    volumes:
+    - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: example_db
+      MYSQL_ROOT_PASSWORD: example_password
+  wordpress:
+    container_name: wordpress
+    networks:
+    - wordpress_network
+    image: wordpress:latest
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_NAME: example_db
+      WORDPRESS_DB_PASSWORD: example_password
+networks:
+  wordpress_network: {}
+volumes:
+  mysql_data: {}
