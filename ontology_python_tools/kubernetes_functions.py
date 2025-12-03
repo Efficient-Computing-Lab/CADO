@@ -3,6 +3,8 @@ import yaml
 from owlready2 import get_ontology, default_world
 
 
+
+
 # ----------------------------------------------------------
 # 1. FIND KUBERNETES POD INSTANCES (UNCHANGED)
 # ----------------------------------------------------------
@@ -69,170 +71,201 @@ def find_kubernetes_data_assertions(container_list, onto):
 # ----------------------------------------------------------
 # 3. GENERATE KUBERNETES YAML FILES (FIXED TO RETURN ARRAYS AND SINGLE NAMESPACE)
 # ----------------------------------------------------------
+# ----------------------------------------------------------
+# 3. GENERATE KUBERNETES YAML FILES (FIXED LOGIC)
+# ----------------------------------------------------------
 def generate_kubernetes_yaml_files(container_list, onto):
     resources = {
         "namespaces": set(),
         "deployments": [],
         "volumes": {}
     }
+    # Temporary structure to hold all pod/deployment config data
+    deployment_configs = {}
 
     data_props = {prop.name.lower(): prop for prop in onto.data_properties()}
 
+    # =======================================================
+    # PASS 1: AGGREGATE ALL DATA (VOLUMES AND DEPLOYMENT CONFIGS)
+    # =======================================================
     for inst in container_list:
         ont_name = inst.name
+        prefix = ont_name.split("_")[0]
 
-        container_spec = {}
-        env_vars = []
-        volume_mounts = []
-        pod_volumes = []
-
-        deployment_name = None
-        namespace_name = "default"
-        replicas_value = 1
-
-        volume_name = None
-        storage = None
-        host_path = None
+        # --- Common Data Extraction ---
+        instance_data = {}
+        for prop_name, prop in data_props.items():
+            values = list(getattr(inst, prop.python_name, []))
+            if not values:
+                continue
+            instance_data[prop_name] = values[0]
 
         # -------------------------------------------------------
-        # PARSE POD DATA
-        # -------------------------------------------------------
-        if "pod" in ont_name.lower():
-            for prop_name, prop in data_props.items():
-                values = list(getattr(inst, prop.python_name, []))
-                if not values:
-                    continue
-
-                value = values[0]
-
-                if prop_name == "deployment_name":
-                    deployment_name = value
-
-                elif prop_name == "container_name":
-                    container_spec["name"] = value
-
-                elif prop_name == "related_image":
-                    container_spec["image"] = value
-
-                elif prop_name == "related_namespace":
-                    namespace_name = value
-                    resources["namespaces"].add(value)
-
-                elif prop_name == "replicas":
-                    replicas_value = int(value)
-
-                elif prop_name.startswith("env_"):
-                    key = prop_name.replace("env_", "").upper()
-                    env_vars.append({"name": key, "value": value})
-
-                elif prop_name == "volume_mount_path":
-                    volume_mounts.append({
-                        "pod_prefix": ont_name.split("_")[0],
-                        "mountPath": value
-                    })
-
-        # -------------------------------------------------------
-        # PARSE VOLUME DATA
+        # PARSE VOLUME DATA (Store in resources["volumes"])
         # -------------------------------------------------------
         if "volume" in ont_name.lower():
-            prefix = ont_name.split("_")[0]
-
-            for prop_name, prop in data_props.items():
-                values = list(getattr(inst, prop.python_name, []))
-                if not values:
-                    continue
-
-                value = values[0]
-
-                if prop_name == "volume_name":
-                    volume_name = value
-
-                elif prop_name == "reserved_storage":
-                    storage = value
-
-                elif prop_name == "volume_host_path":
-                    host_path = value
-
-            if volume_name and host_path:
+            if instance_data.get("volume_name"):
                 resources["volumes"][prefix] = {
-                    "name": volume_name,
-                    "hostPath": host_path,
-                    "storage": storage or "1Gi",
+                    "name": instance_data["volume_name"],
+                    "hostPath": instance_data.get("volume_host_path"),
+                    "storage": instance_data.get("reserved_storage") or "1Gi",
                     "accessMode": "ReadWriteOnce"
                 }
 
         # -------------------------------------------------------
-        # BUILD DEPLOYMENT
+        # PARSE POD DATA (Store in temporary deployment_configs)
         # -------------------------------------------------------
-        if deployment_name:
-            # Deduplicate env vars
-            dedup = {}
-            for e in env_vars:
-                dedup[e["name"]] = e["value"]
-            env_vars = [{"name": k, "value": v} for k, v in dedup.items()]
+        elif "pod" in ont_name.lower():
+            deployment_name = instance_data.get("deployment_name")
+            if deployment_name:
 
+                # Initialize config for this deployment if it doesn't exist
+                if deployment_name not in deployment_configs:
+                    deployment_configs[deployment_name] = {
+                        "namespace_name": "default",
+                        "replicas_value": 1,
+                        "containers": [],  # List to support multi-container pods if needed
+                        "volume_mounts": []
+                    }
+
+                config = deployment_configs[deployment_name]
+
+                # Deployment Metadata
+                config["namespace_name"] = instance_data.get("related_namespace", config["namespace_name"])
+                resources["namespaces"].add(config["namespace_name"])
+                try:
+                    config["replicas_value"] = int(instance_data.get("replicas", config["replicas_value"]))
+                except (ValueError, TypeError):
+                    pass  # Keep default if conversion fails
+
+                # Container Spec
+                container_spec = {}
+                env_vars = []
+
+                if instance_data.get("container_name"):
+                    container_spec["name"] = instance_data["container_name"]
+                if instance_data.get("related_image"):
+                    container_spec["image"] = instance_data["related_image"]
+
+                for prop_name, value in instance_data.items():
+                    if prop_name.startswith("env_"):
+                        key = prop_name.replace("env_", "").upper()
+                        env_vars.append({"name": key, "value": value})
+
+                # Volume Mounts (store *which* pod/deployment/volume connection this is)
+                if instance_data.get("volume_mount_path"):
+                    config["volume_mounts"].append({
+                        "prefix": prefix,  # Use the prefix to link to the volume data later
+                        "mountPath": instance_data["volume_mount_path"]
+                    })
+
+                # Dedup and add container
+                if container_spec:
+                    dedup = {e["name"]: e["value"] for e in env_vars}
+                    container_spec["env"] = [{"name": k, "value": v} for k, v in dedup.items()]
+                    config["containers"].append(container_spec)
+
+    # =======================================================
+    # PASS 2: GENERATE YAML RESOURCES
+    # =======================================================
+
+    # -------------------------------------------------------
+    # BUILD DEPLOYMENTS
+    # -------------------------------------------------------
+    for deployment_name, config in deployment_configs.items():
+
+        container_blocks = []
+        for container_spec in config["containers"]:
             container_block = dict(container_spec)
 
-            if env_vars:
-                container_block["env"] = env_vars
-
-            # Match volumeMounts to volumes
-            prefix = ont_name.split("_")[0]
-            if prefix in resources["volumes"]:
-                vol = resources["volumes"][prefix]
-                volume_mounts = [{"name": vol["name"], "mountPath": vm["mountPath"]} for vm in volume_mounts]
+            # Add volumeMounts to the container block
+            volume_mounts = []
+            for vm_data in config["volume_mounts"]:
+                # Link volume mount to the volume data using the prefix
+                prefix = vm_data["prefix"]
+                if prefix in resources["volumes"]:
+                    vol = resources["volumes"][prefix]
+                    volume_mounts.append({"name": vol["name"], "mountPath": vm_data["mountPath"]})
 
             if volume_mounts:
                 container_block["volumeMounts"] = volume_mounts
 
-            template_spec = {"containers": [container_block]}
+            container_blocks.append(container_block)
 
-            if prefix in resources["volumes"]:
-                v = resources["volumes"][prefix]
-                template_spec["volumes"] = [{
-                    "name": v["name"],
-                    "hostPath": {"path": v["hostPath"]}
-                }]
+        template_spec = {"containers": container_blocks}
 
-            deployment = {
-                "apiVersion": "apps/v1",
-                "kind": "Deployment",
-                "metadata": {"name": deployment_name, "namespace": namespace_name},
-                "spec": {
-                    "replicas": replicas_value,
-                    "selector": {"matchLabels": {"app": container_spec["name"]}},
-                    "template": {
-                        "metadata": {"labels": {"app": container_spec["name"]}},
-                        "spec": template_spec
-                    }
+        # Add Volume specs (PVCs) to the Pod Template
+        pod_volumes = []
+        # Check all volume mounts for the deployment and add a volume spec for each unique volume
+        used_volumes = set()
+        for vm_data in config["volume_mounts"]:
+            prefix = vm_data["prefix"]
+            if prefix in resources["volumes"] and prefix not in used_volumes:
+                vol = resources["volumes"][prefix]
+                pod_volumes.append({
+                    "name": vol["name"],
+                    "persistentVolumeClaim": {"claimName": vol["name"]+"c"}
+                })
+                used_volumes.add(prefix)
+
+        if pod_volumes:
+            template_spec["volumes"] = pod_volumes
+
+        # Assume single container for selector label for simplicity
+        app_label = config["containers"][0]["name"] if config["containers"] else deployment_name
+
+        deployment = {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {"name": deployment_name, "namespace": config["namespace_name"]},
+            "spec": {
+                "replicas": config["replicas_value"],
+                "selector": {"matchLabels": {"app": app_label}},
+                "template": {
+                    "metadata": {"labels": {"app": app_label}},
+                    "spec": template_spec
                 }
             }
-
-            resources["deployments"].append(deployment)
+        }
+        resources["deployments"].append(deployment)
 
     # -------------------------------------------------------
-    # NAMESPACE
+    # NAMESPACE, PV, PVC (This section remains largely the same)
     # -------------------------------------------------------
+    # ... (remaining logic for NS, PV, PVC as in the original code)
     ns = None
     namespaces = sorted({n for n in resources["namespaces"] if n.lower() != "default"})
     if namespaces:
+        print(namespaces)
         ns = {"apiVersion": "v1", "kind": "Namespace", "metadata": {"name": namespaces[0]}}
 
-    # -------------------------------------------------------
-    # PV
-    # -------------------------------------------------------
-    volume_array = []
+    pv_array = []
+    pvc_array = []
     for prefix, v in resources["volumes"].items():
+        # PersistentVolume
         pv = {
             "apiVersion": "v1",
             "kind": "PersistentVolume",
-            "metadata": {"name": v["name"]},
+            "metadata": {"name": v["name"], "namespace":namespaces[0]},
             "spec": {
                 "capacity": {"storage": v["storage"]},
                 "accessModes": [v["accessMode"]],
                 "hostPath": {"path": v["hostPath"]},
             }
         }
-        volume_array.append(pv)
+        pv_array.append(pv)
 
-    return ns, resources["deployments"], volume_array
+        # PersistentVolumeClaim
+        pvc = {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {"name": v["name"]+"c","namespace":namespaces[0]},
+            "spec": {
+                "accessModes": [v["accessMode"]],
+                "resources": {"requests": {"storage": v["storage"]}},
+                "storageClassName": ""
+            }
+        }
+        pvc_array.append(pvc)
+
+    return ns, resources["deployments"], pv_array, pvc_array

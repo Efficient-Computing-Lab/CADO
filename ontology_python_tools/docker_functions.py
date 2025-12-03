@@ -14,7 +14,8 @@ def find_docker_instances(all_instances):
         print(" -", inst)
     return container_list
 
-def find_docker_data_assertions(container_list,onto):
+
+def find_docker_data_assertions(container_list, onto):
     print("\nData assertions for container instances:\n")
     for inst in container_list:
         print(f"Instance: {inst}")
@@ -24,7 +25,7 @@ def find_docker_data_assertions(container_list,onto):
                 print(f"  {prop.name} -> {values}")
 
 
-def generate_docker_compose(container_list,onto):
+def generate_docker_compose(container_list, onto):
     compose = {
         "version": "3.9",
         "services": {}
@@ -37,12 +38,16 @@ def generate_docker_compose(container_list,onto):
 
         # Loop over all data properties
         for prop in onto.data_properties():
-            values = prop[inst]
+            # --- FIX: Use getattr(inst, prop.python_name) for retrieving values ---
+            values = getattr(inst, prop.python_name, [])
+            # --- END FIX ---
+
             if not values:
                 continue
 
             # Force convert all values into Python strings
-            values = [str(v) for v in values]
+            # Use list(values) to handle potential generator/set returns
+            values = [str(v) for v in list(values)]
 
             prop_name = prop.name.lower()
 
@@ -53,9 +58,11 @@ def generate_docker_compose(container_list,onto):
                 service["container_name"] = values[0]
 
             elif prop_name == "volumes":
+                # 'volumes' can be a list of strings (e.g., ["data:/path", "logs:/logs"])
                 service["volumes"] = values
 
             elif prop_name == "networks":
+                # 'networks' can be a list of strings (e.g., ["my_net"])
                 service["networks"] = values
 
             elif prop_name == "restart_policy":
@@ -63,10 +70,8 @@ def generate_docker_compose(container_list,onto):
 
             elif prop_name.startswith("env_"):
                 key = prop_name.replace("env_", "").upper()
-                env_vars[key] = values[0]
-
-        if env_vars:
-            service["environment"] = env_vars
+                service.setdefault("environment", {})  # Ensure 'environment' key exists
+                service["environment"][key] = values[0]
 
         compose["services"][service_name] = service
 
@@ -85,6 +90,7 @@ def generate_docker_compose(container_list,onto):
         # Collect volumes
         if "volumes" in svc:
             for vol in svc["volumes"]:
+                # The format is typically "vol_name:mount_path"
                 vol_name = vol.split(":")[0]
                 volumes.add(vol_name)
 

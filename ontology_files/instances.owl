@@ -166,7 +166,7 @@
     <DataPropertyAssertion> <DataProperty IRI="volumes"/> <NamedIndividual IRI="MySQL_Docker_Container"/> <Literal>mysql_data:/var/lib/mysql</Literal> </DataPropertyAssertion>
     <DataPropertyAssertion> <DataProperty IRI="image_name"/> <NamedIndividual IRI="MySQL_Docker_Image"/> <Literal>mysql:5.7</Literal> </DataPropertyAssertion>
     <DataPropertyAssertion> <DataProperty IRI="volume_name"/> <NamedIndividual IRI="MySQL_Docker_Volume"/> <Literal>mysql_data</Literal> </DataPropertyAssertion>
-    <DataPropertyAssertion> <DataProperty IRI="reserved_storage"/> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> <Literal>1 Gi</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="reserved_storage"/> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> <Literal>1Gi</Literal> </DataPropertyAssertion>
     <DataPropertyAssertion> <DataProperty IRI="volume_host_path"/> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> <Literal>/mnt/data/mysql</Literal> </DataPropertyAssertion>
     <DataPropertyAssertion> <DataProperty IRI="volume_name"/> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> <Literal>mysql-pv</Literal> </DataPropertyAssertion>
 
@@ -197,6 +197,23 @@
     <DataPropertyAssertion> <DataProperty IRI="env_wordpress_db_host"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>mysql</Literal> </DataPropertyAssertion>
     <DataPropertyAssertion> <DataProperty IRI="env_wordpress_db_name"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>example_db</Literal> </DataPropertyAssertion>
     <DataPropertyAssertion> <DataProperty IRI="env_wordpress_db_password"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>example_password</Literal> </DataPropertyAssertion>
+    <Declaration> <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/> </Declaration>
+    <Declaration> <NamedIndividual IRI="Wordpress_Container_Volume"/> </Declaration>
+
+    <ClassAssertion> <Class IRI="#persistent"/> <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/> </ClassAssertion>
+    <ClassAssertion> <Class IRI="#persistent"/> <NamedIndividual IRI="Wordpress_Container_Volume"/> </ClassAssertion>
+
+    <DataPropertyAssertion> <DataProperty IRI="reserved_storage"/> <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/> <Literal>5Gi</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="volume_name"/> <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/> <Literal>wp-pv</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="volume_host_path"/> <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/> <Literal>/mnt/data/wordpress</Literal> </DataPropertyAssertion>
+
+
+    <DataPropertyAssertion> <DataProperty IRI="volume_name"/> <NamedIndividual IRI="Wordpress_Container_Volume"/> <Literal>wp-pvc</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="volume_mount_path"/> <NamedIndividual IRI="Wordpress_Pod"/> <Literal>/var/www/html</Literal> </DataPropertyAssertion>
+    <DataPropertyAssertion> <DataProperty IRI="volumes"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> <Literal>wp-pv:/var/www/html</Literal> </DataPropertyAssertion>
+
+    <ObjectPropertyAssertion> <ObjectProperty IRI="#binds"/> <NamedIndividual IRI="Wordpress_Pod"/> <NamedIndividual IRI="Wordpress_Kubernetes_Volume"/> </ObjectPropertyAssertion>
+
 
 
     </Ontology>

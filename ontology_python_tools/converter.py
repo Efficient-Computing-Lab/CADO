@@ -78,9 +78,10 @@ if kubernetes_deployment_plan:
     print("Generate Kubernetes deployment plan")
     pods_list = kubernetes_functions.find_kubernetes_instances(all_instances)
     kubernetes_functions.find_kubernetes_data_assertions(pods_list, onto)
-    namespace, deployments, volumes = kubernetes_functions.generate_kubernetes_yaml_files(pods_list, onto)
+    namespace, deployments, volumes,pvcs, = kubernetes_functions.generate_kubernetes_yaml_files(pods_list, onto)
     deployment_counter=0
     volume_counter=0
+    pvc_counter=0
     for deployment in deployments:
         deployment_counter = deployment_counter +1
         with open("../generated_files/kubernetes-deployment"+str(deployment_counter)+".generated.yml", "w") as f:
@@ -91,7 +92,10 @@ if kubernetes_deployment_plan:
         volume_counter = volume_counter +1
         with open("../generated_files/kubernetes-volume"+str(volume_counter)+".generated.yml", "w") as f:
             yaml.dump(volume, f, sort_keys=False)
-
+    for pvc in pvcs:
+        pvc_counter = pvc_counter +1
+        with open("../generated_files/kubernetes-pvc"+str(pvc_counter)+".generated.yml", "w") as f:
+            yaml.dump(pvc, f, sort_keys=False)
     print("Generated Kubernetes files")
 if docker_deployment_plan:
     print("Generate Docker deployment plan")
