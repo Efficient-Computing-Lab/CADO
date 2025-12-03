@@ -19,7 +19,7 @@ CADO defines nine key classes related to container platforms. The platform class
 7. [Image Class](#image-class)
 8. [Image Registry Class](#image-registry-class)
 9. [Secrets Class](#secrets-class)
-10. [Validator](#validator)
+10. [Python Tools](#python-tools)
 ### Platform Class
 The **platform** class is designed to describe container platforms such as Docker or Kubernetes. A state-of-the-art container platform is composed of several key concepts that are required to orchestrate application components. These concepts are, in fact, sibling classes of the platform class. In the CADO ontology, the composedOf object property represents a high-level relationship that links the platform class with its sibling classes. Semantically, this means that the platform class is formed by the combination of its sibling classes.
 
