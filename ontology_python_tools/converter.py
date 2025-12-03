@@ -1,8 +1,9 @@
-from owlready2 import get_ontology, default_world
+from owlready2 import get_ontology, default_world, onto_path # <-- Import onto_path
 import argparse
 import yaml
 import docker_functions
 import kubernetes_functions
+import os # <-- Import os
 # -------------------------------
 # Parse command-line arguments
 # -------------------------------
@@ -15,10 +16,18 @@ CLASS_FILE = args.classes
 INSTANCE_FILE = args.instances
 
 
+ontology_dir = os.path.dirname(CLASS_FILE)
+if ontology_dir and ontology_dir not in onto_path:
+    onto_path.append(ontology_dir)
+# --- New Code Ends Here ---
+
 print("Loading Classes...")
+# The TBox file is loaded first, so its imports (if any) are resolved.
 onto = get_ontology(CLASS_FILE).load()
 
 print("Loading Instances...")
+# The ABox file is loaded, and it will now search the directory in onto_path
+# for its imports (like 'entity.owx').
 instances_onto = get_ontology(INSTANCE_FILE).load()
 onto.imported_ontologies.append(instances_onto)
 
@@ -62,30 +71,35 @@ print("\nAll instances in ontology:")
 for inst in all_instances:
     print(" -", inst)
 
-
+os.makedirs("../generated_files", exist_ok=True)
 kubernetes_deployment_plan, docker_deployment_plan = find_platform_type()
 print(kubernetes_deployment_plan,docker_deployment_plan)
 if kubernetes_deployment_plan:
     print("Generate Kubernetes deployment plan")
     pods_list = kubernetes_functions.find_kubernetes_instances(all_instances)
-    kubernetes_functions.find_kubernetes_data_assertions(pods_list,onto)
-    namespace, deployment, volume =kubernetes_functions.generate_kubernetes_yaml_files(pods_list,onto)
-    print(deployment)
-    with open("kubernetes-deployment.generated.yml", "w") as f:
-        yaml.dump(deployment, f, sort_keys=False)
-    with open("kubernetes-namespace.generated.yml", "w") as f:
+    kubernetes_functions.find_kubernetes_data_assertions(pods_list, onto)
+    namespace, deployments, volumes = kubernetes_functions.generate_kubernetes_yaml_files(pods_list, onto)
+    deployment_counter=0
+    volume_counter=0
+    for deployment in deployments:
+        deployment_counter = deployment_counter +1
+        with open("../generated_files/kubernetes-deployment"+str(deployment_counter)+".generated.yml", "w") as f:
+            yaml.dump(deployment, f, sort_keys=False)
+    with open("../generated_files/kubernetes-namespace.generated.yml", "w") as f:
         yaml.dump(namespace, f, sort_keys=False)
-    with open("kubernetes-volume.generated.yml", "w") as f:
-        yaml.dump(volume, f, sort_keys=False)
+    for volume in volumes:
+        volume_counter = volume_counter +1
+        with open("../generated_files/kubernetes-volume"+str(volume_counter)+".generated.yml", "w") as f:
+            yaml.dump(volume, f, sort_keys=False)
 
-    print("Generated docker-compose.generated.yml")
+    print("Generated Kubernetes files")
 if docker_deployment_plan:
     print("Generate Docker deployment plan")
     container_list = docker_functions.find_docker_instances(all_instances)
-    docker_functions.find_docker_data_assertions(container_list,onto)
-    compose = docker_functions.generate_docker_compose(container_list,onto)
+    docker_functions.find_docker_data_assertions(container_list, onto)
+    compose = docker_functions.generate_docker_compose(container_list, onto)
 
-    with open("docker-compose.generated.yml", "w") as f:
+    with open("../generated_files/docker-compose.generated.yml", "w") as f:
         yaml.dump(compose, f, sort_keys=False)
 
-    print("Generated docker-compose.generated.yml")
+    print("Generated Docker Compose file")
