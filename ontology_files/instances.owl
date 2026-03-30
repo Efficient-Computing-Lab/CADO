@@ -122,7 +122,7 @@
     <ObjectPropertyAssertion> <ObjectProperty IRI="savedTo"/> <NamedIndividual IRI="MySQL_Docker_Image"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
     <ObjectPropertyAssertion> <ObjectProperty IRI="reservesDiskSpaceOn"/> <NamedIndividual IRI="MySQL_Docker_Volume"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
     <ObjectPropertyAssertion> <ObjectProperty IRI="reservesDiskSpaceOn"/> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion> <ObjectProperty IRI="includesMinimalDeploymentUnit"/> <NamedIndividual IRI="MySQL_Pod"/> <NamedIndividual IRI="MySQL_Docker_Container"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="multipleMinimalDeploymentUnit"/> <NamedIndividual IRI="MySQL_Pod"/> <NamedIndividual IRI="MySQL_Docker_Container"/> </ObjectPropertyAssertion>
     <ObjectPropertyAssertion> <ObjectProperty IRI="runningInstanceOf"/> <NamedIndividual IRI="MySQL_Pod"/> <NamedIndividual IRI="MySQL_Docker_Image"/> </ObjectPropertyAssertion>
     <ObjectPropertyAssertion> <ObjectProperty IRI="#binds"/> <NamedIndividual IRI="MySQL_Pod"/> <NamedIndividual IRI="MySQL_Kubernetes_Volume"/> </ObjectPropertyAssertion>
     <ObjectPropertyAssertion> <ObjectProperty IRI="#hostedBy"/> <NamedIndividual IRI="MySQL_Pod"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
@@ -134,7 +134,7 @@
     <ObjectPropertyAssertion> <ObjectProperty IRI="convertsToContainer"/> <NamedIndividual IRI="RunC"/> <NamedIndividual IRI="Wordpress_Docker_Image"/> </ObjectPropertyAssertion>
     <ObjectPropertyAssertion> <ObjectProperty IRI="savedTo"/> <NamedIndividual IRI="Wordpress_Docker_Image"/> <NamedIndividual IRI="Virtual_Machine"/> </ObjectPropertyAssertion>
 
-    <ObjectPropertyAssertion> <ObjectProperty IRI="includesMinimalDeploymentUnit"/> <NamedIndividual IRI="Wordpress_Pod"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion> <ObjectProperty IRI="multipleMinimalDeploymentUnit"/> <NamedIndividual IRI="Wordpress_Pod"/> <NamedIndividual IRI="Wordpress_Docker_Container"/> </ObjectPropertyAssertion>
     <ObjectPropertyAssertion> <ObjectProperty IRI="runningInstanceOf"/> <NamedIndividual IRI="Wordpress_Pod"/> <NamedIndividual IRI="Wordpress_Docker_Image"/> </ObjectPropertyAssertion>
 
     <ObjectPropertyAssertion> <ObjectProperty IRI="#hostedBy"/> <NamedIndividual IRI="Wordpress_Pod"/> <NamedIndividual IRI="Physical_Machine"/> </ObjectPropertyAssertion>
