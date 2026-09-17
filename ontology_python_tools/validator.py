@@ -1,123 +1,192 @@
+"""
+CADO validator.
+
+Two complementary checks are performed.
+
+1. Open-world reasoning (HermiT): is the ontology consistent, are all classes
+   satisfiable, and does any individual end up in owl:Nothing?
+
+2. Closed-world constraint checking: under OWL semantics a domain or range
+   axiom is an *inference rule*, not a constraint -- asserting
+   `image1 includesImage image2` does not raise an error, it silently infers
+   that image1 is an image_registry. A modelling mistake therefore stays
+   invisible to the reasoner. The checks below re-read the same axioms as
+   integrity constraints over the asserted A-Box, which is what a deployment
+   engineer actually wants to be told about.
+
+Usage:
+    python validator.py --classes ../ontology_files/entity.owx \
+                        --instances ../ontology_files/instances.owl
+"""
+
 import argparse
-from owlready2 import *
-from owlready2 import OwlReadyInconsistentOntologyError
+import os
+import sys
 
-# ------------------------------------------------------------
-# 0. Parse command-line arguments
-# ------------------------------------------------------------
+from owlready2 import (get_ontology, default_world, onto_path, sync_reasoner,
+                       Thing, Nothing, OwlReadyInconsistentOntologyError,
+                       ObjectPropertyClass, DataPropertyClass, Or, FunctionalProperty)
 
-parser = argparse.ArgumentParser(description="OWL Ontology Validator")
-parser.add_argument("--classes", required=True, help="Path to the class (TBox) OWL file")
-parser.add_argument("--instances", required=True, help="Path to the instance (ABox) OWL file")
-args = parser.parse_args()
 
-CLASS_FILE = args.classes
-INSTANCE_FILE = args.instances
+class Report:
+    def __init__(self):
+        self.errors = []
+        self.warnings = []
 
-# ------------------------------------------------------------
-# 1. Load schema (TBox) and instances (ABox)
-# ------------------------------------------------------------
+    def error(self, message):
+        self.errors.append(message)
 
-print("Loading Classes...")
-onto = get_ontology(CLASS_FILE).load()
+    def warn(self, message):
+        self.warnings.append(message)
 
-print("Loading Instances...")
-instances = get_ontology(INSTANCE_FILE).load()
-onto.imported_ontologies.append(instances)
+    def section(self, title, items, label="OK"):
+        print("\n%s" % title)
+        if not items:
+            print("   %s" % label)
+        for item in items:
+            print("   - %s" % item)
 
-print("\nLoaded ontologies:")
-print(" Classes:", onto.base_iri)
-print(" Instances:", instances.base_iri)
 
-# ------------------------------------------------------------
-# 2. Run reasoner (consistency & classification)
-# ------------------------------------------------------------
+def class_expression_members(expression):
+    """Flatten a class expression into the list of named classes it permits."""
+    if isinstance(expression, Or):
+        members = []
+        for part in expression.Classes:
+            members.extend(class_expression_members(part))
+        return members
+    return [expression]
 
-print("\nRunning reasoner...")
-try:
-    with onto:
-        sync_reasoner()
-    print("Reasoning completed. Ontology is consistent.\n")
-except OwlReadyInconsistentOntologyError as e:
-    print("❌ Ontology is inconsistent!")
-    print(e)
-    exit()
 
-# ------------------------------------------------------------
-# 3. Check for inconsistent individuals (owl:Nothing)
-# ------------------------------------------------------------
+def satisfies(individual, expression):
+    return any(isinstance(individual, cls) for cls in class_expression_members(expression))
 
-print("Checking for inconsistent individuals...")
 
-inconsistent_individuals = list(Nothing.instances())
+def check_domains_and_ranges(tbox, world, report):
+    """Domain and range axioms enforced as constraints rather than inferences."""
+    for prop in list(tbox.object_properties()) + list(tbox.data_properties()):
+        is_object = isinstance(prop, ObjectPropertyClass)
+        for subject in world.individuals():
+            values = getattr(subject, prop.python_name, None)
+            if values is None:
+                continue
+            values = values if isinstance(values, list) else [values]
+            if not values:
+                continue
 
-if inconsistent_individuals:
-    print("\n❌ Inconsistent individuals detected:")
-    for ind in inconsistent_individuals:
-        print("  -", ind)
-else:
-    print("No inconsistent individuals found.\n")
+            for domain in prop.domain or []:
+                if not satisfies(subject, domain):
+                    report.error("domain violation: %s uses %s but is not a %s"
+                                 % (subject.name, prop.name, domain))
 
-# ------------------------------------------------------------
-# 4. Validate individuals against class restrictions
-# ------------------------------------------------------------
+            if not is_object:
+                continue
+            for value in values:
+                for range_expression in prop.range or []:
+                    if not satisfies(value, range_expression):
+                        report.error("range violation: %s %s %s, but %s is not a %s"
+                                     % (subject.name, prop.name, value.name,
+                                        value.name, range_expression))
 
-def check_restriction(ind, restriction):
-    """Evaluate an OWL restriction for a given individual."""
+
+def check_data_types(tbox, world, report):
+    for prop in tbox.data_properties():
+        expected = [r for r in (prop.range or []) if isinstance(r, type)]
+        if not expected:
+            continue
+        for subject in world.individuals():
+            values = getattr(subject, prop.python_name, None)
+            if values is None:
+                continue
+            values = values if isinstance(values, list) else [values]
+            for value in values:
+                if not any(isinstance(value, python_type) for python_type in expected):
+                    report.error("datatype violation: %s.%s = %r (%s), expected %s"
+                                 % (subject.name, prop.name, value,
+                                    type(value).__name__,
+                                    "/".join(t.__name__ for t in expected)))
+
+
+def check_functionality(tbox, world, report):
+    for prop in tbox.data_properties():
+        if FunctionalProperty not in prop.is_a:
+            continue
+        for subject in world.individuals():
+            values = getattr(subject, prop.python_name, None)
+            if isinstance(values, list) and len(values) > 1:
+                report.error("functionality violation: %s.%s has %d values %r"
+                             % (subject.name, prop.name, len(values), values))
+
+
+def check_disjointness(tbox, world, report):
+    for axiom in tbox.disjoint_classes():
+        classes = list(axiom.entities)
+        for subject in world.individuals():
+            matched = [c for c in classes if isinstance(subject, c)]
+            if len(matched) > 1:
+                report.error("disjointness violation: %s belongs to %s"
+                             % (subject.name, " and ".join(c.name for c in matched)))
+
+
+def check_documentation(tbox, report):
+    """Every term should carry a label and a definition."""
+    entities = (list(tbox.classes()) + list(tbox.object_properties())
+                + list(tbox.data_properties()))
+    for entity in entities:
+        if not entity.label:
+            report.warn("%s has no rdfs:label" % entity.name)
+        if not entity.comment:
+            report.warn("%s has no rdfs:comment (definition)" % entity.name)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="CADO ontology validator")
+    parser.add_argument("--classes", required=True, help="Path to the T-Box OWL file")
+    parser.add_argument("--instances", required=True, help="Path to the A-Box OWL file")
+    args = parser.parse_args()
+
+    onto_path.append(os.path.dirname(os.path.abspath(args.classes)))
+    print("Loading T-Box ...")
+    tbox = get_ontology(os.path.abspath(args.classes)).load()
+    print("Loading A-Box ...")
+    abox = get_ontology(os.path.abspath(args.instances)).load()
+
+    print("\n%s\n1. OPEN-WORLD REASONING (HermiT)\n%s" % ("=" * 60, "=" * 60))
+    print("   T-Box: %d classes, %d object properties, %d data properties"
+          % (len(list(tbox.classes())), len(list(tbox.object_properties())),
+             len(list(tbox.data_properties()))))
+    print("   A-Box: %d individuals" % len(list(abox.individuals())))
+
     try:
-        return restriction(ind)
-    except Exception:
-        return False
+        with abox:
+            sync_reasoner(infer_property_values=True, debug=0)
+        print("   Consistency: CONSISTENT")
+    except OwlReadyInconsistentOntologyError as exc:
+        print("   Consistency: INCONSISTENT\n   %s" % exc)
+        sys.exit(1)
 
-print("Validating against class restrictions...\n")
+    unsatisfiable = [c.name for c in tbox.classes() if Nothing in c.equivalent_to]
+    print("   Unsatisfiable classes: %s" % (", ".join(unsatisfiable) or "none"))
+    empty = [i.name for i in Nothing.instances()]
+    print("   Individuals in owl:Nothing: %s" % (", ".join(empty) or "none"))
+    if unsatisfiable or empty:
+        sys.exit(1)
 
-for cls in onto.classes():
-    for ind in cls.instances():
-        for restriction in cls.is_a:
-            if isinstance(restriction, Restriction):
-                if not check_restriction(ind, restriction):
-                    print(f"❌ {ind} violates restriction {restriction} in class {cls}")
+    print("\n%s\n2. CLOSED-WORLD CONSTRAINT CHECKING\n%s" % ("=" * 60, "=" * 60))
+    report = Report()
+    check_domains_and_ranges(tbox, default_world, report)
+    check_data_types(tbox, default_world, report)
+    check_functionality(tbox, default_world, report)
+    check_disjointness(tbox, default_world, report)
+    check_documentation(tbox, report)
 
-# ------------------------------------------------------------
-# 5. Validate datatype properties
-# ------------------------------------------------------------
+    report.section("Constraint violations:", report.errors, label="none")
+    report.section("Documentation warnings:", report.warnings, label="none")
 
-print("\nValidating datatype property ranges...\n")
+    print("\n%s" % ("-" * 60))
+    print("Validation completed: %d error(s), %d warning(s)"
+          % (len(report.errors), len(report.warnings)))
+    sys.exit(1 if report.errors else 0)
 
-for prop in onto.data_properties():
-    expected_ranges = prop.range
 
-    # Case 1: property has declared domain
-    owners = list(prop.domain)
-
-    if owners:
-        individuals_to_check = set()
-        for owner in owners:
-            individuals_to_check.update(owner.instances())
-    else:
-        # Case 2: no domain declared → scan all individuals
-        individuals_to_check = set(onto.individuals())
-
-    for ind in individuals_to_check:
-        # Get values for this property on this individual
-        try:
-            values = getattr(ind, prop.python_name)
-        except AttributeError:
-            continue  # individual does not use this property
-
-        # Validate each value
-        for val in values:
-            if expected_ranges:
-                valid = False
-                for r in expected_ranges:
-                    if hasattr(r, "python_type") and isinstance(val, r.python_type):
-                        valid = True
-                        break
-
-                if not valid:
-                    print(f"❌ {ind}.{prop.name} = {val} violates range {expected_ranges}")
-
-# ------------------------------------------------------------
-# 6. Summary
-# ------------------------------------------------------------
-print("\nValidation completed.")
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,38 @@
+// engine=dot
+digraph "cado-use-case-microservice-kubernetes-application" {
+  graph [rankdir=TB, splines=true, overlap=false, nodesep=0.42, ranksep=1.05, fontname="Helvetica", fontsize=26, pad=0.3];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=22, margin="0.18,0.10", penwidth=1.6];
+  edge  [fontname="Helvetica", fontsize=19, color="#37474F", fontcolor="#37474F", penwidth=1.4, arrowsize=0.9];
+  "Api_Image" [label=<<B>Api Image</B><BR/><FONT POINT-SIZE="17"><I>image</I></FONT><BR/><FONT POINT-SIZE="16">registry.example.com/shop/api:2.3.1</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Api_Pod" [label=<<B>Api Pod</B><BR/><FONT POINT-SIZE="17"><I>deployment_unit</I></FONT><BR/><FONT POINT-SIZE="16">api</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Api_Service" [label=<<B>Api Service</B><BR/><FONT POINT-SIZE="17"><I>service</I></FONT><BR/><FONT POINT-SIZE="16">api-svc</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Cache_Pod" [label=<<B>Cache Pod</B><BR/><FONT POINT-SIZE="17"><I>deployment_unit</I></FONT><BR/><FONT POINT-SIZE="16">cache</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Cache_Scratch_K8s" [label=<<B>Cache Scratch<BR/>K8s</B><BR/><FONT POINT-SIZE="17"><I>ephemeral</I></FONT><BR/><FONT POINT-SIZE="16">cache-scratch</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Edge_Pod" [label=<<B>Edge Pod</B><BR/><FONT POINT-SIZE="17"><I>deployment_unit</I></FONT><BR/><FONT POINT-SIZE="16">edge</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Kubernetes" [label=<<B>Kubernetes</B><BR/><FONT POINT-SIZE="17"><I>platform</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Nginx_Image" [label=<<B>Nginx Image</B><BR/><FONT POINT-SIZE="17"><I>image</I></FONT><BR/><FONT POINT-SIZE="16">nginx:1.25-alpine</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Node_A" [label=<<B>Node A</B><BR/><FONT POINT-SIZE="17"><I>host</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Node_B" [label=<<B>Node B</B><BR/><FONT POINT-SIZE="17"><I>host</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Node_C" [label=<<B>Node C</B><BR/><FONT POINT-SIZE="17"><I>host</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Redis_Image" [label=<<B>Redis Image</B><BR/><FONT POINT-SIZE="17"><I>image</I></FONT><BR/><FONT POINT-SIZE="16">redis:7-alpine</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Shop_Namespace" [label=<<B>Shop Namespace</B><BR/><FONT POINT-SIZE="17"><I>namespace</I></FONT><BR/><FONT POINT-SIZE="16">shop</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Uploads_Volume_K8s" [label=<<B>Uploads Volume<BR/>K8s</B><BR/><FONT POINT-SIZE="17"><I>persistent</I></FONT><BR/><FONT POINT-SIZE="16">uploads-pv</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Api_Pod" -> "Uploads_Volume_K8s" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>binds (inferred)</TD></TR></TABLE>>];
+  "Api_Pod" -> "Cache_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>dependsOn</TD></TR></TABLE>>];
+  "Api_Pod" -> "Node_B" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>hostedBy</TD></TR></TABLE>>];
+  "Api_Pod" -> "Api_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>runningInstanceOf</TD></TR></TABLE>>];
+  "Api_Service" -> "Api_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>includesRunningInstance</TD></TR></TABLE>>];
+  "Cache_Pod" -> "Cache_Scratch_K8s" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>binds (inferred)</TD></TR></TABLE>>];
+  "Cache_Pod" -> "Node_C" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>hostedBy</TD></TR></TABLE>>];
+  "Cache_Pod" -> "Redis_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>runningInstanceOf</TD></TR></TABLE>>];
+  "Edge_Pod" -> "Api_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>dependsOn</TD></TR></TABLE>>];
+  "Edge_Pod" -> "Node_B" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>hostedBy</TD></TR></TABLE>>];
+  "Edge_Pod" -> "Nginx_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>runningInstanceOf</TD></TR></TABLE>>];
+  "Kubernetes" -> "Api_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>deploys</TD></TR></TABLE>>];
+  "Kubernetes" -> "Cache_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>deploys</TD></TR></TABLE>>];
+  "Kubernetes" -> "Edge_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>deploys</TD></TR></TABLE>>];
+  "Shop_Namespace" -> "Api_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>includesRunningInstance</TD></TR></TABLE>>];
+  "Shop_Namespace" -> "Cache_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>includesRunningInstance</TD></TR></TABLE>>];
+  "Shop_Namespace" -> "Edge_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>includesRunningInstance</TD></TR></TABLE>>];
+  "Uploads_Volume_K8s" -> "Node_A" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>reservesDiskSpaceOn</TD></TR></TABLE>>];
+}

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge-deployment
+  namespace: shop
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: edge
+  template:
+    metadata:
+      labels:
+        app: edge
+    spec:
+      containers:
+      - name: edge
+        image: nginx:1.25-alpine
+        ports:
+        - containerPort: 443
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 250m
+            memory: 128Mi

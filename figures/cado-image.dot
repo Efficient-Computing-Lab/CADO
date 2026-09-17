@@ -1,0 +1,9 @@
+// engine=dot
+digraph "image" {
+  graph [rankdir=LR, splines=true, overlap=false, nodesep=0.95, ranksep=1.10, fontname="Helvetica", fontsize=26, pad=0.3];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=22, margin="0.18,0.10", penwidth=1.6];
+  edge  [fontname="Helvetica", fontsize=19, color="#37474F", fontcolor="#37474F", penwidth=1.4, arrowsize=0.9];
+  "image" [label="image", fillcolor="#F1F8E9", color="#7CB342", penwidth=2.6];
+  "host" [label="host", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "image" -> "host" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>savedTo</TD></TR></TABLE>>];
+}

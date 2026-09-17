@@ -1,104 +1,133 @@
-def find_docker_instances(all_instances):
-    container_list = []
-    for inst in all_instances:
-        if "Docker_Container" in inst.name:
-            container_list.append(inst)
-            continue
-        for cls in inst.is_a:
-            if "Docker_Container" in cls.name:
-                container_list.append(inst)
-                break
+"""Serialises a CADO platform description into a Docker Compose file.
 
-    print("\nContainer instances found:")
-    for inst in container_list:
-        print(" -", inst)
-    return container_list
+This module contains only Docker Compose syntax. Everything it knows about the
+deployment comes from cado_graph, i.e. from the ontology.
+"""
+
+import cado_graph as g
+
+COMPOSE_VERSION = "3.9"
 
 
-def find_docker_data_assertions(container_list, onto):
-    print("\nData assertions for container instances:\n")
-    for inst in container_list:
-        print(f"Instance: {inst}")
-        for prop in onto.data_properties():
-            values = getattr(inst, prop.python_name, [])
-            if values:
-                print(f"  {prop.name} -> {values}")
+def _compose_cpus(value):
+    """Translate a platform-neutral CPU limit into the Compose representation.
+
+    CADO records CPU limits in the Kubernetes-style milli-CPU notation ('500m').
+    Compose expects a fractional number of cores, so the value is converted here
+    rather than being stored twice in the ontology.
+    """
+    text = str(value).strip()
+    if text.endswith("m"):
+        try:
+            return round(float(text[:-1]) / 1000.0, 3)
+        except ValueError:
+            return text
+    try:
+        return float(text)
+    except ValueError:
+        return text
 
 
-def generate_docker_compose(container_list, onto):
-    compose = {
-        "version": "3.9",
-        "services": {}
-    }
+def _compose_memory(value):
+    """Translate a memory limit into the Compose representation.
 
-    for inst in container_list:
-        service_name = inst.name.lower().replace("2024.", "").replace("_docker_container", "")
+    CADO records memory limits with binary IEC suffixes ('512Mi'); Compose uses
+    single-letter suffixes with the same 1024 base ('512m').
+    """
+    text = str(value).strip()
+    for iec, compose in (("Ki", "k"), ("Mi", "m"), ("Gi", "g"), ("Ti", "t")):
+        if text.endswith(iec):
+            return text[:-len(iec)] + compose
+    return text.lower()
+
+
+def generate_docker_compose(onto, world, platform):
+    services, networks, volumes = {}, set(), set()
+
+    for unit in g.deployment_units(platform):
         service = {}
-        env_vars = {}
 
-        # Loop over all data properties
-        for prop in onto.data_properties():
-            # --- FIX: Use getattr(inst, prop.python_name) for retrieving values ---
-            values = getattr(inst, prop.python_name, [])
-            # --- END FIX ---
+        image = g.image_reference(onto, unit)
+        if image:
+            service["image"] = image
 
-            if not values:
+        # Compose forbids a fixed container_name on a scaled-out service, so the
+        # name is used only as the service key once replicas > 1.
+        container_name = g.one(unit, "container_name")
+        unit_replicas = g.one(unit, "replicas")
+        if container_name and (unit_replicas is None or int(unit_replicas) == 1):
+            service["container_name"] = container_name
+
+        restart_policy = g.one(unit, "restart_policy")
+        if restart_policy:
+            service["restart"] = restart_policy
+
+        environment = g.environment(onto, unit)
+        if environment:
+            service["environment"] = environment
+
+        unit_networks = g.network_names(onto, world, unit)
+        if unit_networks:
+            service["networks"] = unit_networks
+            networks.update(unit_networks)
+
+        # The ephemeral/persistent classification in the ontology decides which
+        # Compose construct is emitted: a named volume or a tmpfs mount.
+        mounts, tmpfs = [], []
+        for storage, mount_path in g.volume_mounts(onto, unit):
+            if not mount_path:
                 continue
+            if g.is_a(storage, onto.ephemeral):
+                tmpfs.append(mount_path)
+                continue
+            volume_name = g.one(storage, "volume_name")
+            if volume_name:
+                mounts.append("%s:%s" % (volume_name, mount_path))
+                volumes.add(volume_name)
+        if mounts:
+            service["volumes"] = mounts
+        if tmpfs:
+            service["tmpfs"] = sorted(tmpfs)
 
-            # Force convert all values into Python strings
-            # Use list(values) to handle potential generator/set returns
-            values = [str(v) for v in list(values)]
+        limits = {}
+        if g.one(unit, "cpu_limit"):
+            limits["cpus"] = _compose_cpus(g.one(unit, "cpu_limit"))
+        if g.one(unit, "memory_limit"):
+            limits["memory"] = _compose_memory(g.one(unit, "memory_limit"))
+        if limits or (unit_replicas is not None and int(unit_replicas) != 1):
+            deploy = {}
+            if unit_replicas is not None:
+                deploy["replicas"] = int(unit_replicas)
+            if limits:
+                deploy["resources"] = {"limits": limits}
+            service["deploy"] = deploy
 
-            prop_name = prop.name.lower()
+        ports = g.many(unit, "ports")
+        if ports:
+            service["ports"] = sorted(str(p) for p in ports)
 
-            if prop_name == "related_image":
-                service["image"] = values[0]
+        dependencies = g.depends_on_names(onto, unit)
+        if dependencies:
+            service["depends_on"] = dependencies
 
-            elif prop_name == "container_name":
-                service["container_name"] = values[0]
+        service_name = container_name or unit.name.lower()
+        services[service_name] = service
 
-            elif prop_name == "volumes":
-                # 'volumes' can be a list of strings (e.g., ["data:/path", "logs:/logs"])
-                service["volumes"] = values
-
-            elif prop_name == "networks":
-                # 'networks' can be a list of strings (e.g., ["my_net"])
-                service["networks"] = values
-
-            elif prop_name == "restart_policy":
-                service["restart"] = values[0]
-
-            elif prop_name.startswith("env_"):
-                key = prop_name.replace("env_", "").upper()
-                service.setdefault("environment", {})  # Ensure 'environment' key exists
-                service["environment"][key] = values[0]
-
-        compose["services"][service_name] = service
-
-    # ------------------------------------------------------
-    # AUTO-GENERATE NETWORKS AND VOLUMES FROM SERVICES
-    # ------------------------------------------------------
-    networks = set()
-    volumes = set()
-
-    for svc_name, svc in compose["services"].items():
-        # Collect networks
-        if "networks" in svc:
-            for net in svc["networks"]:
-                networks.add(net)
-
-        # Collect volumes
-        if "volumes" in svc:
-            for vol in svc["volumes"]:
-                # The format is typically "vol_name:mount_path"
-                vol_name = vol.split(":")[0]
-                volumes.add(vol_name)
-
-    # Add to compose file
+    compose = {"version": COMPOSE_VERSION,
+               "services": {k: services[k] for k in sorted(services)}}
     if networks:
-        compose["networks"] = {name: {} for name in networks}
-
+        compose["networks"] = {name: {} for name in sorted(networks)}
     if volumes:
-        compose["volumes"] = {name: {} for name in volumes}
-
+        compose["volumes"] = {name: {} for name in sorted(volumes)}
     return compose
+
+
+def describe(onto, world, platform):
+    """Human-readable trace of what was read from the ontology."""
+    print("\nPlatform '%s' (artifact_format=%s)" % (platform.name, g.one(platform, "artifact_format")))
+    for unit in g.deployment_units(platform):
+        print("  deployment unit: %s" % unit.name)
+        print("     image           : %s" % g.image_reference(onto, unit))
+        print("     networks        : %s" % g.network_names(onto, world, unit))
+        print("     env             : %s" % g.environment(onto, unit))
+        print("     volume mounts   : %s" % [(s.name, p) for s, p in g.volume_mounts(onto, unit)])

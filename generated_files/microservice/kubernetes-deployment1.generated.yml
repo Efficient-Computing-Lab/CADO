@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  namespace: shop
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: registry.example.com/shop/api:2.3.1
+        env:
+        - name: APP_ENV
+          value: production
+        - name: LOG_LEVEL
+          value: info
+        - name: REDIS_HOST
+          value: cache
+        volumeMounts:
+        - name: uploads-pv
+          mountPath: /srv/uploads
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+      volumes:
+      - name: uploads-pv
+        persistentVolumeClaim:
+          claimName: uploads-pvc
+      imagePullSecrets:
+      - name: registry-credentials

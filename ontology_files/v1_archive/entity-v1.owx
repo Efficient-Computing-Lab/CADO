@@ -1,0 +1,711 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/container-ontologies/2024/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.semanticweb.org/container-ontologies/2024/">
+    <Prefix name="" IRI="http://www.semanticweb.org/container-ontologies/2024/"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="container_orchestration_environment"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="group_by"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="image"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="image_registry"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="minimal_deployment_unit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="private_image_registry"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="public_image_registry"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="runtime_environment"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="secrets"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="subplatform"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#deployment_unit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ephemeral"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#hosts"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#persistent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#platform"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#storage"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="composedOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="convertsToContainer"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="generatesGroupBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="generatesSecret"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="generatesStorage"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="includesHost"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="includesImage"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="includesRunningInstance"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="loginTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="multipleGroupby"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="multipleHosts"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="multipleMinimalDeploymentUnit"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="pullsImageFrom"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="runningInstanceOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="savedTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="unpacks"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="utilizes"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#binds"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#deploys"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hostedBy"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="container_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="depends_on"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="deployment_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="driver"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="env_mysql_database"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="env_mysql_root_password"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="env_wordpress_db_host"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="env_wordpress_db_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="env_wordpress_db_password"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="env_wordpress_db_user"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="image_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="namespace_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="network_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="networks"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="ports"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="related_image"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="related_namespace"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="related_volume"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="replicas"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="reserved_storage"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="restart_policy"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="version"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="volume_host_path"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="volume_mount_path"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="volume_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="volumes"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="group_by"/>
+        <Class IRI="container_orchestration_environment"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="group_by"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="includesRunningInstance"/>
+            <Class IRI="#deployment_unit"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="image"/>
+        <Class IRI="container_orchestration_environment"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="image"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="savedTo"/>
+            <Class IRI="#hosts"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="image_registry"/>
+        <Class IRI="container_orchestration_environment"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="image_registry"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="includesImage"/>
+            <Class IRI="#hosts"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="minimal_deployment_unit"/>
+        <Class IRI="#deployment_unit"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="private_image_registry"/>
+        <Class IRI="image_registry"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="public_image_registry"/>
+        <Class IRI="image_registry"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="runtime_environment"/>
+        <Class IRI="container_orchestration_environment"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="runtime_environment"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="convertsToContainer"/>
+            <Class IRI="image"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="runtime_environment"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="pullsImageFrom"/>
+            <Class IRI="image_registry"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="runtime_environment"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="unpacks"/>
+            <Class IRI="image"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="secrets"/>
+        <Class IRI="container_orchestration_environment"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="secrets"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="loginTo"/>
+            <Class IRI="private_image_registry"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="subplatform"/>
+        <Class IRI="#platform"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#deployment_unit"/>
+        <Class IRI="container_orchestration_environment"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#deployment_unit"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="multipleMinimalDeploymentUnit"/>
+            <Class IRI="minimal_deployment_unit"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#deployment_unit"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="runningInstanceOf"/>
+            <Class IRI="image"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#deployment_unit"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#binds"/>
+            <Class IRI="#storage"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#deployment_unit"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hostedBy"/>
+            <Class IRI="#hosts"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ephemeral"/>
+        <Class IRI="#storage"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#hosts"/>
+        <Class IRI="container_orchestration_environment"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#persistent"/>
+        <Class IRI="#storage"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <Class IRI="container_orchestration_environment"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="composedOf"/>
+            <Class IRI="group_by"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="composedOf"/>
+            <Class IRI="image"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="composedOf"/>
+            <Class IRI="image_registry"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="composedOf"/>
+            <Class IRI="runtime_environment"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="composedOf"/>
+            <Class IRI="secrets"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="composedOf"/>
+            <Class IRI="#deployment_unit"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="composedOf"/>
+            <Class IRI="#hosts"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="composedOf"/>
+            <Class IRI="#platform"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="composedOf"/>
+            <Class IRI="#storage"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="generatesGroupBy"/>
+            <Class IRI="group_by"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="generatesSecret"/>
+            <Class IRI="secrets"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="generatesStorage"/>
+            <Class IRI="#storage"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="multipleGroupby"/>
+            <Class IRI="group_by"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="multipleHosts"/>
+            <Class IRI="#hosts"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="pullsImageFrom"/>
+            <Class IRI="image_registry"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="utilizes"/>
+            <Class IRI="runtime_environment"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="utilizes"/>
+            <Class IRI="subplatform"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#platform"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#deploys"/>
+            <Class IRI="#deployment_unit"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#storage"/>
+        <Class IRI="container_orchestration_environment"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#storage"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="reservesDiskSpaceOn"/>
+            <Class IRI="#hosts"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#ephemeral"/>
+        <Class IRI="#persistent"/>
+    </DisjointClasses>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="multipleHosts"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="composedOf"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="convertsToContainer"/>
+        <Class IRI="runtime_environment"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="generatesGroupBy"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="generatesSecret"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="generatesStorage"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesImage"/>
+        <Class IRI="image_registry"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesImage"/>
+        <Class IRI="private_image_registry"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesImage"/>
+        <Class IRI="public_image_registry"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesRunningInstance"/>
+        <Class IRI="group_by"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="loginTo"/>
+        <Class IRI="secrets"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="multipleGroupby"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="multipleHosts"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="multipleMinimalDeploymentUnit"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="pullsImageFrom"/>
+        <Class IRI="runtime_environment"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="pullsImageFrom"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
+        <Class IRI="#persistent"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
+        <Class IRI="#storage"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="runningInstanceOf"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="savedTo"/>
+        <Class IRI="image"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="unpacks"/>
+        <Class IRI="runtime_environment"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="unpacks"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="utilizes"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#binds"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#deploys"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hostedBy"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="composedOf"/>
+        <Class IRI="group_by"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="composedOf"/>
+        <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="composedOf"/>
+        <Class IRI="image_registry"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="composedOf"/>
+        <Class IRI="runtime_environment"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="composedOf"/>
+        <Class IRI="secrets"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="composedOf"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="composedOf"/>
+        <Class IRI="#hosts"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="composedOf"/>
+        <Class IRI="#platform"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="composedOf"/>
+        <Class IRI="#storage"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="convertsToContainer"/>
+        <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="generatesGroupBy"/>
+        <Class IRI="group_by"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="generatesSecret"/>
+        <Class IRI="secrets"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="generatesStorage"/>
+        <Class IRI="#storage"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="includesImage"/>
+        <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="includesRunningInstance"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="loginTo"/>
+        <Class IRI="private_image_registry"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="multipleGroupby"/>
+        <Class IRI="group_by"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="multipleHosts"/>
+        <Class IRI="#hosts"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="multipleMinimalDeploymentUnit"/>
+        <Class IRI="minimal_deployment_unit"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="pullsImageFrom"/>
+        <Class IRI="image_registry"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="pullsImageFrom"/>
+        <Class IRI="private_image_registry"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="pullsImageFrom"/>
+        <Class IRI="public_image_registry"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
+        <Class IRI="#hosts"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="runningInstanceOf"/>
+        <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="savedTo"/>
+        <Class IRI="#hosts"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="unpacks"/>
+        <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="utilizes"/>
+        <Class IRI="runtime_environment"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#binds"/>
+        <Class IRI="#persistent"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#binds"/>
+        <Class IRI="#storage"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#deploys"/>
+        <Class IRI="#deployment_unit"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hostedBy"/>
+        <Class IRI="#hosts"/>
+    </ObjectPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+

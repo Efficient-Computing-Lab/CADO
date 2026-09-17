@@ -1,711 +1,1311 @@
 <?xml version="1.0"?>
+<!--
+    CADO - Container-Aware Deployment Ontology
+    T-Box (schema). Version 2.0.
+-->
 <Ontology xmlns="http://www.w3.org/2002/07/owl#"
      xml:base="http://www.semanticweb.org/container-ontologies/2024/"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     ontologyIRI="http://www.semanticweb.org/container-ontologies/2024/">
+     xmlns:dcterms="http://purl.org/dc/terms/"
+     ontologyIRI="http://www.semanticweb.org/container-ontologies/2024/"
+     versionIRI="http://www.semanticweb.org/container-ontologies/2024/version/2.0/">
     <Prefix name="" IRI="http://www.semanticweb.org/container-ontologies/2024/"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
     <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
-    <Declaration>
-        <Class IRI="group_by"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="image"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="image_registry"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="minimal_deployment_unit"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="private_image_registry"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="public_image_registry"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="runtime_environment"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="secrets"/>
-    </Declaration>
-    <Declaration>
+    <Prefix name="dcterms" IRI="http://purl.org/dc/terms/"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dcterms:title"/>
+        <Literal>CADO: Container-Aware Deployment Ontology</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dcterms:creator"/>
+        <Literal>Georgios Korontanis</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dcterms:license"/>
+        <Literal>https://opensource.org/licenses/MIT</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="owl:versionInfo"/>
+        <Literal>2.0</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal>A platform-agnostic vocabulary for container deployment workflows. CADO abstracts the concepts shared by Docker and Kubernetes so that a single deployment description can be transformed into the deployment artifacts of either platform.</Literal>
+    </Annotation>
+    <!-- ============ ANNOTATION PROPERTY DECLARATIONS ============ -->
+    <Declaration><AnnotationProperty abbreviatedIRI="dcterms:title"/></Declaration>
+    <Declaration><AnnotationProperty abbreviatedIRI="dcterms:creator"/></Declaration>
+    <Declaration><AnnotationProperty abbreviatedIRI="dcterms:license"/></Declaration>
+    <!-- ============ DECLARATIONS ============ -->
+    <Declaration><Class IRI="container_orchestration_environment"/></Declaration>
+    <Declaration><Class IRI="deployment_unit"/></Declaration>
+    <Declaration><Class IRI="minimal_deployment_unit"/></Declaration>
+    <Declaration><Class IRI="environment_variable"/></Declaration>
+    <Declaration><Class IRI="group_by"/></Declaration>
+    <Declaration><Class IRI="network"/></Declaration>
+    <Declaration><Class IRI="service"/></Declaration>
+    <Declaration><Class IRI="namespace"/></Declaration>
+    <Declaration><Class IRI="host"/></Declaration>
+    <Declaration><Class IRI="image"/></Declaration>
+    <Declaration><Class IRI="image_registry"/></Declaration>
+    <Declaration><Class IRI="private_image_registry"/></Declaration>
+    <Declaration><Class IRI="public_image_registry"/></Declaration>
+    <Declaration><Class IRI="platform"/></Declaration>
+    <Declaration><Class IRI="subplatform"/></Declaration>
+    <Declaration><Class IRI="runtime_environment"/></Declaration>
+    <Declaration><Class IRI="secret"/></Declaration>
+    <Declaration><Class IRI="storage"/></Declaration>
+    <Declaration><Class IRI="ephemeral"/></Declaration>
+    <Declaration><Class IRI="persistent"/></Declaration>
+    <Declaration><Class IRI="volume_mount"/></Declaration>
+    <Declaration><Class IRI="stateful_deployment_unit"/></Declaration>
+    <Declaration><ObjectProperty IRI="binds"/></Declaration>
+    <Declaration><ObjectProperty IRI="composedOf"/></Declaration>
+    <Declaration><ObjectProperty IRI="containsMinimalDeploymentUnit"/></Declaration>
+    <Declaration><ObjectProperty IRI="convertsToContainer"/></Declaration>
+    <Declaration><ObjectProperty IRI="dependsOn"/></Declaration>
+    <Declaration><ObjectProperty IRI="deploys"/></Declaration>
+    <Declaration><ObjectProperty IRI="deployedBy"/></Declaration>
+    <Declaration><ObjectProperty IRI="generatesGroupBy"/></Declaration>
+    <Declaration><ObjectProperty IRI="generatesSecret"/></Declaration>
+    <Declaration><ObjectProperty IRI="generatesStorage"/></Declaration>
+    <Declaration><ObjectProperty IRI="groupedBy"/></Declaration>
+    <Declaration><ObjectProperty IRI="hasEnvironmentVariable"/></Declaration>
+    <Declaration><ObjectProperty IRI="hasVolumeMount"/></Declaration>
+    <Declaration><ObjectProperty IRI="hostedBy"/></Declaration>
+    <Declaration><ObjectProperty IRI="hosts"/></Declaration>
+    <Declaration><ObjectProperty IRI="includesHost"/></Declaration>
+    <Declaration><ObjectProperty IRI="includesImage"/></Declaration>
+    <Declaration><ObjectProperty IRI="includesRunningInstance"/></Declaration>
+    <Declaration><ObjectProperty IRI="loginTo"/></Declaration>
+    <Declaration><ObjectProperty IRI="mountsStorage"/></Declaration>
+    <Declaration><ObjectProperty IRI="pullsImageFrom"/></Declaration>
+    <Declaration><ObjectProperty IRI="reservesDiskSpaceOn"/></Declaration>
+    <Declaration><ObjectProperty IRI="runningInstanceOf"/></Declaration>
+    <Declaration><ObjectProperty IRI="savedTo"/></Declaration>
+    <Declaration><ObjectProperty IRI="unpacks"/></Declaration>
+    <Declaration><ObjectProperty IRI="utilizes"/></Declaration>
+    <Declaration><ObjectProperty IRI="utilizedBy"/></Declaration>
+    <Declaration><DataProperty IRI="artifact_format"/></Declaration>
+    <Declaration><DataProperty IRI="container_name"/></Declaration>
+    <Declaration><DataProperty IRI="cpu_limit"/></Declaration>
+    <Declaration><DataProperty IRI="memory_limit"/></Declaration>
+    <Declaration><DataProperty IRI="deployment_name"/></Declaration>
+    <Declaration><DataProperty IRI="driver"/></Declaration>
+    <Declaration><DataProperty IRI="image_name"/></Declaration>
+    <Declaration><DataProperty IRI="mount_path"/></Declaration>
+    <Declaration><DataProperty IRI="namespace_name"/></Declaration>
+    <Declaration><DataProperty IRI="network_name"/></Declaration>
+    <Declaration><DataProperty IRI="ports"/></Declaration>
+    <Declaration><DataProperty IRI="registry_url"/></Declaration>
+    <Declaration><DataProperty IRI="replicas"/></Declaration>
+    <Declaration><DataProperty IRI="reserved_storage"/></Declaration>
+    <Declaration><DataProperty IRI="restart_policy"/></Declaration>
+    <Declaration><DataProperty IRI="service_name"/></Declaration>
+    <Declaration><DataProperty IRI="variable_name"/></Declaration>
+    <Declaration><DataProperty IRI="variable_value"/></Declaration>
+    <Declaration><DataProperty IRI="version"/></Declaration>
+    <Declaration><DataProperty IRI="volume_host_path"/></Declaration>
+    <Declaration><DataProperty IRI="volume_name"/></Declaration>
+    <!-- ============ LABELS AND DEFINITIONS ============ -->
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/container_orchestration_environment</IRI>
+        <Literal xml:lang="en">Container Orchestration Environment</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/container_orchestration_environment</IRI>
+        <Literal xml:lang="en">The top-level category of CADO. Any entity that participates in the description of a container deployment workflow.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/deployment_unit</IRI>
+        <Literal xml:lang="en">Deployment Unit</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/deployment_unit</IRI>
+        <Literal xml:lang="en">A schedulable unit of execution created from one or more container images. Generalises a Docker container and a Kubernetes pod.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/minimal_deployment_unit</IRI>
+        <Literal xml:lang="en">Minimal Deployment Unit</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/minimal_deployment_unit</IRI>
+        <Literal xml:lang="en">A deployment unit that cannot be decomposed further: it is the running instance of exactly one image. Corresponds to a single container.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/environment_variable</IRI>
+        <Literal xml:lang="en">Environment Variable</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/environment_variable</IRI>
+        <Literal xml:lang="en">A name/value pair supplied to a deployment unit at start-up. Reified so that arbitrary variables can be modelled without extending the T-Box.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/group_by</IRI>
+        <Literal xml:lang="en">Group By</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/group_by</IRI>
+        <Literal xml:lang="en">A named grouping construct that scopes a set of deployment units and governs how they are addressed by one another. Subsumes Docker networks, Docker Swarm and Kubernetes services, and Kubernetes namespaces.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/network</IRI>
+        <Literal xml:lang="en">Network</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/network</IRI>
+        <Literal xml:lang="en">A grouping construct that scopes deployment units by link-layer reachability. Corresponds to a Docker network.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/service</IRI>
+        <Literal xml:lang="en">Service</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/service</IRI>
+        <Literal xml:lang="en">A grouping construct that scopes deployment units behind a single stable endpoint. Corresponds to a Docker Swarm service or a Kubernetes service.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/namespace</IRI>
+        <Literal xml:lang="en">Namespace</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/namespace</IRI>
+        <Literal xml:lang="en">A grouping construct that scopes deployment units by name isolation. Corresponds to a Kubernetes namespace.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/host</IRI>
+        <Literal xml:lang="en">Host</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/host</IRI>
+        <Literal xml:lang="en">A physical or virtual machine that provides the compute and storage resources on which deployment units execute.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/image</IRI>
+        <Literal xml:lang="en">Image</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/image</IRI>
+        <Literal xml:lang="en">An immutable, layered, read-only template from which deployment units are instantiated.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/image_registry</IRI>
+        <Literal xml:lang="en">Image Registry</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/image_registry</IRI>
+        <Literal xml:lang="en">A service that stores and distributes container images.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/private_image_registry</IRI>
+        <Literal xml:lang="en">Private Image Registry</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/private_image_registry</IRI>
+        <Literal xml:lang="en">An image registry whose images can only be pulled after authentication.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/public_image_registry</IRI>
+        <Literal xml:lang="en">Public Image Registry</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/public_image_registry</IRI>
+        <Literal xml:lang="en">An image registry whose images can be pulled without authentication.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/platform</IRI>
+        <Literal xml:lang="en">Platform</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/platform</IRI>
+        <Literal xml:lang="en">A system that schedules deployment units onto hosts and manages their lifecycle.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/subplatform</IRI>
+        <Literal xml:lang="en">Subplatform</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/subplatform</IRI>
+        <Literal xml:lang="en">DEFINED CLASS. A platform that is utilised by another platform, i.e. it operates as a component of a larger platform rather than standalone. Inferred, not asserted.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/runtime_environment</IRI>
+        <Literal xml:lang="en">Runtime Environment</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/runtime_environment</IRI>
+        <Literal xml:lang="en">The software layer that pulls images, unpacks them and converts them into running containers.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/secret</IRI>
+        <Literal xml:lang="en">Secret</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/secret</IRI>
+        <Literal xml:lang="en">Confidential data, typically credentials, consumed by a platform in order to authenticate against a private image registry.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/storage</IRI>
+        <Literal xml:lang="en">Storage</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/storage</IRI>
+        <Literal xml:lang="en">A storage resource that can be attached to a deployment unit.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/ephemeral</IRI>
+        <Literal xml:lang="en">Ephemeral Storage</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/ephemeral</IRI>
+        <Literal xml:lang="en">Storage whose contents do not survive the deployment unit that uses it.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/persistent</IRI>
+        <Literal xml:lang="en">Persistent Storage</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/persistent</IRI>
+        <Literal xml:lang="en">Storage whose contents survive the deployment unit that uses it, backed by disk space reserved on a host.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/volume_mount</IRI>
+        <Literal xml:lang="en">Volume Mount</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/volume_mount</IRI>
+        <Literal xml:lang="en">The reified attachment of a storage resource to a deployment unit at a specific path. Reified so that one deployment unit may mount several storage resources unambiguously.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/stateful_deployment_unit</IRI>
+        <Literal xml:lang="en">Stateful Deployment Unit</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/stateful_deployment_unit</IRI>
+        <Literal xml:lang="en">DEFINED CLASS. A deployment unit that mounts at least one persistent storage resource. Inferred, not asserted.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/binds</IRI>
+        <Literal xml:lang="en">binds</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/binds</IRI>
+        <Literal xml:lang="en">Relates a deployment unit to a storage resource it attaches. Inferred from the property chain hasVolumeMount o mountsStorage.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/composedOf</IRI>
+        <Literal xml:lang="en">composed of</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/composedOf</IRI>
+        <Literal xml:lang="en">Relates a platform to the entities that constitute it.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/containsMinimalDeploymentUnit</IRI>
+        <Literal xml:lang="en">contains minimal deployment unit</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/containsMinimalDeploymentUnit</IRI>
+        <Literal xml:lang="en">Relates a composite deployment unit to the minimal deployment units it contains. Renamed from multipleMinimalDeploymentUnit.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/convertsToContainer</IRI>
+        <Literal xml:lang="en">converts to container</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/convertsToContainer</IRI>
+        <Literal xml:lang="en">Relates a runtime environment to an image it turns into a running container.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/dependsOn</IRI>
+        <Literal xml:lang="en">depends on</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/dependsOn</IRI>
+        <Literal xml:lang="en">Relates a deployment unit to another that must be available before it starts. Replaces the depends_on data property.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/deploys</IRI>
+        <Literal xml:lang="en">deploys</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/deploys</IRI>
+        <Literal xml:lang="en">Relates a platform to a deployment unit whose lifecycle it manages.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/deployedBy</IRI>
+        <Literal xml:lang="en">deployed by</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/deployedBy</IRI>
+        <Literal xml:lang="en">Inverse of deploys.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/generatesGroupBy</IRI>
+        <Literal xml:lang="en">generates group by</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/generatesGroupBy</IRI>
+        <Literal xml:lang="en">Relates a platform to a grouping construct it creates.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/generatesSecret</IRI>
+        <Literal xml:lang="en">generates secret</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/generatesSecret</IRI>
+        <Literal xml:lang="en">Relates a platform to a secret it creates.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/generatesStorage</IRI>
+        <Literal xml:lang="en">generates storage</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/generatesStorage</IRI>
+        <Literal xml:lang="en">Relates a platform to a storage resource it provisions.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/groupedBy</IRI>
+        <Literal xml:lang="en">grouped by</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/groupedBy</IRI>
+        <Literal xml:lang="en">Inverse of includesRunningInstance.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/hasEnvironmentVariable</IRI>
+        <Literal xml:lang="en">has environment variable</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/hasEnvironmentVariable</IRI>
+        <Literal xml:lang="en">Relates a deployment unit to an environment variable supplied to it.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/hasVolumeMount</IRI>
+        <Literal xml:lang="en">has volume mount</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/hasVolumeMount</IRI>
+        <Literal xml:lang="en">Relates a deployment unit to one of its volume mounts.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/hostedBy</IRI>
+        <Literal xml:lang="en">hosted by</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/hostedBy</IRI>
+        <Literal xml:lang="en">Relates a deployment unit to the host on which it executes.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/hosts</IRI>
+        <Literal xml:lang="en">hosts</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/hosts</IRI>
+        <Literal xml:lang="en">Inverse of hostedBy.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/includesHost</IRI>
+        <Literal xml:lang="en">includes host</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/includesHost</IRI>
+        <Literal xml:lang="en">Relates a platform to a host in its resource pool. Replaces the redundant multipleHosts.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/includesImage</IRI>
+        <Literal xml:lang="en">includes image</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/includesImage</IRI>
+        <Literal xml:lang="en">Relates an image registry to an image it stores.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/includesRunningInstance</IRI>
+        <Literal xml:lang="en">includes running instance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/includesRunningInstance</IRI>
+        <Literal xml:lang="en">Relates a grouping construct to a deployment unit within its scope.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/loginTo</IRI>
+        <Literal xml:lang="en">login to</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/loginTo</IRI>
+        <Literal xml:lang="en">Relates a secret to the private image registry it authenticates against.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/mountsStorage</IRI>
+        <Literal xml:lang="en">mounts storage</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/mountsStorage</IRI>
+        <Literal xml:lang="en">Relates a volume mount to the storage resource it attaches.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/pullsImageFrom</IRI>
+        <Literal xml:lang="en">pulls image from</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/pullsImageFrom</IRI>
+        <Literal xml:lang="en">Relates a platform or runtime environment to an image registry it retrieves images from.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/reservesDiskSpaceOn</IRI>
+        <Literal xml:lang="en">reserves disk space on</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/reservesDiskSpaceOn</IRI>
+        <Literal xml:lang="en">Relates a storage resource to the host providing its backing disk space.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/runningInstanceOf</IRI>
+        <Literal xml:lang="en">running instance of</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/runningInstanceOf</IRI>
+        <Literal xml:lang="en">Relates a deployment unit to the image it was instantiated from.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/savedTo</IRI>
+        <Literal xml:lang="en">saved to</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/savedTo</IRI>
+        <Literal xml:lang="en">Relates an image to a host holding a local copy of it.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/unpacks</IRI>
+        <Literal xml:lang="en">unpacks</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/unpacks</IRI>
+        <Literal xml:lang="en">Relates a runtime environment to an image whose layers it extracts.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/utilizes</IRI>
+        <Literal xml:lang="en">utilizes</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/utilizes</IRI>
+        <Literal xml:lang="en">Relates a platform or runtime environment to a component it builds upon.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/utilizedBy</IRI>
+        <Literal xml:lang="en">utilized by</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/utilizedBy</IRI>
+        <Literal xml:lang="en">Inverse of utilizes.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/artifact_format</IRI>
+        <Literal xml:lang="en">artifact format</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/artifact_format</IRI>
+        <Literal xml:lang="en">The concrete deployment artifact syntax a platform consumes, e.g. 'docker-compose' or 'kubernetes-manifest'. Used by the converter to select a serialisation backend without inspecting individual names.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/container_name</IRI>
+        <Literal xml:lang="en">container name</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/container_name</IRI>
+        <Literal xml:lang="en">The name given to the container of a deployment unit.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/cpu_limit</IRI>
+        <Literal xml:lang="en">CPU limit</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/cpu_limit</IRI>
+        <Literal xml:lang="en">The maximum share of CPU a deployment unit may consume, e.g. '500m'.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/memory_limit</IRI>
+        <Literal xml:lang="en">memory limit</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/memory_limit</IRI>
+        <Literal xml:lang="en">The maximum amount of memory a deployment unit may consume, e.g. '512Mi'.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/deployment_name</IRI>
+        <Literal xml:lang="en">deployment name</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/deployment_name</IRI>
+        <Literal xml:lang="en">The name of the deployment object wrapping a deployment unit.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/driver</IRI>
+        <Literal xml:lang="en">driver</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/driver</IRI>
+        <Literal xml:lang="en">The storage driver backing a storage resource.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/image_name</IRI>
+        <Literal xml:lang="en">image name</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/image_name</IRI>
+        <Literal xml:lang="en">The fully qualified image reference, including tag.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/mount_path</IRI>
+        <Literal xml:lang="en">mount path</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/mount_path</IRI>
+        <Literal xml:lang="en">The absolute path inside the deployment unit at which storage is mounted.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/namespace_name</IRI>
+        <Literal xml:lang="en">namespace name</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/namespace_name</IRI>
+        <Literal xml:lang="en">The name of a namespace.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/network_name</IRI>
+        <Literal xml:lang="en">network name</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/network_name</IRI>
+        <Literal xml:lang="en">The name of a network.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/ports</IRI>
+        <Literal xml:lang="en">ports</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/ports</IRI>
+        <Literal xml:lang="en">A port mapping exposed by a deployment unit.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/registry_url</IRI>
+        <Literal xml:lang="en">registry URL</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/registry_url</IRI>
+        <Literal xml:lang="en">The endpoint at which an image registry is reachable.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/replicas</IRI>
+        <Literal xml:lang="en">replicas</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/replicas</IRI>
+        <Literal xml:lang="en">The number of identical copies of a deployment unit to maintain.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/reserved_storage</IRI>
+        <Literal xml:lang="en">reserved storage</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/reserved_storage</IRI>
+        <Literal xml:lang="en">The capacity requested for a storage resource, e.g. '1Gi'.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/restart_policy</IRI>
+        <Literal xml:lang="en">restart policy</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/restart_policy</IRI>
+        <Literal xml:lang="en">The policy governing restart of a deployment unit after exit.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/service_name</IRI>
+        <Literal xml:lang="en">service name</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/service_name</IRI>
+        <Literal xml:lang="en">The name of a service.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/variable_name</IRI>
+        <Literal xml:lang="en">variable name</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/variable_name</IRI>
+        <Literal xml:lang="en">The key of an environment variable.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/variable_value</IRI>
+        <Literal xml:lang="en">variable value</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/variable_value</IRI>
+        <Literal xml:lang="en">The value of an environment variable.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/version</IRI>
+        <Literal xml:lang="en">version</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/version</IRI>
+        <Literal xml:lang="en">The schema or product version declared by a platform.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/volume_host_path</IRI>
+        <Literal xml:lang="en">volume host path</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/volume_host_path</IRI>
+        <Literal xml:lang="en">The path on the host backing a persistent storage resource.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/volume_name</IRI>
+        <Literal xml:lang="en">volume name</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/container-ontologies/2024/volume_name</IRI>
+        <Literal xml:lang="en">The name of a storage resource.</Literal>
+    </AnnotationAssertion>
+    <!-- ============ CLASS TAXONOMY ============ -->
+    <SubClassOf><Class IRI="deployment_unit"/><Class IRI="container_orchestration_environment"/></SubClassOf>
+    <SubClassOf><Class IRI="minimal_deployment_unit"/><Class IRI="deployment_unit"/></SubClassOf>
+    <SubClassOf><Class IRI="environment_variable"/><Class IRI="container_orchestration_environment"/></SubClassOf>
+    <SubClassOf><Class IRI="group_by"/><Class IRI="container_orchestration_environment"/></SubClassOf>
+    <SubClassOf><Class IRI="network"/><Class IRI="group_by"/></SubClassOf>
+    <SubClassOf><Class IRI="service"/><Class IRI="group_by"/></SubClassOf>
+    <SubClassOf><Class IRI="namespace"/><Class IRI="group_by"/></SubClassOf>
+    <SubClassOf><Class IRI="host"/><Class IRI="container_orchestration_environment"/></SubClassOf>
+    <SubClassOf><Class IRI="image"/><Class IRI="container_orchestration_environment"/></SubClassOf>
+    <SubClassOf><Class IRI="image_registry"/><Class IRI="container_orchestration_environment"/></SubClassOf>
+    <SubClassOf><Class IRI="private_image_registry"/><Class IRI="image_registry"/></SubClassOf>
+    <SubClassOf><Class IRI="public_image_registry"/><Class IRI="image_registry"/></SubClassOf>
+    <SubClassOf><Class IRI="platform"/><Class IRI="container_orchestration_environment"/></SubClassOf>
+    <SubClassOf><Class IRI="runtime_environment"/><Class IRI="container_orchestration_environment"/></SubClassOf>
+    <SubClassOf><Class IRI="secret"/><Class IRI="container_orchestration_environment"/></SubClassOf>
+    <SubClassOf><Class IRI="storage"/><Class IRI="container_orchestration_environment"/></SubClassOf>
+    <SubClassOf><Class IRI="ephemeral"/><Class IRI="storage"/></SubClassOf>
+    <SubClassOf><Class IRI="persistent"/><Class IRI="storage"/></SubClassOf>
+    <SubClassOf><Class IRI="volume_mount"/><Class IRI="container_orchestration_environment"/></SubClassOf>
+    <!-- ============ DEFINED CLASSES (inferred by the reasoner) ============ -->
+    <EquivalentClasses>
         <Class IRI="subplatform"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#CADO"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#deployment_unit"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ephemeral"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#hosts"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#persistent"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#platform"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#storage"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="composedOf"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="convertsToContainer"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="generatesGroupBy"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="generatesSecret"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="generatesStorage"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="includesHost"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="includesImage"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="multipleMinimalDeploymentUnit"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="includesRunningInstance"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="loginTo"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="multipleGroupby"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="multipleHosts"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="pullsImageFrom"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="reservesDiskSpaceOn"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="runningInstanceOf"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="savedTo"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="unpacks"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="utilizes"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#binds"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#deploys"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#hostedBy"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="container_name"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="depends_on"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="deployment_name"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="driver"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="env_mysql_database"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="env_mysql_root_password"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="env_wordpress_db_host"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="env_wordpress_db_name"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="env_wordpress_db_password"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="env_wordpress_db_user"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="image_name"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="namespace_name"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="network_name"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="networks"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="ports"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="related_image"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="related_namespace"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="related_volume"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="replicas"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="reserved_storage"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="restart_policy"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="version"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="volume_host_path"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="volume_mount_path"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="volume_name"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="volumes"/>
-    </Declaration>
-    <SubClassOf>
+        <ObjectIntersectionOf>
+            <Class IRI="platform"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="utilizedBy"/>
+                <Class IRI="platform"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="stateful_deployment_unit"/>
+        <ObjectIntersectionOf>
+            <Class IRI="deployment_unit"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="hasVolumeMount"/>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="mountsStorage"/>
+                    <Class IRI="persistent"/>
+                </ObjectSomeValuesFrom>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <!-- ============ DISJOINTNESS ============ -->
+    <DisjointClasses>
+        <Class IRI="deployment_unit"/>
+        <Class IRI="environment_variable"/>
         <Class IRI="group_by"/>
-        <Class IRI="#CADO"/>
+        <Class IRI="host"/>
+        <Class IRI="image"/>
+        <Class IRI="image_registry"/>
+        <Class IRI="platform"/>
+        <Class IRI="runtime_environment"/>
+        <Class IRI="secret"/>
+        <Class IRI="storage"/>
+        <Class IRI="volume_mount"/>
+    </DisjointClasses>
+    <DisjointClasses><Class IRI="ephemeral"/><Class IRI="persistent"/></DisjointClasses>
+    <DisjointClasses><Class IRI="private_image_registry"/><Class IRI="public_image_registry"/></DisjointClasses>
+    <DisjointClasses><Class IRI="namespace"/><Class IRI="network"/><Class IRI="service"/></DisjointClasses>
+    <!-- ============ CLASS RESTRICTIONS ============ -->
+    <SubClassOf>
+        <Class IRI="deployment_unit"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="runningInstanceOf"/><Class IRI="image"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="deployment_unit"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="binds"/><Class IRI="storage"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="deployment_unit"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="hostedBy"/><Class IRI="host"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="deployment_unit"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="hasEnvironmentVariable"/><Class IRI="environment_variable"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="deployment_unit"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="hasVolumeMount"/><Class IRI="volume_mount"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="deployment_unit"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="containsMinimalDeploymentUnit"/><Class IRI="minimal_deployment_unit"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="deployment_unit"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="dependsOn"/><Class IRI="deployment_unit"/></ObjectAllValuesFrom>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="group_by"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="includesRunningInstance"/>
-            <Class IRI="#deployment_unit"/>
-        </ObjectSomeValuesFrom>
+        <ObjectAllValuesFrom><ObjectProperty IRI="includesRunningInstance"/><Class IRI="deployment_unit"/></ObjectAllValuesFrom>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="image"/>
-        <Class IRI="#CADO"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="image"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="savedTo"/>
-            <Class IRI="#hosts"/>
-        </ObjectSomeValuesFrom>
+        <ObjectAllValuesFrom><ObjectProperty IRI="savedTo"/><Class IRI="host"/></ObjectAllValuesFrom>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="image_registry"/>
-        <Class IRI="#CADO"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="includesImage"/><Class IRI="image"/></ObjectAllValuesFrom>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="image_registry"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="includesImage"/>
-            <Class IRI="#hosts"/>
-        </ObjectSomeValuesFrom>
+        <Class IRI="platform"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="composedOf"/><Class IRI="container_orchestration_environment"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="platform"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="deploys"/><Class IRI="deployment_unit"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="platform"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="includesHost"/><Class IRI="host"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="platform"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="generatesGroupBy"/><Class IRI="group_by"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="platform"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="generatesSecret"/><Class IRI="secret"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="platform"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="generatesStorage"/><Class IRI="storage"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="platform"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="pullsImageFrom"/><Class IRI="image_registry"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="runtime_environment"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="convertsToContainer"/><Class IRI="image"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="runtime_environment"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="unpacks"/><Class IRI="image"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="runtime_environment"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="pullsImageFrom"/><Class IRI="image_registry"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="secret"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="loginTo"/><Class IRI="private_image_registry"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="storage"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="reservesDiskSpaceOn"/><Class IRI="host"/></ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="volume_mount"/>
+        <ObjectAllValuesFrom><ObjectProperty IRI="mountsStorage"/><Class IRI="storage"/></ObjectAllValuesFrom>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="minimal_deployment_unit"/>
-        <Class IRI="#deployment_unit"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="private_image_registry"/>
-        <Class IRI="image_registry"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="public_image_registry"/>
-        <Class IRI="image_registry"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="runtime_environment"/>
-        <Class IRI="#CADO"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="runtime_environment"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="convertsToContainer"/>
-            <Class IRI="image"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="runtime_environment"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="pullsImageFrom"/>
-            <Class IRI="image_registry"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="runtime_environment"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="unpacks"/>
-            <Class IRI="image"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="secrets"/>
-        <Class IRI="#CADO"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="secrets"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="loginTo"/>
-            <Class IRI="private_image_registry"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="subplatform"/>
-        <Class IRI="#platform"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#deployment_unit"/>
-        <Class IRI="#CADO"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#deployment_unit"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="multipleMinimalDeploymentUnit"/>
-            <Class IRI="minimal_deployment_unit"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#deployment_unit"/>
-        <ObjectSomeValuesFrom>
+        <ObjectExactCardinality cardinality="1">
             <ObjectProperty IRI="runningInstanceOf"/>
             <Class IRI="image"/>
-        </ObjectSomeValuesFrom>
+        </ObjectExactCardinality>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#deployment_unit"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#binds"/>
-            <Class IRI="#storage"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#deployment_unit"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#hostedBy"/>
-            <Class IRI="#hosts"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#ephemeral"/>
-        <Class IRI="#storage"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#hosts"/>
-        <Class IRI="#CADO"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#persistent"/>
-        <Class IRI="#storage"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <Class IRI="#CADO"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="composedOf"/>
-            <Class IRI="group_by"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="composedOf"/>
-            <Class IRI="image"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="composedOf"/>
-            <Class IRI="image_registry"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="composedOf"/>
-            <Class IRI="runtime_environment"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="composedOf"/>
-            <Class IRI="secrets"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="composedOf"/>
-            <Class IRI="#deployment_unit"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="composedOf"/>
-            <Class IRI="#hosts"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="composedOf"/>
-            <Class IRI="#platform"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="composedOf"/>
-            <Class IRI="#storage"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="generatesGroupBy"/>
-            <Class IRI="group_by"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="generatesSecret"/>
-            <Class IRI="secrets"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="generatesStorage"/>
-            <Class IRI="#storage"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="multipleGroupby"/>
-            <Class IRI="group_by"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="multipleHosts"/>
-            <Class IRI="#hosts"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="pullsImageFrom"/>
-            <Class IRI="image_registry"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="utilizes"/>
-            <Class IRI="runtime_environment"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="utilizes"/>
-            <Class IRI="subplatform"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#platform"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#deploys"/>
-            <Class IRI="#deployment_unit"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#storage"/>
-        <Class IRI="#CADO"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#storage"/>
-        <ObjectSomeValuesFrom>
+        <Class IRI="persistent"/>
+        <ObjectMinCardinality cardinality="1">
             <ObjectProperty IRI="reservesDiskSpaceOn"/>
-            <Class IRI="#hosts"/>
-        </ObjectSomeValuesFrom>
+            <Class IRI="host"/>
+        </ObjectMinCardinality>
     </SubClassOf>
-    <DisjointClasses>
-        <Class IRI="#ephemeral"/>
-        <Class IRI="#persistent"/>
-    </DisjointClasses>
-    <SubObjectPropertyOf>
-        <ObjectProperty IRI="multipleHosts"/>
-        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
-    </SubObjectPropertyOf>
+    <SubClassOf>
+        <Class IRI="volume_mount"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="mountsStorage"/>
+            <Class IRI="storage"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf><Class IRI="volume_mount"/><DataExactCardinality cardinality="1"><DataProperty IRI="mount_path"/></DataExactCardinality></SubClassOf>
+    <SubClassOf><Class IRI="environment_variable"/><DataExactCardinality cardinality="1"><DataProperty IRI="variable_name"/></DataExactCardinality></SubClassOf>
+    <SubClassOf><Class IRI="environment_variable"/><DataExactCardinality cardinality="1"><DataProperty IRI="variable_value"/></DataExactCardinality></SubClassOf>
+    <!-- ============ OBJECT PROPERTY AXIOMS ============ -->
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="binds"/>
+        <Class IRI="deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="binds"/>
+        <Class IRI="storage"/>
+    </ObjectPropertyRange>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="composedOf"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="convertsToContainer"/>
-        <Class IRI="runtime_environment"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="generatesGroupBy"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="generatesSecret"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="generatesStorage"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="includesImage"/>
-        <Class IRI="image_registry"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="includesImage"/>
-        <Class IRI="private_image_registry"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="includesImage"/>
-        <Class IRI="public_image_registry"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleMinimalDeploymentUnit"/>
-        <Class IRI="#deployment_unit"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="includesRunningInstance"/>
-        <Class IRI="group_by"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="loginTo"/>
-        <Class IRI="secrets"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleGroupby"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="multipleHosts"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="pullsImageFrom"/>
-        <Class IRI="runtime_environment"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="pullsImageFrom"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="reservesDiskSpaceOn"/>
-        <Class IRI="#persistent"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="reservesDiskSpaceOn"/>
-        <Class IRI="#storage"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="runningInstanceOf"/>
-        <Class IRI="#deployment_unit"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="savedTo"/>
-        <Class IRI="image"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="unpacks"/>
-        <Class IRI="runtime_environment"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="unpacks"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="utilizes"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#binds"/>
-        <Class IRI="#deployment_unit"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#deploys"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#hostedBy"/>
-        <Class IRI="#deployment_unit"/>
+        <Class IRI="platform"/>
     </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="composedOf"/>
-        <Class IRI="group_by"/>
+        <Class IRI="container_orchestration_environment"/>
     </ObjectPropertyRange>
+    <AsymmetricObjectProperty><ObjectProperty IRI="composedOf"/></AsymmetricObjectProperty>
+    <IrreflexiveObjectProperty><ObjectProperty IRI="composedOf"/></IrreflexiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="containsMinimalDeploymentUnit"/>
+        <Class IRI="deployment_unit"/>
+    </ObjectPropertyDomain>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="composedOf"/>
-        <Class IRI="image"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="composedOf"/>
-        <Class IRI="image_registry"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="composedOf"/>
-        <Class IRI="runtime_environment"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="composedOf"/>
-        <Class IRI="secrets"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="composedOf"/>
-        <Class IRI="#deployment_unit"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="composedOf"/>
-        <Class IRI="#hosts"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="composedOf"/>
-        <Class IRI="#platform"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="composedOf"/>
-        <Class IRI="#storage"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="convertsToContainer"/>
-        <Class IRI="image"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="generatesGroupBy"/>
-        <Class IRI="group_by"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="generatesSecret"/>
-        <Class IRI="secrets"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="generatesStorage"/>
-        <Class IRI="#storage"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="includesImage"/>
-        <Class IRI="image"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="multipleMinimalDeploymentUnit"/>
+        <ObjectProperty IRI="containsMinimalDeploymentUnit"/>
         <Class IRI="minimal_deployment_unit"/>
     </ObjectPropertyRange>
+    <AsymmetricObjectProperty><ObjectProperty IRI="containsMinimalDeploymentUnit"/></AsymmetricObjectProperty>
+    <IrreflexiveObjectProperty><ObjectProperty IRI="containsMinimalDeploymentUnit"/></IrreflexiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="convertsToContainer"/>
+        <Class IRI="runtime_environment"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="convertsToContainer"/>
+        <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="dependsOn"/>
+        <Class IRI="deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="dependsOn"/>
+        <Class IRI="deployment_unit"/>
+    </ObjectPropertyRange>
+    <AsymmetricObjectProperty><ObjectProperty IRI="dependsOn"/></AsymmetricObjectProperty>
+    <IrreflexiveObjectProperty><ObjectProperty IRI="dependsOn"/></IrreflexiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="deploys"/>
+        <Class IRI="platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="deploys"/>
+        <Class IRI="deployment_unit"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="deployedBy"/>
+        <Class IRI="deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="deployedBy"/>
+        <Class IRI="platform"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="generatesGroupBy"/>
+        <Class IRI="platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="generatesGroupBy"/>
+        <Class IRI="group_by"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="generatesSecret"/>
+        <Class IRI="platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="generatesSecret"/>
+        <Class IRI="secret"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="generatesStorage"/>
+        <Class IRI="platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="generatesStorage"/>
+        <Class IRI="storage"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="groupedBy"/>
+        <Class IRI="deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="groupedBy"/>
+        <Class IRI="group_by"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="hasEnvironmentVariable"/>
+        <Class IRI="deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="hasEnvironmentVariable"/>
+        <Class IRI="environment_variable"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="hasVolumeMount"/>
+        <Class IRI="deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="hasVolumeMount"/>
+        <Class IRI="volume_mount"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="hostedBy"/>
+        <Class IRI="deployment_unit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="hostedBy"/>
+        <Class IRI="host"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="hosts"/>
+        <Class IRI="host"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="hosts"/>
+        <Class IRI="deployment_unit"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesHost"/>
+        <Class IRI="platform"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="includesHost"/>
+        <Class IRI="host"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesImage"/>
+        <Class IRI="image_registry"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="includesImage"/>
+        <Class IRI="image"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="includesRunningInstance"/>
+        <Class IRI="group_by"/>
+    </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="includesRunningInstance"/>
-        <Class IRI="#deployment_unit"/>
+        <Class IRI="deployment_unit"/>
     </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="loginTo"/>
+        <Class IRI="secret"/>
+    </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="loginTo"/>
         <Class IRI="private_image_registry"/>
     </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="mountsStorage"/>
+        <Class IRI="volume_mount"/>
+    </ObjectPropertyDomain>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="multipleGroupby"/>
-        <Class IRI="group_by"/>
+        <ObjectProperty IRI="mountsStorage"/>
+        <Class IRI="storage"/>
     </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="multipleHosts"/>
-        <Class IRI="#hosts"/>
-    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="pullsImageFrom"/>
+        <ObjectUnionOf>
+            <Class IRI="platform"/>
+            <Class IRI="runtime_environment"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="pullsImageFrom"/>
         <Class IRI="image_registry"/>
     </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="pullsImageFrom"/>
-        <Class IRI="private_image_registry"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="pullsImageFrom"/>
-        <Class IRI="public_image_registry"/>
-    </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="reservesDiskSpaceOn"/>
+        <Class IRI="storage"/>
+    </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="reservesDiskSpaceOn"/>
-        <Class IRI="#hosts"/>
+        <Class IRI="host"/>
     </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="runningInstanceOf"/>
+        <Class IRI="deployment_unit"/>
+    </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="runningInstanceOf"/>
         <Class IRI="image"/>
     </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="savedTo"/>
+        <Class IRI="image"/>
+    </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="savedTo"/>
-        <Class IRI="#hosts"/>
+        <Class IRI="host"/>
     </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="unpacks"/>
+        <Class IRI="runtime_environment"/>
+    </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="unpacks"/>
         <Class IRI="image"/>
     </ObjectPropertyRange>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="utilizes"/>
+        <ObjectUnionOf>
+            <Class IRI="platform"/>
+            <Class IRI="runtime_environment"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="utilizes"/>
-        <Class IRI="runtime_environment"/>
+        <ObjectUnionOf>
+            <Class IRI="platform"/>
+            <Class IRI="runtime_environment"/>
+        </ObjectUnionOf>
     </ObjectPropertyRange>
+    <AsymmetricObjectProperty><ObjectProperty IRI="utilizes"/></AsymmetricObjectProperty>
+    <IrreflexiveObjectProperty><ObjectProperty IRI="utilizes"/></IrreflexiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="utilizedBy"/>
+        <ObjectUnionOf>
+            <Class IRI="platform"/>
+            <Class IRI="runtime_environment"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#binds"/>
-        <Class IRI="#persistent"/>
+        <ObjectProperty IRI="utilizedBy"/>
+        <ObjectUnionOf>
+            <Class IRI="platform"/>
+            <Class IRI="runtime_environment"/>
+        </ObjectUnionOf>
     </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#binds"/>
-        <Class IRI="#storage"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#deploys"/>
-        <Class IRI="#deployment_unit"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#hostedBy"/>
-        <Class IRI="#hosts"/>
-    </ObjectPropertyRange>
+    <InverseObjectProperties><ObjectProperty IRI="deploys"/><ObjectProperty IRI="deployedBy"/></InverseObjectProperties>
+    <InverseObjectProperties><ObjectProperty IRI="hostedBy"/><ObjectProperty IRI="hosts"/></InverseObjectProperties>
+    <InverseObjectProperties><ObjectProperty IRI="includesRunningInstance"/><ObjectProperty IRI="groupedBy"/></InverseObjectProperties>
+    <InverseObjectProperties><ObjectProperty IRI="utilizes"/><ObjectProperty IRI="utilizedBy"/></InverseObjectProperties>
+    <!-- Property chain: mounting storage at a path entails binding that storage -->
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="hasVolumeMount"/>
+            <ObjectProperty IRI="mountsStorage"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="binds"/>
+    </SubObjectPropertyOf>
+    <!-- ============ DATA PROPERTY AXIOMS ============ -->
+    <DataPropertyDomain><DataProperty IRI="artifact_format"/><Class IRI="platform"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="artifact_format"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="artifact_format"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="container_name"/><Class IRI="deployment_unit"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="container_name"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="container_name"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="cpu_limit"/><Class IRI="deployment_unit"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="cpu_limit"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="cpu_limit"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="memory_limit"/><Class IRI="deployment_unit"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="memory_limit"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="memory_limit"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="deployment_name"/><Class IRI="deployment_unit"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="deployment_name"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="deployment_name"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="driver"/><Class IRI="storage"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="driver"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="driver"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="image_name"/><Class IRI="image"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="image_name"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="image_name"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="mount_path"/><Class IRI="volume_mount"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="mount_path"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="mount_path"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="namespace_name"/><Class IRI="namespace"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="namespace_name"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="namespace_name"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="network_name"/><Class IRI="network"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="network_name"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="network_name"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="ports"/><Class IRI="deployment_unit"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="ports"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <DataPropertyDomain><DataProperty IRI="registry_url"/><Class IRI="image_registry"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="registry_url"/><Datatype abbreviatedIRI="xsd:anyURI"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="registry_url"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="replicas"/><Class IRI="deployment_unit"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="replicas"/><Datatype abbreviatedIRI="xsd:nonNegativeInteger"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="replicas"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="reserved_storage"/><Class IRI="storage"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="reserved_storage"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="reserved_storage"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="restart_policy"/><Class IRI="deployment_unit"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="restart_policy"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="restart_policy"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="service_name"/><Class IRI="service"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="service_name"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="service_name"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="variable_name"/><Class IRI="environment_variable"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="variable_name"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="variable_name"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="variable_value"/><Class IRI="environment_variable"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="variable_value"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="variable_value"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="version"/><Class IRI="platform"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="version"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="version"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="volume_host_path"/><Class IRI="persistent"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="volume_host_path"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="volume_host_path"/></FunctionalDataProperty>
+    <DataPropertyDomain><DataProperty IRI="volume_name"/><Class IRI="storage"/></DataPropertyDomain>
+    <DataPropertyRange><DataProperty IRI="volume_name"/><Datatype abbreviatedIRI="xsd:string"/></DataPropertyRange>
+    <FunctionalDataProperty><DataProperty IRI="volume_name"/></FunctionalDataProperty>
 </Ontology>
-
-
-
-<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
-

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cache-deployment
+  namespace: shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cache
+  template:
+    metadata:
+      labels:
+        app: cache
+    spec:
+      containers:
+      - name: cache
+        image: redis:7-alpine
+        volumeMounts:
+        - name: cache-scratch
+          mountPath: /data
+        resources:
+          limits:
+            memory: 256Mi
+      volumes:
+      - name: cache-scratch
+        emptyDir: {}

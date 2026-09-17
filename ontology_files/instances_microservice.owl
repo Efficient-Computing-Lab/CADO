@@ -1,0 +1,255 @@
+<?xml version="1.0"?>
+<!--
+    CADO - Container-Aware Deployment Ontology
+    A-Box (second example): a three-tier microservice deployment.
+    Exercises scaling, resource limits, published ports, multiple networks per
+    deployment unit, a service grouping construct, a private registry with
+    credentials, ephemeral as well as persistent storage, and a dependency chain.
+    No T-Box change was required to express this deployment.
+    Load this A-Box INSTEAD OF instances.owl, not alongside it.
+-->
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/container-ontologies/2024/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.semanticweb.org/container-ontologies/2024/microservice-individuals">
+    <Prefix name="" IRI="http://www.semanticweb.org/container-ontologies/2024/"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Import>entity.owx</Import>
+    <!-- ============ INDIVIDUALS ============ -->
+    <Declaration><NamedIndividual IRI="Node_A"/></Declaration>
+    <Declaration><NamedIndividual IRI="Node_B"/></Declaration>
+    <Declaration><NamedIndividual IRI="Node_C"/></Declaration>
+    <Declaration><NamedIndividual IRI="Docker"/></Declaration>
+    <Declaration><NamedIndividual IRI="Kubernetes"/></Declaration>
+    <Declaration><NamedIndividual IRI="Dockerhub"/></Declaration>
+    <Declaration><NamedIndividual IRI="Company_Registry"/></Declaration>
+    <Declaration><NamedIndividual IRI="Registry_Credentials"/></Declaration>
+    <Declaration><NamedIndividual IRI="Nginx_Image"/></Declaration>
+    <Declaration><NamedIndividual IRI="Api_Image"/></Declaration>
+    <Declaration><NamedIndividual IRI="Redis_Image"/></Declaration>
+    <Declaration><NamedIndividual IRI="Frontend_Network"/></Declaration>
+    <Declaration><NamedIndividual IRI="Backend_Network"/></Declaration>
+    <Declaration><NamedIndividual IRI="Shop_Namespace"/></Declaration>
+    <Declaration><NamedIndividual IRI="Api_Service"/></Declaration>
+    <Declaration><NamedIndividual IRI="Edge_Container"/></Declaration>
+    <Declaration><NamedIndividual IRI="Api_Container"/></Declaration>
+    <Declaration><NamedIndividual IRI="Cache_Container"/></Declaration>
+    <Declaration><NamedIndividual IRI="Edge_Pod"/></Declaration>
+    <Declaration><NamedIndividual IRI="Api_Pod"/></Declaration>
+    <Declaration><NamedIndividual IRI="Cache_Pod"/></Declaration>
+    <Declaration><NamedIndividual IRI="Uploads_Volume_Docker"/></Declaration>
+    <Declaration><NamedIndividual IRI="Uploads_Volume_K8s"/></Declaration>
+    <Declaration><NamedIndividual IRI="Cache_Scratch_Docker"/></Declaration>
+    <Declaration><NamedIndividual IRI="Cache_Scratch_K8s"/></Declaration>
+    <Declaration><NamedIndividual IRI="Api_Container_Mount"/></Declaration>
+    <Declaration><NamedIndividual IRI="Api_Pod_Mount"/></Declaration>
+    <Declaration><NamedIndividual IRI="Cache_Container_Mount"/></Declaration>
+    <Declaration><NamedIndividual IRI="Cache_Pod_Mount"/></Declaration>
+    <Declaration><NamedIndividual IRI="Env_App_Env"/></Declaration>
+    <Declaration><NamedIndividual IRI="Env_Redis_Host"/></Declaration>
+    <Declaration><NamedIndividual IRI="Env_Log_Level"/></Declaration>
+    <!-- ============ CLASS ASSERTIONS ============ -->
+    <ClassAssertion><Class IRI="host"/><NamedIndividual IRI="Node_A"/></ClassAssertion>
+    <ClassAssertion><Class IRI="host"/><NamedIndividual IRI="Node_B"/></ClassAssertion>
+    <ClassAssertion><Class IRI="host"/><NamedIndividual IRI="Node_C"/></ClassAssertion>
+    <ClassAssertion><Class IRI="platform"/><NamedIndividual IRI="Docker"/></ClassAssertion>
+    <ClassAssertion><Class IRI="platform"/><NamedIndividual IRI="Kubernetes"/></ClassAssertion>
+    <ClassAssertion><Class IRI="public_image_registry"/><NamedIndividual IRI="Dockerhub"/></ClassAssertion>
+    <ClassAssertion><Class IRI="private_image_registry"/><NamedIndividual IRI="Company_Registry"/></ClassAssertion>
+    <ClassAssertion><Class IRI="secret"/><NamedIndividual IRI="Registry_Credentials"/></ClassAssertion>
+    <ClassAssertion><Class IRI="image"/><NamedIndividual IRI="Nginx_Image"/></ClassAssertion>
+    <ClassAssertion><Class IRI="image"/><NamedIndividual IRI="Api_Image"/></ClassAssertion>
+    <ClassAssertion><Class IRI="image"/><NamedIndividual IRI="Redis_Image"/></ClassAssertion>
+    <ClassAssertion><Class IRI="network"/><NamedIndividual IRI="Frontend_Network"/></ClassAssertion>
+    <ClassAssertion><Class IRI="network"/><NamedIndividual IRI="Backend_Network"/></ClassAssertion>
+    <ClassAssertion><Class IRI="namespace"/><NamedIndividual IRI="Shop_Namespace"/></ClassAssertion>
+    <ClassAssertion><Class IRI="service"/><NamedIndividual IRI="Api_Service"/></ClassAssertion>
+    <ClassAssertion><Class IRI="minimal_deployment_unit"/><NamedIndividual IRI="Edge_Container"/></ClassAssertion>
+    <ClassAssertion><Class IRI="minimal_deployment_unit"/><NamedIndividual IRI="Api_Container"/></ClassAssertion>
+    <ClassAssertion><Class IRI="minimal_deployment_unit"/><NamedIndividual IRI="Cache_Container"/></ClassAssertion>
+    <ClassAssertion><Class IRI="deployment_unit"/><NamedIndividual IRI="Edge_Pod"/></ClassAssertion>
+    <ClassAssertion><Class IRI="deployment_unit"/><NamedIndividual IRI="Api_Pod"/></ClassAssertion>
+    <ClassAssertion><Class IRI="deployment_unit"/><NamedIndividual IRI="Cache_Pod"/></ClassAssertion>
+    <ClassAssertion><Class IRI="persistent"/><NamedIndividual IRI="Uploads_Volume_Docker"/></ClassAssertion>
+    <ClassAssertion><Class IRI="persistent"/><NamedIndividual IRI="Uploads_Volume_K8s"/></ClassAssertion>
+    <ClassAssertion><Class IRI="ephemeral"/><NamedIndividual IRI="Cache_Scratch_Docker"/></ClassAssertion>
+    <ClassAssertion><Class IRI="ephemeral"/><NamedIndividual IRI="Cache_Scratch_K8s"/></ClassAssertion>
+    <ClassAssertion><Class IRI="volume_mount"/><NamedIndividual IRI="Api_Container_Mount"/></ClassAssertion>
+    <ClassAssertion><Class IRI="volume_mount"/><NamedIndividual IRI="Api_Pod_Mount"/></ClassAssertion>
+    <ClassAssertion><Class IRI="volume_mount"/><NamedIndividual IRI="Cache_Container_Mount"/></ClassAssertion>
+    <ClassAssertion><Class IRI="volume_mount"/><NamedIndividual IRI="Cache_Pod_Mount"/></ClassAssertion>
+    <ClassAssertion><Class IRI="environment_variable"/><NamedIndividual IRI="Env_App_Env"/></ClassAssertion>
+    <ClassAssertion><Class IRI="environment_variable"/><NamedIndividual IRI="Env_Redis_Host"/></ClassAssertion>
+    <ClassAssertion><Class IRI="environment_variable"/><NamedIndividual IRI="Env_Log_Level"/></ClassAssertion>
+    <!-- ============ UNIQUE NAME ASSUMPTION ============ -->
+    <DifferentIndividuals>
+        <NamedIndividual IRI="Node_A"/>
+        <NamedIndividual IRI="Node_B"/>
+        <NamedIndividual IRI="Node_C"/>
+        <NamedIndividual IRI="Docker"/>
+        <NamedIndividual IRI="Kubernetes"/>
+        <NamedIndividual IRI="Dockerhub"/>
+        <NamedIndividual IRI="Company_Registry"/>
+        <NamedIndividual IRI="Registry_Credentials"/>
+        <NamedIndividual IRI="Nginx_Image"/>
+        <NamedIndividual IRI="Api_Image"/>
+        <NamedIndividual IRI="Redis_Image"/>
+        <NamedIndividual IRI="Frontend_Network"/>
+        <NamedIndividual IRI="Backend_Network"/>
+        <NamedIndividual IRI="Shop_Namespace"/>
+        <NamedIndividual IRI="Api_Service"/>
+        <NamedIndividual IRI="Edge_Container"/>
+        <NamedIndividual IRI="Api_Container"/>
+        <NamedIndividual IRI="Cache_Container"/>
+        <NamedIndividual IRI="Edge_Pod"/>
+        <NamedIndividual IRI="Api_Pod"/>
+        <NamedIndividual IRI="Cache_Pod"/>
+        <NamedIndividual IRI="Uploads_Volume_Docker"/>
+        <NamedIndividual IRI="Uploads_Volume_K8s"/>
+        <NamedIndividual IRI="Cache_Scratch_Docker"/>
+        <NamedIndividual IRI="Cache_Scratch_K8s"/>
+        <NamedIndividual IRI="Api_Container_Mount"/>
+        <NamedIndividual IRI="Api_Pod_Mount"/>
+        <NamedIndividual IRI="Cache_Container_Mount"/>
+        <NamedIndividual IRI="Cache_Pod_Mount"/>
+        <NamedIndividual IRI="Env_App_Env"/>
+        <NamedIndividual IRI="Env_Redis_Host"/>
+        <NamedIndividual IRI="Env_Log_Level"/>
+    </DifferentIndividuals>
+    <!-- ============ OBJECT PROPERTY ASSERTIONS ============ -->
+    <ObjectPropertyAssertion><ObjectProperty IRI="loginTo"/><NamedIndividual IRI="Registry_Credentials"/><NamedIndividual IRI="Company_Registry"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesImage"/><NamedIndividual IRI="Dockerhub"/><NamedIndividual IRI="Nginx_Image"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesImage"/><NamedIndividual IRI="Dockerhub"/><NamedIndividual IRI="Redis_Image"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesImage"/><NamedIndividual IRI="Company_Registry"/><NamedIndividual IRI="Api_Image"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="pullsImageFrom"/><NamedIndividual IRI="Docker"/><NamedIndividual IRI="Dockerhub"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="pullsImageFrom"/><NamedIndividual IRI="Docker"/><NamedIndividual IRI="Company_Registry"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="pullsImageFrom"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Dockerhub"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="pullsImageFrom"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Company_Registry"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="generatesSecret"/><NamedIndividual IRI="Docker"/><NamedIndividual IRI="Registry_Credentials"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="generatesSecret"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Registry_Credentials"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesHost"/><NamedIndividual IRI="Docker"/><NamedIndividual IRI="Node_A"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesHost"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Node_A"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesHost"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Node_B"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesHost"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Node_C"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="deploys"/><NamedIndividual IRI="Docker"/><NamedIndividual IRI="Edge_Container"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="deploys"/><NamedIndividual IRI="Docker"/><NamedIndividual IRI="Api_Container"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="deploys"/><NamedIndividual IRI="Docker"/><NamedIndividual IRI="Cache_Container"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="deploys"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Edge_Pod"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="deploys"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Api_Pod"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="deploys"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Cache_Pod"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="generatesGroupBy"/><NamedIndividual IRI="Docker"/><NamedIndividual IRI="Frontend_Network"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="generatesGroupBy"/><NamedIndividual IRI="Docker"/><NamedIndividual IRI="Backend_Network"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="generatesGroupBy"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Shop_Namespace"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="generatesGroupBy"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Api_Service"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="generatesStorage"/><NamedIndividual IRI="Docker"/><NamedIndividual IRI="Uploads_Volume_Docker"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="generatesStorage"/><NamedIndividual IRI="Docker"/><NamedIndividual IRI="Cache_Scratch_Docker"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="generatesStorage"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Uploads_Volume_K8s"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="generatesStorage"/><NamedIndividual IRI="Kubernetes"/><NamedIndividual IRI="Cache_Scratch_K8s"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="runningInstanceOf"/><NamedIndividual IRI="Edge_Container"/><NamedIndividual IRI="Nginx_Image"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="runningInstanceOf"/><NamedIndividual IRI="Api_Container"/><NamedIndividual IRI="Api_Image"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="runningInstanceOf"/><NamedIndividual IRI="Cache_Container"/><NamedIndividual IRI="Redis_Image"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="runningInstanceOf"/><NamedIndividual IRI="Edge_Pod"/><NamedIndividual IRI="Nginx_Image"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="runningInstanceOf"/><NamedIndividual IRI="Api_Pod"/><NamedIndividual IRI="Api_Image"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="runningInstanceOf"/><NamedIndividual IRI="Cache_Pod"/><NamedIndividual IRI="Redis_Image"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesRunningInstance"/><NamedIndividual IRI="Frontend_Network"/><NamedIndividual IRI="Edge_Container"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesRunningInstance"/><NamedIndividual IRI="Frontend_Network"/><NamedIndividual IRI="Api_Container"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesRunningInstance"/><NamedIndividual IRI="Backend_Network"/><NamedIndividual IRI="Api_Container"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesRunningInstance"/><NamedIndividual IRI="Backend_Network"/><NamedIndividual IRI="Cache_Container"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesRunningInstance"/><NamedIndividual IRI="Shop_Namespace"/><NamedIndividual IRI="Edge_Pod"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesRunningInstance"/><NamedIndividual IRI="Shop_Namespace"/><NamedIndividual IRI="Api_Pod"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesRunningInstance"/><NamedIndividual IRI="Shop_Namespace"/><NamedIndividual IRI="Cache_Pod"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="includesRunningInstance"/><NamedIndividual IRI="Api_Service"/><NamedIndividual IRI="Api_Pod"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hostedBy"/><NamedIndividual IRI="Edge_Container"/><NamedIndividual IRI="Node_A"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hostedBy"/><NamedIndividual IRI="Api_Container"/><NamedIndividual IRI="Node_A"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hostedBy"/><NamedIndividual IRI="Cache_Container"/><NamedIndividual IRI="Node_A"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hostedBy"/><NamedIndividual IRI="Edge_Pod"/><NamedIndividual IRI="Node_B"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hostedBy"/><NamedIndividual IRI="Api_Pod"/><NamedIndividual IRI="Node_B"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hostedBy"/><NamedIndividual IRI="Cache_Pod"/><NamedIndividual IRI="Node_C"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="reservesDiskSpaceOn"/><NamedIndividual IRI="Uploads_Volume_Docker"/><NamedIndividual IRI="Node_A"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="reservesDiskSpaceOn"/><NamedIndividual IRI="Uploads_Volume_K8s"/><NamedIndividual IRI="Node_A"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hasVolumeMount"/><NamedIndividual IRI="Api_Container"/><NamedIndividual IRI="Api_Container_Mount"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="mountsStorage"/><NamedIndividual IRI="Api_Container_Mount"/><NamedIndividual IRI="Uploads_Volume_Docker"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hasVolumeMount"/><NamedIndividual IRI="Api_Pod"/><NamedIndividual IRI="Api_Pod_Mount"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="mountsStorage"/><NamedIndividual IRI="Api_Pod_Mount"/><NamedIndividual IRI="Uploads_Volume_K8s"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hasVolumeMount"/><NamedIndividual IRI="Cache_Container"/><NamedIndividual IRI="Cache_Container_Mount"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="mountsStorage"/><NamedIndividual IRI="Cache_Container_Mount"/><NamedIndividual IRI="Cache_Scratch_Docker"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hasVolumeMount"/><NamedIndividual IRI="Cache_Pod"/><NamedIndividual IRI="Cache_Pod_Mount"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="mountsStorage"/><NamedIndividual IRI="Cache_Pod_Mount"/><NamedIndividual IRI="Cache_Scratch_K8s"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hasEnvironmentVariable"/><NamedIndividual IRI="Api_Container"/><NamedIndividual IRI="Env_App_Env"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hasEnvironmentVariable"/><NamedIndividual IRI="Api_Container"/><NamedIndividual IRI="Env_Redis_Host"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hasEnvironmentVariable"/><NamedIndividual IRI="Api_Container"/><NamedIndividual IRI="Env_Log_Level"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hasEnvironmentVariable"/><NamedIndividual IRI="Api_Pod"/><NamedIndividual IRI="Env_App_Env"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hasEnvironmentVariable"/><NamedIndividual IRI="Api_Pod"/><NamedIndividual IRI="Env_Redis_Host"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="hasEnvironmentVariable"/><NamedIndividual IRI="Api_Pod"/><NamedIndividual IRI="Env_Log_Level"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="dependsOn"/><NamedIndividual IRI="Edge_Container"/><NamedIndividual IRI="Api_Container"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="dependsOn"/><NamedIndividual IRI="Api_Container"/><NamedIndividual IRI="Cache_Container"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="dependsOn"/><NamedIndividual IRI="Edge_Pod"/><NamedIndividual IRI="Api_Pod"/></ObjectPropertyAssertion>
+    <ObjectPropertyAssertion><ObjectProperty IRI="dependsOn"/><NamedIndividual IRI="Api_Pod"/><NamedIndividual IRI="Cache_Pod"/></ObjectPropertyAssertion>
+    <!-- ============ DATA PROPERTY ASSERTIONS ============ -->
+    <DataPropertyAssertion><DataProperty IRI="artifact_format"/><NamedIndividual IRI="Docker"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">docker-compose</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="artifact_format"/><NamedIndividual IRI="Kubernetes"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">kubernetes-manifest</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="registry_url"/><NamedIndividual IRI="Company_Registry"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#anyURI">https://registry.example.com/</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="registry_url"/><NamedIndividual IRI="Dockerhub"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#anyURI">https://registry-1.docker.io/</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="image_name"/><NamedIndividual IRI="Nginx_Image"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">nginx:1.25-alpine</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="image_name"/><NamedIndividual IRI="Api_Image"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">registry.example.com/shop/api:2.3.1</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="image_name"/><NamedIndividual IRI="Redis_Image"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">redis:7-alpine</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="network_name"/><NamedIndividual IRI="Frontend_Network"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">frontend</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="network_name"/><NamedIndividual IRI="Backend_Network"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">backend</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="namespace_name"/><NamedIndividual IRI="Shop_Namespace"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">shop</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="service_name"/><NamedIndividual IRI="Api_Service"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">api-svc</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="container_name"/><NamedIndividual IRI="Edge_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">edge</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="replicas"/><NamedIndividual IRI="Edge_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">3</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="ports"/><NamedIndividual IRI="Edge_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">80:80</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="ports"/><NamedIndividual IRI="Edge_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">443:443</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="cpu_limit"/><NamedIndividual IRI="Edge_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">250m</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="memory_limit"/><NamedIndividual IRI="Edge_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">128Mi</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="restart_policy"/><NamedIndividual IRI="Edge_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">always</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="container_name"/><NamedIndividual IRI="Edge_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">edge</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="deployment_name"/><NamedIndividual IRI="Edge_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">edge-deployment</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="replicas"/><NamedIndividual IRI="Edge_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">3</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="ports"/><NamedIndividual IRI="Edge_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">80:80</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="ports"/><NamedIndividual IRI="Edge_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">443:443</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="cpu_limit"/><NamedIndividual IRI="Edge_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">250m</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="memory_limit"/><NamedIndividual IRI="Edge_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">128Mi</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="container_name"/><NamedIndividual IRI="Api_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">api</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="replicas"/><NamedIndividual IRI="Api_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="cpu_limit"/><NamedIndividual IRI="Api_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">500m</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="memory_limit"/><NamedIndividual IRI="Api_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">512Mi</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="restart_policy"/><NamedIndividual IRI="Api_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">unless-stopped</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="container_name"/><NamedIndividual IRI="Api_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">api</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="deployment_name"/><NamedIndividual IRI="Api_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">api-deployment</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="replicas"/><NamedIndividual IRI="Api_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="cpu_limit"/><NamedIndividual IRI="Api_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">500m</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="memory_limit"/><NamedIndividual IRI="Api_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">512Mi</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="container_name"/><NamedIndividual IRI="Cache_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">cache</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="replicas"/><NamedIndividual IRI="Cache_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="memory_limit"/><NamedIndividual IRI="Cache_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">256Mi</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="restart_policy"/><NamedIndividual IRI="Cache_Container"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">always</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="container_name"/><NamedIndividual IRI="Cache_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">cache</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="deployment_name"/><NamedIndividual IRI="Cache_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">cache-deployment</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="replicas"/><NamedIndividual IRI="Cache_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="memory_limit"/><NamedIndividual IRI="Cache_Pod"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">256Mi</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="volume_name"/><NamedIndividual IRI="Uploads_Volume_Docker"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">shop_uploads</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="volume_name"/><NamedIndividual IRI="Uploads_Volume_K8s"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">uploads-pv</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="volume_host_path"/><NamedIndividual IRI="Uploads_Volume_K8s"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">/mnt/data/uploads</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="reserved_storage"/><NamedIndividual IRI="Uploads_Volume_K8s"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">10Gi</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="volume_name"/><NamedIndividual IRI="Cache_Scratch_Docker"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">cache_scratch</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="volume_name"/><NamedIndividual IRI="Cache_Scratch_K8s"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">cache-scratch</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="mount_path"/><NamedIndividual IRI="Api_Container_Mount"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">/srv/uploads</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="mount_path"/><NamedIndividual IRI="Api_Pod_Mount"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">/srv/uploads</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="mount_path"/><NamedIndividual IRI="Cache_Container_Mount"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">/data</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="mount_path"/><NamedIndividual IRI="Cache_Pod_Mount"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">/data</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="variable_name"/><NamedIndividual IRI="Env_App_Env"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">APP_ENV</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="variable_value"/><NamedIndividual IRI="Env_App_Env"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">production</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="variable_name"/><NamedIndividual IRI="Env_Redis_Host"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">REDIS_HOST</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="variable_value"/><NamedIndividual IRI="Env_Redis_Host"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">cache</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="variable_name"/><NamedIndividual IRI="Env_Log_Level"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">LOG_LEVEL</Literal></DataPropertyAssertion>
+    <DataPropertyAssertion><DataProperty IRI="variable_value"/><NamedIndividual IRI="Env_Log_Level"/><Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">info</Literal></DataPropertyAssertion>
+</Ontology>

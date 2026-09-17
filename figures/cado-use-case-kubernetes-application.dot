@@ -1,0 +1,28 @@
+// engine=dot
+digraph "cado-use-case-kubernetes-application" {
+  graph [rankdir=TB, splines=true, overlap=false, nodesep=0.42, ranksep=1.05, fontname="Helvetica", fontsize=26, pad=0.3];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=22, margin="0.18,0.10", penwidth=1.6];
+  edge  [fontname="Helvetica", fontsize=19, color="#37474F", fontcolor="#37474F", penwidth=1.4, arrowsize=0.9];
+  "Kubernetes" [label=<<B>Kubernetes</B><BR/><FONT POINT-SIZE="17"><I>platform</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "MySQL_Docker_Image" [label=<<B>MySQL Docker<BR/>Image</B><BR/><FONT POINT-SIZE="17"><I>image</I></FONT><BR/><FONT POINT-SIZE="16">mysql:5.7</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "MySQL_Kubernetes_Volume" [label=<<B>MySQL<BR/>Kubernetes<BR/>Volume</B><BR/><FONT POINT-SIZE="17"><I>persistent</I></FONT><BR/><FONT POINT-SIZE="16">mysql-pv</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "MySQL_Pod" [label=<<B>MySQL Pod</B><BR/><FONT POINT-SIZE="17"><I>deployment_unit</I></FONT><BR/><FONT POINT-SIZE="16">mysql</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Namespace" [label=<<B>Namespace</B><BR/><FONT POINT-SIZE="17"><I>namespace</I></FONT><BR/><FONT POINT-SIZE="16">wordpress-namespace</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Physical_Machine" [label=<<B>Physical<BR/>Machine</B><BR/><FONT POINT-SIZE="17"><I>host</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Wordpress_Docker_Image" [label=<<B>Wordpress<BR/>Docker Image</B><BR/><FONT POINT-SIZE="17"><I>image</I></FONT><BR/><FONT POINT-SIZE="16">wordpress:latest</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Wordpress_Kubernetes_Volume" [label=<<B>Wordpress<BR/>Kubernetes<BR/>Volume</B><BR/><FONT POINT-SIZE="17"><I>persistent</I></FONT><BR/><FONT POINT-SIZE="16">wp-pv</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Wordpress_Pod" [label=<<B>Wordpress Pod</B><BR/><FONT POINT-SIZE="17"><I>deployment_unit</I></FONT><BR/><FONT POINT-SIZE="16">wordpress</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Kubernetes" -> "MySQL_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>deploys</TD></TR></TABLE>>];
+  "Kubernetes" -> "Wordpress_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>deploys</TD></TR></TABLE>>];
+  "MySQL_Kubernetes_Volume" -> "Physical_Machine" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>reservesDiskSpaceOn</TD></TR></TABLE>>];
+  "MySQL_Pod" -> "MySQL_Kubernetes_Volume" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>binds (inferred)</TD></TR></TABLE>>];
+  "MySQL_Pod" -> "Physical_Machine" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>hostedBy</TD></TR></TABLE>>];
+  "MySQL_Pod" -> "MySQL_Docker_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>runningInstanceOf</TD></TR></TABLE>>];
+  "Namespace" -> "MySQL_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>includesRunningInstance</TD></TR></TABLE>>];
+  "Namespace" -> "Wordpress_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>includesRunningInstance</TD></TR></TABLE>>];
+  "Wordpress_Kubernetes_Volume" -> "Physical_Machine" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>reservesDiskSpaceOn</TD></TR></TABLE>>];
+  "Wordpress_Pod" -> "Wordpress_Kubernetes_Volume" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>binds (inferred)</TD></TR></TABLE>>];
+  "Wordpress_Pod" -> "MySQL_Pod" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>dependsOn</TD></TR></TABLE>>];
+  "Wordpress_Pod" -> "Physical_Machine" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>hostedBy</TD></TR></TABLE>>];
+  "Wordpress_Pod" -> "Wordpress_Docker_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>runningInstanceOf</TD></TR></TABLE>>];
+}

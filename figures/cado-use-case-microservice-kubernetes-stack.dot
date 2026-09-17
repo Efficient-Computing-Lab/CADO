@@ -1,0 +1,17 @@
+// engine=dot
+digraph "cado-use-case-microservice-kubernetes-stack" {
+  graph [rankdir=TB, splines=true, overlap=false, nodesep=0.42, ranksep=1.05, fontname="Helvetica", fontsize=26, pad=0.3];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=22, margin="0.18,0.10", penwidth=1.6];
+  edge  [fontname="Helvetica", fontsize=19, color="#37474F", fontcolor="#37474F", penwidth=1.4, arrowsize=0.9];
+  "Api_Image" [label=<<B>Api Image</B><BR/><FONT POINT-SIZE="17"><I>image</I></FONT><BR/><FONT POINT-SIZE="16">registry.example.com/shop/api:2.3.1</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Company_Registry" [label=<<B>Company<BR/>Registry</B><BR/><FONT POINT-SIZE="17"><I>private_image_registry</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Dockerhub" [label=<<B>Dockerhub</B><BR/><FONT POINT-SIZE="17"><I>public_image_registry</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Kubernetes" [label=<<B>Kubernetes</B><BR/><FONT POINT-SIZE="17"><I>platform</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Nginx_Image" [label=<<B>Nginx Image</B><BR/><FONT POINT-SIZE="17"><I>image</I></FONT><BR/><FONT POINT-SIZE="16">nginx:1.25-alpine</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Redis_Image" [label=<<B>Redis Image</B><BR/><FONT POINT-SIZE="17"><I>image</I></FONT><BR/><FONT POINT-SIZE="16">redis:7-alpine</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Company_Registry" -> "Api_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>includesImage</TD></TR></TABLE>>];
+  "Dockerhub" -> "Nginx_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>includesImage</TD></TR></TABLE>>];
+  "Dockerhub" -> "Redis_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>includesImage</TD></TR></TABLE>>];
+  "Kubernetes" -> "Company_Registry" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>pullsImageFrom</TD></TR></TABLE>>];
+  "Kubernetes" -> "Dockerhub" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>pullsImageFrom</TD></TR></TABLE>>];
+}

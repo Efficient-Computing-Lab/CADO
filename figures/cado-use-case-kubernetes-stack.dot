@@ -1,0 +1,25 @@
+// engine=dot
+digraph "cado-use-case-kubernetes-stack" {
+  graph [rankdir=TB, splines=true, overlap=false, nodesep=0.42, ranksep=1.05, fontname="Helvetica", fontsize=26, pad=0.3];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=22, margin="0.18,0.10", penwidth=1.6];
+  edge  [fontname="Helvetica", fontsize=19, color="#37474F", fontcolor="#37474F", penwidth=1.4, arrowsize=0.9];
+  "CRI-O" [label=<<B>CRI-O</B><BR/><FONT POINT-SIZE="17"><I>runtime_environment</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Dockerhub" [label=<<B>Dockerhub</B><BR/><FONT POINT-SIZE="17"><I>public_image_registry</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Kubernetes" [label=<<B>Kubernetes</B><BR/><FONT POINT-SIZE="17"><I>platform</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "MySQL_Docker_Image" [label=<<B>MySQL Docker<BR/>Image</B><BR/><FONT POINT-SIZE="17"><I>image</I></FONT><BR/><FONT POINT-SIZE="16">mysql:5.7</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Physical_Machine" [label=<<B>Physical<BR/>Machine</B><BR/><FONT POINT-SIZE="17"><I>host</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "RunC" [label=<<B>RunC</B><BR/><FONT POINT-SIZE="17"><I>runtime_environment</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Virtual_Machine" [label=<<B>Virtual<BR/>Machine</B><BR/><FONT POINT-SIZE="17"><I>host</I></FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "Wordpress_Docker_Image" [label=<<B>Wordpress<BR/>Docker Image</B><BR/><FONT POINT-SIZE="17"><I>image</I></FONT><BR/><FONT POINT-SIZE="16">wordpress:latest</FONT>>, fillcolor="#FFF8E1", color="#F9A825"];
+  "CRI-O" -> "Dockerhub" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>pullsImageFrom</TD></TR></TABLE>>];
+  "CRI-O" -> "MySQL_Docker_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>unpacks</TD></TR></TABLE>>];
+  "CRI-O" -> "Wordpress_Docker_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>unpacks</TD></TR></TABLE>>];
+  "CRI-O" -> "RunC" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>utilizes</TD></TR></TABLE>>];
+  "Dockerhub" -> "MySQL_Docker_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>includesImage</TD></TR></TABLE>>];
+  "Dockerhub" -> "Wordpress_Docker_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>includesImage</TD></TR></TABLE>>];
+  "Kubernetes" -> "CRI-O" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>utilizes</TD></TR></TABLE>>];
+  "MySQL_Docker_Image" -> "Physical_Machine" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>savedTo</TD></TR></TABLE>>];
+  "RunC" -> "MySQL_Docker_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>convertsToContainer</TD></TR></TABLE>>];
+  "RunC" -> "Wordpress_Docker_Image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>convertsToContainer</TD></TR></TABLE>>];
+  "Wordpress_Docker_Image" -> "Virtual_Machine" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>savedTo</TD></TR></TABLE>>];
+}

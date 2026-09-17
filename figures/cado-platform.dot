@@ -1,0 +1,26 @@
+// engine=dot
+digraph "platform" {
+  graph [rankdir=LR, splines=true, overlap=false, nodesep=0.95, ranksep=1.10, fontname="Helvetica", fontsize=26, pad=0.3];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=22, margin="0.18,0.10", penwidth=1.6];
+  edge  [fontname="Helvetica", fontsize=19, color="#37474F", fontcolor="#37474F", penwidth=1.4, arrowsize=0.9];
+  "platform" [label="platform", fillcolor="#F1F8E9", color="#7CB342", penwidth=2.6];
+  "container_orchestration_environment" [label="container_\norchestration_environment", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "platform" -> "container_orchestration_environment" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>composedOf</TD></TR></TABLE>>];
+  "deployment_unit" [label="deployment_unit", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "platform" -> "deployment_unit" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>deploys</TD></TR></TABLE>>];
+  "group_by" [label="group_by", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "platform" -> "group_by" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>generatesGroupBy</TD></TR></TABLE>>];
+  "secret" [label="secret", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "platform" -> "secret" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>generatesSecret</TD></TR></TABLE>>];
+  "storage" [label="storage", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "platform" -> "storage" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>generatesStorage</TD></TR></TABLE>>];
+  "host" [label="host", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "platform" -> "host" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>includesHost</TD></TR></TABLE>>];
+  "image_registry" [label="image_registry", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "platform" -> "image_registry" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>pullsImageFrom*</TD></TR></TABLE>>];
+  "platform" -> "platform" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>utilizes*</TD></TR></TABLE>>, headport=nw, tailport=ne];
+  "runtime_environment" [label="runtime_environment", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "platform" -> "runtime_environment" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>utilizes*</TD></TR></TABLE>>];
+  "subplatform" [label="subplatform", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "platform" -> "subplatform" [arrowhead=onormal, color="#5C6BC0", label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD><FONT COLOR="#5C6BC0">is-a</FONT></TD></TR></TABLE>>, style=dashed];
+}

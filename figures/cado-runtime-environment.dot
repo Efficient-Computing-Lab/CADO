@@ -1,0 +1,15 @@
+// engine=dot
+digraph "runtime_environment" {
+  graph [rankdir=LR, splines=true, overlap=false, nodesep=0.95, ranksep=1.10, fontname="Helvetica", fontsize=26, pad=0.3];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=22, margin="0.18,0.10", penwidth=1.6];
+  edge  [fontname="Helvetica", fontsize=19, color="#37474F", fontcolor="#37474F", penwidth=1.4, arrowsize=0.9];
+  "runtime_environment" [label="runtime_environment", fillcolor="#F1F8E9", color="#7CB342", penwidth=2.6];
+  "image" [label="image", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "runtime_environment" -> "image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>convertsToContainer</TD></TR></TABLE>>];
+  "image_registry" [label="image_registry", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "runtime_environment" -> "image_registry" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>pullsImageFrom*</TD></TR></TABLE>>];
+  "runtime_environment" -> "image" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>unpacks</TD></TR></TABLE>>];
+  "platform" [label="platform", fillcolor="#E8EAF6", color="#5C6BC0"];
+  "runtime_environment" -> "platform" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>utilizes*</TD></TR></TABLE>>];
+  "runtime_environment" -> "runtime_environment" [label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0" BGCOLOR="white"><TR><TD>utilizes*</TD></TR></TABLE>>, headport=nw, tailport=ne];
+}

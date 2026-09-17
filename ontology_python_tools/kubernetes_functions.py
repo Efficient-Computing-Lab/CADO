@@ -1,271 +1,142 @@
-# kube_generator.py
-import yaml
-from owlready2 import get_ontology, default_world
+"""Serialises a CADO platform description into Kubernetes manifests.
+
+This module contains only Kubernetes syntax. Everything it knows about the
+deployment comes from cado_graph, i.e. from the ontology.
+"""
+
+import cado_graph as g
+
+DEFAULT_ACCESS_MODE = "ReadWriteOnce"
+DEFAULT_CAPACITY = "1Gi"
 
 
+def _claim_name(volume_name):
+    return volume_name + "c"
 
 
-# ----------------------------------------------------------
-# 1. FIND KUBERNETES POD INSTANCES (UNCHANGED)
-# ----------------------------------------------------------
-def find_kubernetes_instances(all_instances):
-    # ... (unchanged)
-    container_list = []
+def generate_kubernetes_manifests(onto, world, platform):
+    """Returns (namespace, deployments, persistent_volumes, claims)."""
+    deployments, namespaces = [], set()
 
+    for unit in g.deployment_units(platform):
+        namespace = g.namespace_name(onto, world, unit)
+        namespaces.add(namespace)
 
-    for inst in all_instances:
+        container = {}
+        container_name = g.one(unit, "container_name") or unit.name.lower()
+        container["name"] = container_name
 
-        # Direct name match
-        if "Pod" in inst.name or "Kubernetes_Volume" in inst.name:
-            container_list.append(inst)
-            continue
+        image = g.image_reference(onto, unit)
+        if image:
+            container["image"] = image
 
-        # Class-based match
-        for cls in inst.is_a:
-            if "Pod" in cls.name or "Kubernetes_Volume" in inst.name:
-                container_list.append(inst)
-                break
-    print("\nPod instances found:")
-    for inst in container_list:
-        print(" -", inst)
-    return container_list
+        environment = g.environment(onto, unit)
+        if environment:
+            container["env"] = [{"name": k, "value": v} for k, v in environment.items()]
 
+        ports = g.many(unit, "ports")
+        if ports:
+            container["ports"] = [{"containerPort": int(str(p).split(":")[-1])}
+                                  for p in sorted(str(x) for x in ports)]
 
-# ----------------------------------------------------------
-# 2. FIND KUBERNETES DATA ASSERTIONS (UNCHANGED)
-# ----------------------------------------------------------
-# ----------------------------------------------------------
-# 2. FIND KUBERNETES DATA ASSERTIONS (REVISED FOR ROBUSTNESS)
-# ----------------------------------------------------------
-def find_kubernetes_data_assertions(container_list, onto):
-    """
-    Prints data properties asserted on Pod instances, handling potential
-    Owlready2 naming inconsistencies.
-    """
-    print("\nData assertions for Pod instances:\n")
-
-    for inst in container_list:
-        print(f"Instance: {inst.name}")
-
-        # 1. Iterate over all defined data properties in the ontology
-        for prop in onto.data_properties():
-
-            # --- Attempt 1: Use Owlready2's designated Python property name ---
-            values = getattr(inst, prop.python_name, [])
-
-            # --- Attempt 2: Use the raw property name (local name) if attempt 1 fails ---
-            # This is common if the ontology doesn't set a python_name correctly.
-            if not values:
-                values = getattr(inst, prop.name, [])
-
-            # Convert values to a list if not already (for consistency)
-            if values:
-                # Use list(values) to handle case where values is a generator/set
-                print(f"  {prop.name} -> {list(values)}")
-                found_props = True
-
-
-
-
-
-# ----------------------------------------------------------
-# 3. GENERATE KUBERNETES YAML FILES (FIXED TO RETURN ARRAYS AND SINGLE NAMESPACE)
-# ----------------------------------------------------------
-# ----------------------------------------------------------
-# 3. GENERATE KUBERNETES YAML FILES (FIXED LOGIC)
-# ----------------------------------------------------------
-def generate_kubernetes_yaml_files(container_list, onto):
-    resources = {
-        "namespaces": set(),
-        "deployments": [],
-        "volumes": {}
-    }
-    # Temporary structure to hold all pod/deployment config data
-    deployment_configs = {}
-
-    data_props = {prop.name.lower(): prop for prop in onto.data_properties()}
-
-    # =======================================================
-    # PASS 1: AGGREGATE ALL DATA (VOLUMES AND DEPLOYMENT CONFIGS)
-    # =======================================================
-    for inst in container_list:
-        ont_name = inst.name
-        prefix = ont_name.split("_")[0]
-
-        # --- Common Data Extraction ---
-        instance_data = {}
-        for prop_name, prop in data_props.items():
-            values = list(getattr(inst, prop.python_name, []))
-            if not values:
+        # The ephemeral/persistent classification in the ontology decides whether
+        # the pod volume is an emptyDir or a persistent volume claim.
+        mounts, pod_volumes = [], []
+        for storage, mount_path in g.volume_mounts(onto, unit):
+            volume_name = g.one(storage, "volume_name")
+            if not (volume_name and mount_path):
                 continue
-            instance_data[prop_name] = values[0]
+            mounts.append({"name": volume_name, "mountPath": mount_path})
+            if g.is_a(storage, onto.ephemeral):
+                pod_volumes.append({"name": volume_name, "emptyDir": {}})
+            else:
+                pod_volumes.append({"name": volume_name,
+                                    "persistentVolumeClaim": {"claimName": _claim_name(volume_name)}})
+        if mounts:
+            container["volumeMounts"] = mounts
 
-        # -------------------------------------------------------
-        # PARSE VOLUME DATA (Store in resources["volumes"])
-        # -------------------------------------------------------
-        if "volume" in ont_name.lower():
-            if instance_data.get("volume_name"):
-                resources["volumes"][prefix] = {
-                    "name": instance_data["volume_name"],
-                    "hostPath": instance_data.get("volume_host_path"),
-                    "storage": instance_data.get("reserved_storage") or "1Gi",
-                    "accessMode": "ReadWriteOnce"
-                }
+        limits = {}
+        if g.one(unit, "cpu_limit"):
+            limits["cpu"] = g.one(unit, "cpu_limit")
+        if g.one(unit, "memory_limit"):
+            limits["memory"] = g.one(unit, "memory_limit")
+        if limits:
+            container["resources"] = {"limits": limits}
 
-        # -------------------------------------------------------
-        # PARSE POD DATA (Store in temporary deployment_configs)
-        # -------------------------------------------------------
-        elif "pod" in ont_name.lower():
-            deployment_name = instance_data.get("deployment_name")
-            if deployment_name:
-
-                # Initialize config for this deployment if it doesn't exist
-                if deployment_name not in deployment_configs:
-                    deployment_configs[deployment_name] = {
-                        "namespace_name": "default",
-                        "replicas_value": 1,
-                        "containers": [],  # List to support multi-container pods if needed
-                        "volume_mounts": []
-                    }
-
-                config = deployment_configs[deployment_name]
-
-                # Deployment Metadata
-                config["namespace_name"] = instance_data.get("related_namespace", config["namespace_name"])
-                resources["namespaces"].add(config["namespace_name"])
-                try:
-                    config["replicas_value"] = int(instance_data.get("replicas", config["replicas_value"]))
-                except (ValueError, TypeError):
-                    pass  # Keep default if conversion fails
-
-                # Container Spec
-                container_spec = {}
-                env_vars = []
-
-                if instance_data.get("container_name"):
-                    container_spec["name"] = instance_data["container_name"]
-                if instance_data.get("related_image"):
-                    container_spec["image"] = instance_data["related_image"]
-
-                for prop_name, value in instance_data.items():
-                    if prop_name.startswith("env_"):
-                        key = prop_name.replace("env_", "").upper()
-                        env_vars.append({"name": key, "value": value})
-
-                # Volume Mounts (store *which* pod/deployment/volume connection this is)
-                if instance_data.get("volume_mount_path"):
-                    config["volume_mounts"].append({
-                        "prefix": prefix,  # Use the prefix to link to the volume data later
-                        "mountPath": instance_data["volume_mount_path"]
-                    })
-
-                # Dedup and add container
-                if container_spec:
-                    dedup = {e["name"]: e["value"] for e in env_vars}
-                    container_spec["env"] = [{"name": k, "value": v} for k, v in dedup.items()]
-                    config["containers"].append(container_spec)
-
-    # =======================================================
-    # PASS 2: GENERATE YAML RESOURCES
-    # =======================================================
-
-    # -------------------------------------------------------
-    # BUILD DEPLOYMENTS
-    # -------------------------------------------------------
-    for deployment_name, config in deployment_configs.items():
-
-        container_blocks = []
-        for container_spec in config["containers"]:
-            container_block = dict(container_spec)
-
-            # Add volumeMounts to the container block
-            volume_mounts = []
-            for vm_data in config["volume_mounts"]:
-                # Link volume mount to the volume data using the prefix
-                prefix = vm_data["prefix"]
-                if prefix in resources["volumes"]:
-                    vol = resources["volumes"][prefix]
-                    volume_mounts.append({"name": vol["name"], "mountPath": vm_data["mountPath"]})
-
-            if volume_mounts:
-                container_block["volumeMounts"] = volume_mounts
-
-            container_blocks.append(container_block)
-
-        template_spec = {"containers": container_blocks}
-
-        # Add Volume specs (PVCs) to the Pod Template
-        pod_volumes = []
-        # Check all volume mounts for the deployment and add a volume spec for each unique volume
-        used_volumes = set()
-        for vm_data in config["volume_mounts"]:
-            prefix = vm_data["prefix"]
-            if prefix in resources["volumes"] and prefix not in used_volumes:
-                vol = resources["volumes"][prefix]
-                pod_volumes.append({
-                    "name": vol["name"],
-                    "persistentVolumeClaim": {"claimName": vol["name"]+"c"}
-                })
-                used_volumes.add(prefix)
-
+        pod_spec = {"containers": [container]}
         if pod_volumes:
-            template_spec["volumes"] = pod_volumes
+            pod_spec["volumes"] = pod_volumes
 
-        # Assume single container for selector label for simplicity
-        app_label = config["containers"][0]["name"] if config["containers"] else deployment_name
+        # A private registry cannot be pulled from anonymously. The ontology
+        # states which secret logs in to the registry holding this unit's image,
+        # so the reference is emitted only where a credential is actually
+        # required. The Secret object itself is created out of band: CADO
+        # describes that a credential exists, never the credential material.
+        pull_secrets = g.image_pull_secrets(onto, world, unit)
+        if pull_secrets:
+            pod_spec["imagePullSecrets"] = [{"name": n} for n in pull_secrets]
 
-        deployment = {
+        replicas = g.one(unit, "replicas", 1)
+        deployment_name = g.one(unit, "deployment_name") or container_name
+
+        deployments.append({
             "apiVersion": "apps/v1",
             "kind": "Deployment",
-            "metadata": {"name": deployment_name, "namespace": config["namespace_name"]},
+            "metadata": {"name": deployment_name, "namespace": namespace},
             "spec": {
-                "replicas": config["replicas_value"],
-                "selector": {"matchLabels": {"app": app_label}},
+                "replicas": int(replicas),
+                "selector": {"matchLabels": {"app": container_name}},
                 "template": {
-                    "metadata": {"labels": {"app": app_label}},
-                    "spec": template_spec
-                }
-            }
-        }
-        resources["deployments"].append(deployment)
+                    "metadata": {"labels": {"app": container_name}},
+                    "spec": pod_spec,
+                },
+            },
+        })
 
-    # -------------------------------------------------------
-    # NAMESPACE, PV, PVC (This section remains largely the same)
-    # -------------------------------------------------------
-    # ... (remaining logic for NS, PV, PVC as in the original code)
-    ns = None
-    namespaces = sorted({n for n in resources["namespaces"] if n.lower() != "default"})
-    if namespaces:
-        print(namespaces)
-        ns = {"apiVersion": "v1", "kind": "Namespace", "metadata": {"name": namespaces[0]}}
+    deployments.sort(key=lambda d: d["metadata"]["name"])
 
-    pv_array = []
-    pvc_array = []
-    for prefix, v in resources["volumes"].items():
-        # PersistentVolume
-        pv = {
-            "apiVersion": "v1",
-            "kind": "PersistentVolume",
-            "metadata": {"name": v["name"], "namespace":namespaces[0]},
-            "spec": {
-                "capacity": {"storage": v["storage"]},
-                "accessModes": [v["accessMode"]],
-                "hostPath": {"path": v["hostPath"]},
-            }
-        }
-        pv_array.append(pv)
+    declared = sorted(n for n in namespaces if n != "default")
+    namespace_manifest = None
+    if declared:
+        namespace_manifest = {"apiVersion": "v1", "kind": "Namespace",
+                              "metadata": {"name": declared[0]}}
+    target_namespace = declared[0] if declared else "default"
 
-        # PersistentVolumeClaim
-        pvc = {
-            "apiVersion": "v1",
-            "kind": "PersistentVolumeClaim",
-            "metadata": {"name": v["name"]+"c","namespace":namespaces[0]},
-            "spec": {
-                "accessModes": [v["accessMode"]],
-                "resources": {"requests": {"storage": v["storage"]}},
-                "storageClassName": ""
-            }
-        }
-        pvc_array.append(pvc)
+    volume_manifests, claim_manifests = [], []
+    for storage in g.persistent_volumes(onto, platform):
+        volume_name = g.one(storage, "volume_name")
+        capacity = g.one(storage, "reserved_storage") or DEFAULT_CAPACITY
+        host_path = g.one(storage, "volume_host_path")
 
-    return ns, resources["deployments"], pv_array, pvc_array
+        spec = {"capacity": {"storage": capacity},
+                "accessModes": [DEFAULT_ACCESS_MODE]}
+        if host_path:
+            spec["hostPath"] = {"path": host_path}
+
+        volume_manifests.append({
+            "apiVersion": "v1", "kind": "PersistentVolume",
+            "metadata": {"name": volume_name, "namespace": target_namespace},
+            "spec": spec,
+        })
+        claim_manifests.append({
+            "apiVersion": "v1", "kind": "PersistentVolumeClaim",
+            "metadata": {"name": _claim_name(volume_name), "namespace": target_namespace},
+            "spec": {"accessModes": [DEFAULT_ACCESS_MODE],
+                     "resources": {"requests": {"storage": capacity}},
+                     "storageClassName": ""},
+        })
+
+    return namespace_manifest, deployments, volume_manifests, claim_manifests
+
+
+def describe(onto, world, platform):
+    """Human-readable trace of what was read from the ontology."""
+    print("\nPlatform '%s' (artifact_format=%s)" % (platform.name, g.one(platform, "artifact_format")))
+    for unit in g.deployment_units(platform):
+        print("  deployment unit: %s" % unit.name)
+        print("     image           : %s" % g.image_reference(onto, unit))
+        print("     namespace       : %s" % g.namespace_name(onto, world, unit))
+        print("     replicas        : %s" % g.one(unit, "replicas", 1))
+        print("     env             : %s" % g.environment(onto, unit))
+        print("     volume mounts   : %s" % [(s.name, p) for s, p in g.volume_mounts(onto, unit)])
+        print("     pull secrets    : %s" % g.image_pull_secrets(onto, world, unit))

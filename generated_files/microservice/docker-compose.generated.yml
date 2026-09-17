@@ -1,0 +1,56 @@
+version: '3.9'
+services:
+  api:
+    image: registry.example.com/shop/api:2.3.1
+    restart: unless-stopped
+    environment:
+      APP_ENV: production
+      LOG_LEVEL: info
+      REDIS_HOST: cache
+    networks:
+    - backend
+    - frontend
+    volumes:
+    - shop_uploads:/srv/uploads
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 512m
+    depends_on:
+    - cache
+  cache:
+    image: redis:7-alpine
+    container_name: cache
+    restart: always
+    networks:
+    - backend
+    tmpfs:
+    - /data
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 256m
+  edge:
+    image: nginx:1.25-alpine
+    restart: always
+    networks:
+    - frontend
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 128m
+    ports:
+    - 443:443
+    - 80:80
+    depends_on:
+    - api
+networks:
+  backend: {}
+  frontend: {}
+volumes:
+  shop_uploads: {}

@@ -1,117 +1,350 @@
 # CADO: Semantic Representation of Container Deployment Workflows
 
-This repository contains an OWL entity that describes the semantics of technologies capable of deploying applications via container orchestration.
+CADO (Containerized Application Deployment Ontology) is an OWL ontology that
+describes containerized application deployment in a platform-agnostic way, and
+a set of tools that turn a CADO description into the deployment artifacts of
+Docker and of Kubernetes.
 
-The main purpose of this OWL entity is to describe the semantics of these technologies in a top-down manner. In this way, the reader will first learn the essential semantics of container orchestration and then become familiar with entities such as Docker and Kubernetes.
+One description, written once, yields both a Docker Compose file and a set of
+Kubernetes manifests. The vocabulary carries no term specific to either
+platform: the notational differences between them live in the converter, not in
+the ontology.
 
+Two worked examples are included, both described with the same, unchanged
+T-Box: a WordPress + MySQL application, and a three-tier microservice (nginx
+edge, API served from a private registry, Redis cache). See
+[Example deployments](#example-deployments).
+
+**At a glance:** 22 classes, 27 object properties, 21 data properties. Every
+term carries a label and a definition. Two classes are defined by equivalence
+and their members are computed by the reasoner rather than asserted.
+
+## Contents
+
+1. [Main entities](#main-entities)
+2. [Platform Class](#platform-class)
+3. [Runtime Environment Class](#runtime-environment-class)
+4. [Deployment Unit Class](#deployment-unit-class)
+5. [Group By Class](#group-by-class)
+6. [Host Class](#host-class)
+7. [Storage Class](#storage-class)
+8. [Image Class](#image-class)
+9. [Image Registry Class](#image-registry-class)
+10. [Secret Class](#secret-class)
+11. [Environment Variable and Volume Mount](#environment-variable-and-volume-mount)
+12. [Inferred classes](#inferred-classes)
+13. [Python tools](#python-tools)
+14. [Example deployments](#example-deployments)
+15. [Figures](#figures)
+16. [Repository layout](#repository-layout)
 
 ## Main Entities
-CADO defines nine key classes related to container platforms. The platform class represents the chosen container platform, while runtime_environment describes the tools used during runtime. The deployment_unit class specifies the format for deploying application components. The group_by class represents the relationship between multiple containers within the same application. The host class describes the machines hosting deployed components, and storage details the required data storage. The image class represents Docker images, while image_registry describes registries where images are stored. Lastly, the secrets class defines credentials needed to access restricted image registries.
 
-![Alt text](images/main-entities.jpg)
+Nine classes carry the core vocabulary. `platform` represents the chosen
+container platform and `runtime_environment` the engines it uses at run time.
+`deployment_unit` is the unit a platform schedules, `group_by` the construct
+that scopes a set of such units, and `host` the machine one runs on. `storage`
+describes the data a unit keeps, `image` the packaged application, and
+`image_registry` where images are held. `secret` carries the credentials needed
+to reach a restricted registry.
 
-1. [Platform Class](#platform-class)
-2. [Runtime Environment Class](#runtime-environment-class)
-3. [Deployment Unit Class](#deployment-unit-class)
-4. [Group By Class](#group-by-class)
-5. [Host Class](#host-class)
-6. [Storage Class](#storage-class)
-7. [Image Class](#image-class)
-8. [Image Registry Class](#image-registry-class)
-9. [Secrets Class](#secrets-class)
-10. [Python Tools](#python-tools)
+Two further classes, `environment_variable` and `volume_mount`, reify concepts
+that cannot be attached to a single individual without ambiguity, and two more,
+`subplatform` and `stateful_deployment_unit`, are not asserted at all but
+inferred. Both groups are described below.
+
+![CADO class hierarchy](figures/cado-class-hierarchy.png)
+
+Every figure in this README is generated from `entity.owx`, so a diagram cannot
+contradict the axioms it illustrates.
+
 ### Platform Class
-The **platform** class is designed to describe container platforms such as Docker or Kubernetes. A state-of-the-art container platform is composed of several key concepts that are required to orchestrate application components. These concepts are, in fact, sibling classes of the platform class. In the CADO ontology, the composedOf object property represents a high-level relationship that links the platform class with its sibling classes. Semantically, this means that the platform class is formed by the combination of its sibling classes.
 
-![Alt text](images/platform-class.jpg)
+The **platform** class describes container platforms such as Docker or
+Kubernetes. `composedOf` is the high-level relationship linking a platform to
+the concepts it orchestrates.
 
-CADO models key processes in container platforms using object properties. When a deployment request is made, the platform first checks for the image locally; if unavailable, it pulls the image from a registry (**pullsImageFrom**). Private registries require credentials, generating secrets (**generatesSecrets**). Storage and container groupings are also created using **generatesStorage** and **generatesGroupBy**. The deploys property represents the deployment of components using supported formats. Platforms manage multiple applications by organizing components in isolated environments (**multipleGroupBy**).
+![Platform class](figures/cado-platform.png)
 
-Runtime environments handle image pulling, unpacking, and container operations (**utilize**). Platforms cluster multiple hosts for container orchestration, represented by the **includesHost** property.
+When a deployment is requested the platform pulls any image it does not hold
+locally (**pullsImageFrom**). A private registry requires credentials, modelled
+with **generatesSecret**. Storage and grouping constructs are created through
+**generatesStorage** and **generatesGroupBy**, and **deploys** relates a
+platform to the units it schedules. **includesHost** relates it to the machines
+it can schedule onto, and **utilizes** to the runtime environments, or to
+another platform, that it builds on.
+
+`composedOf` and `utilizes` are **asymmetric** and **irreflexive**: a platform
+cannot be composed of itself, and two platforms cannot use each other. Both
+axioms are universal rather than existential, so a platform is constrained in
+what it may be composed of without being required to be composed of anything.
 
 ### Runtime Environment Class
-CADO models the **runtime environment** as a crucial component of container orchestration using the **runtime_environment** class. This environment handles tasks such as pulling images from registries (**pullingImageFrom**), unpacking them (**unpacks**), and converting them into running containers (**convertsToContainer**). An image is a lightweight, standalone package containing all dependencies, while a container is its active instance running in isolation. These relationships are visually represented in the CADO ontology.
 
-![Alt text](images/runtime-environment-class.jpg)
+The **runtime_environment** class models the engines a platform relies on. A
+runtime environment pulls images from registries (**pullsImageFrom**), unpacks
+them (**unpacks**) and converts them into running containers
+(**convertsToContainer**).
 
+![Runtime environment class](figures/cado-runtime-environment.png)
 
 ### Deployment Unit Class
-The **deployment_unit** class in CADO defines the deployment units supported by platforms, with containers being the most common. Containers are isolated environments based on Docker images to facilitate application components. This class can represent both containers and application components. However, Kubernetes uses **pods** as its deployment unit, which can host multiple containers. To account for this, CADO introduces the **minimal_deployment_unit** class as a subclass of **deployment_unit**. The relationship between these classes is captured through the **hasSubclass** object property.
 
-![Alt text](images/deployment-unit-class.jpg)
+The **deployment_unit** class covers what a platform schedules. A Docker
+container and a Kubernetes pod are both deployment units. Because a pod may hold
+several containers, CADO adds **minimal_deployment_unit** as a subclass, defined
+as the running instance of exactly one image; **containsMinimalDeploymentUnit**
+relates a composite unit to the minimal units inside it.
 
-Container orchestration aims to find a capable host for the application component within a container. CADO uses the **hostedBy** object property to link the **deployment_unit** class with the **host** class, representing where the container is hosted. The **deployment_unit** class also uses the **runningInstanceOf** property to indicate that a container is a running instance of a Docker image. If the container generates output data that requires storage, CADO connects the **deployment_unit** to **storage** through the **bind** object property. Additionally, CADO supports an object property to link **deployment_unit** with **minimal_deployment_unit** for use in certain deployment scenarios.
+![Deployment unit class](figures/cado-deployment-unit.png)
+
+**hostedBy** places a unit on a host, **runningInstanceOf** relates it to the
+image it runs, and **binds** to the storage it uses. **dependsOn** orders one
+unit against another and is asymmetric and irreflexive, so a unit cannot depend
+on itself.
 
 ### Group By Class
-CADO includes the **group_by** class to represent Docker networks, Docker services, Kubernetes services, and Kubernetes namespaces. It uses the **includesRunningInstance** object property to link the **group_by** class with the **deployment_unit** class, illustrating the relationship between these entities and containers or pods.
 
-<img src="images/group-by-class.jpg" alt="Description"  width="340"/>
+CADO includes the **group_by** class to represent the grouping constructs of
+container platforms. It is defined as *a named grouping construct that scopes a
+set of deployment units and governs how they are addressed by one another* — the
+property Docker networks, Docker Swarm and Kubernetes services, and Kubernetes
+namespaces all share, and the reason a single abstraction is justified.
+
+Because those constructs differ in *how* they scope, `group_by` has three
+disjoint subclasses rather than covering them in one flat class:
+
+| Subclass | Scopes deployment units by | Platform construct | Naming property |
+|---|---|---|---|
+| `network` | link-layer reachability | Docker network | `network_name` |
+| `service` | a single stable endpoint | Docker Swarm service, Kubernetes service | `service_name` |
+| `namespace` | name isolation | Kubernetes namespace | `namespace_name` |
+
+The subclass an individual belongs to is what determines which construct the
+converter renders it as, so recording only the parent class would leave that
+choice undetermined.
+
+**includesRunningInstance** links a grouping construct to the units it scopes.
+
+<img src="figures/cado-group-by.png" alt="Group by class" width="420"/>
 
 ### Host Class
-The **host** class in CADO is unique in that it has no outgoing object properties. This is because hosts do not trigger orchestration actions themselves in Docker or Kubernetes; instead, runtime environments are responsible for pulling and storing Docker images. Therefore, the **host** class is considered a passive entity, with only incoming object properties.
 
+The **host** class is passive: it triggers no orchestration action of its own,
+since it is the runtime environments that pull and store images. It carries a
+single outgoing property, **hosts**, which exists only as the inverse of
+**hostedBy** so that the units placed on a host can be retrieved directly. Every
+other relation involving a host is incoming.
 
 ### Storage Class
-The **storage** class in CADO represents the overall storage capabilities of container platforms and is closely linked to the **host** class, which allocates disk space for deployed containers. Storage is categorized into two types: **ephemeral** and **persistent**, represented by corresponding subclasses.  
 
-- **Ephemeral storage** exists only for the duration of a container or pod, used for temporary files or scratch data. In Docker, the writable layer of a container is ephemeral, while in Kubernetes, ephemeral storage includes local empty directories and container layers.  
-- **Persistent storage** allows data to survive beyond container lifecycles, managed through volumes in Docker and Kubernetes. These volumes can use cloud storage, network file systems, or local disks.  
+The **storage** class represents the storage a deployment uses, and is linked to
+`host`, which supplies the disk space. It has two disjoint subclasses:
 
-CADO models this relationship using the **hasSubclass** property, linking **storage** to its **ephemeral** and **persistent** subclasses. The **reservesDiskSpaceOn** property represents disk allocation on a host for **storage** and **persistent** classes but does not apply to **ephemeral** storage, as it is temporary.
+- **Ephemeral storage** lasts only as long as the unit using it. It becomes a
+  `tmpfs` mount under Compose and an `emptyDir` under Kubernetes, with no claim.
+- **Persistent storage** outlives the unit. It becomes a named volume under
+  Compose, and a PersistentVolume with a PersistentVolumeClaim under Kubernetes.
 
-![Alt text](images/storage-class.jpg)
+![Storage class](figures/cado-storage.png)
+
+**reservesDiskSpaceOn** relates storage to the host backing it. Persistent
+storage is required to have at least one such host, which is what distinguishes
+it from ephemeral storage; this is one of only two existential axioms in CADO.
 
 ### Image Class
-The **image** class in CADO represents Docker images, which are self-contained, executable packages with all necessary code, libraries, and dependencies. Developers can use pre-existing images or create custom ones, often built from public or private registries. These images are stored in registries and retrieved by platforms like Docker or Kubernetes for deployment. To model this process, the **image** class includes the **savedTo** object property, indicating that images are stored on local hosts before being used to create containers.
 
-<img src="images/image-class.jpg" alt="Description" height="280"/>
+The **image** class represents container images: self-contained packages
+carrying the code, libraries and dependencies an application needs. The
+**savedTo** object property records the host an image is stored on before it is
+used to create a container.
+
+<img src="figures/cado-image.png" alt="Image class" width="420"/>
 
 ### Image Registry Class
-The **image_registry** class in CADO represents repositories that store and manage Docker images, either publicly or privately. Popular registries include **Docker Hub**, which provides public and private repositories with features like versioning and automated builds, and **Quay**, which offers enhanced security and enterprise-level management. Additionally, the **Docker Registry** image allows users to create private or public repositories for image distribution.  
 
-![Alt text](images/image-registry-class.jpg)
+The **image_registry** class represents repositories that store and manage
+images, publicly or privately. CADO distinguishes **public_image_registry** and
+**private_image_registry** as disjoint subclasses, and **includesImage** relates
+a registry to the images it holds.
 
-CADO distinguishes between **public_image_registry** and **private_image_registry** subclasses to indicate access restrictions. The **includesImage** object property links registries to stored images. However, CADO does not yet have a specific class for describing repositories within a registry.
+![Image registry class](figures/cado-image-registry.png)
 
-### Secrets Class
+`includesImage` has a single domain, `image_registry`. Declaring it on the
+superclass and both subclasses at once would require a registry to be public and
+private simultaneously, which is unsatisfiable once the two are disjoint. CADO
+therefore gives every property exactly one domain axiom and one range axiom,
+writing a genuine disjunction as an explicit union — as `pullsImageFrom` does
+over `platform` and `runtime_environment`.
 
-The **secrets** class in CADO represents authentication credentials used by container platforms to access private image registries. It includes the **loginTo** object property, which models the authentication process.
+### Secret Class
 
-<img src="images/secrets-class.jpg" alt="Description" width="300"/>
+The **secret** class represents the credentials a platform uses to reach a
+private registry, with **loginTo** modelling the authentication target.
 
-In **Docker**, authentication is handled via the `docker login` command before orchestration begins, while **Kubernetes** uses declarative secrets that can be dynamically created and managed during orchestration. Both platforms store credentials in Base64-encoded format to enable secure **push** and **pull** operations from private registries.
+<img src="figures/cado-secret.png" alt="Secret class" width="380"/>
 
+Docker authenticates with `docker login` before a plan is applied, while
+Kubernetes injects a Secret manifest referenced by `imagePullSecrets` during
+deployment. The converter handles both from the same description.
+
+### Environment Variable and Volume Mount
+
+Two classes exist because the concepts they carry cannot be attached to a single
+individual without ambiguity.
+
+- **environment_variable** is a name/value pair supplied to a deployment unit,
+  reached through `hasEnvironmentVariable` and carrying `variable_name` and
+  `variable_value`. Modelling variables as data properties named after
+  particular variables, as `env_mysql_database` and the like, would tie the
+  schema to one application.
+- **volume_mount** is the attachment of one storage resource to one deployment
+  unit at one path, reached through `hasVolumeMount` and carrying `mount_path`
+  and `mountsStorage`. This lets a unit mount several volumes at distinct paths.
+
+<img src="figures/cado-volume-mount.png" alt="Volume mount class" width="420"/>
+
+The convenient direct relation between a unit and its storage is then derived
+rather than asserted, through the property chain
+`hasVolumeMount ∘ mountsStorage ⊑ binds`.
+
+### Inferred classes
+
+Every class but two is primitive: an individual belongs to it because a modeller
+says so. The remaining two are defined by an equivalence axiom, so their members
+are computed by the reasoner and are never asserted in an A-Box.
+
+| Class | Equivalent to | Reads as |
+|---|---|---|
+| `subplatform` | `platform and utilizedBy some platform` | a platform that another platform builds on |
+| `stateful_deployment_unit` | `deployment_unit and hasVolumeMount some (mountsStorage some persistent)` | a unit that mounts persistent storage |
+
+Nothing states that Docker is a subplatform. A modeller states that Docker is a
+platform and that Docker Swarm uses it, and the reasoner concludes the rest.
 
 ## Python Tools
-Along with our ontology we provide two Python tools.
-* A validator that validates instances of our ontology.
-* A converter that reads instances and generated Docker and Kubernetes files.
 
-The requirements for these tools are validator:
+| Tool | Purpose |
+|---|---|
+| `validator.py` | HermiT consistency and satisfiability, plus closed-world constraint checking |
+| `converter.py` | Generates Docker Compose and Kubernetes artifacts from an ontology description |
+| `cado_graph.py` | Ontology access layer: every lookup is a traversal of CADO, never a name match |
+| `docker_functions.py` | Compose rendering backend |
+| `kubernetes_functions.py` | Kubernetes manifest rendering backend |
+| `artifact_check.py` | Offline structural validation of the generated artifacts |
+| `competency_questions.py` | Answers the 13 competency questions, including four defect checks |
+| `regression_tests.py` | The claims made about CADO, in executable form |
+| `ontology_summary.py` | Emits the class/property/restriction tables in Markdown or LaTeX |
+| `generate_figures.py` | Regenerates every figure from the ontology, as PDF, PNG and editable draw.io |
+| `figure_palette.py` | Shared relationship palette, with a CIE Lab separation check |
+| `dot_to_drawio.py`, `colour_edges.py` | draw.io export, and palette application to existing diagrams |
+
+The converter never inspects the name of an individual. It selects its output
+syntax from the `artifact_format` data property asserted on the platform, and
+reaches everything else by traversing object properties, so renaming every
+individual in a model leaves the generated artifacts byte-identical.
+
+### Setup
 
 ```bash
-# Create a conda environment
 conda create -n owl_env python=3.10
-
-# Activate the environment
 conda activate owl_env
-
-# Install Owlready2
-pip install owlready2
+pip install owlready2 pyyaml
 ```
 
-### Validator
+A Java runtime is required, since Owlready2 invokes HermiT. `docker`, `kubectl`
+and `kind` are optional and used only for the live deployment.
+
+### Validating and generating
+
+`reproduce.sh` runs the sequence end to end: it validates both models with
+HermiT (the WordPress + MySQL application and the three-tier microservice),
+generates the artifacts for both, and checks the generated artifacts
+structurally.
 
 ```bash
-# Run the validator
-cd ontology_python_tools
-python validator.py --classes entity.owx --instances instances.owl
+./reproduce.sh          # validation, generation, offline structural check
+./reproduce.sh --live   # also deploys to Docker and to a kind cluster, then tears both down
 ```
 
-### Converter
+Expected output: every step reports `OK`, 15 artifact files are written under
+`generated_files/`, and the script exits zero. It exits non-zero if any step
+fails. The `--live` path removes the Compose project and the kind cluster on
+every exit path, including interruption, so a failed run leaves nothing behind.
+
+### Individual tools
 
 ```bash
-# Run the validator
 cd ontology_python_tools
-python converter.py --classes entity.owx --instances instances.owl
+
+# Validate (exits non-zero on any violation or undocumented term)
+python validator.py --classes ../ontology_files/entity.owx \
+                    --instances ../ontology_files/instances.owl
+
+# Generate deployment artifacts
+python converter.py --classes ../ontology_files/entity.owx \
+                    --instances ../ontology_files/instances.owl \
+                    --out ../generated_files
+
+# ...or for the three-tier microservice
+python converter.py --classes ../ontology_files/entity.owx \
+                    --instances ../ontology_files/instances_microservice.owl \
+                    --out ../generated_files/microservice
+
+# Check the generated artifacts without a cluster
+python artifact_check.py ../generated_files ../generated_files/microservice
+
+# Answer the competency questions
+python competency_questions.py --classes ../ontology_files/entity.owx \
+                               --instances ../ontology_files/instances.owl
+
+# Regenerate the summary tables (Markdown or LaTeX)
+python ontology_summary.py --classes ../ontology_files/entity.owx \
+                           --format latex
+```
+
+## Example deployments
+
+| A-Box | Describes | Exercises |
+|---|---|---|
+| `ontology_files/instances.owl` | WordPress + MySQL on Docker and Kubernetes | The running example of the paper |
+| `ontology_files/instances_microservice.owl` | Three-tier microservice (nginx edge → API from a private registry → Redis cache) on Docker and Kubernetes | Scaling, resource limits, published ports, multiple networks per unit, a service grouping, a private registry with credentials, ephemeral and persistent storage, a dependency chain |
+
+Load one A-Box at a time; they describe the same platform individuals.
+
+Neither required any change to the T-Box, which is the point: `entity.owx`
+carries no term specific to any one deployment.
+
+## Figures
+
+All figures are generated from the ontology, so a diagram cannot contradict the
+axioms it illustrates:
+
+```bash
+cd ontology_python_tools
+python3 generate_figures.py --out ../figures
+```
+
+Each figure is written as a vector `.pdf` for the paper, a `.png` preview, and an
+editable `.drawio`. Editing a `.drawio` by hand adopts that figure: the generator
+notices and will not overwrite it on the next run. Every run also checks that no
+two relationship colours appearing in the same diagram are closer than 25 units
+in CIE Lab. See `figures/README.md`.
+
+## Repository layout
+
+```
+ontology_files/
+    entity.owx                      T-Box (schema)
+    instances.owl                   A-Box: WordPress + MySQL
+    instances_microservice.owl      A-Box: three-tier microservice
+    v1_archive/                     the previous version, for diffing
+ontology_python_tools/              validator, converter and evaluation tools
+figures/                            figures generated from the ontology (pdf, png, drawio)
+generated_files/                    artifacts generated from instances.owl (WordPress + MySQL)
+generated_files/microservice/       artifacts generated from instances_microservice.owl (three-tier microservice)
+ONTOLOGY_SUMMARY.md                 generated class and property reference
+CHANGES.md                          what changed since v1 and why
+reproduce.sh                        validation, artifact generation and structural check
+run_evaluation.sh                   the above, plus every other reported result
 ```

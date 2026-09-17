@@ -1,109 +1,121 @@
-from owlready2 import get_ontology, default_world, onto_path # <-- Import onto_path
+"""
+CADO converter: transforms a CADO deployment description into the deployment
+artifacts of a concrete container platform.
+
+The converter selects a serialisation backend from the artifact_format property
+declared by each platform individual in the ontology; it never inspects the
+names of individuals. Adding support for a new platform means registering a new
+backend below and asserting the corresponding artifact_format in the A-Box.
+
+Usage:
+    python converter.py --classes ../ontology_files/entity.owx \
+                        --instances ../ontology_files/instances.owl
+"""
+
 import argparse
+import os
+
 import yaml
+from owlready2 import get_ontology, default_world, onto_path, sync_reasoner
+
+import cado_graph as g
 import docker_functions
 import kubernetes_functions
-import os # <-- Import os
-# -------------------------------
-# Parse command-line arguments
-# -------------------------------
-parser = argparse.ArgumentParser(description="OWL Ontology Validator")
-parser.add_argument("--classes", required=True, help="Path to the class (TBox) OWL file")
-parser.add_argument("--instances", required=True, help="Path to the instance (ABox) OWL file")
-args = parser.parse_args()
 
-CLASS_FILE = args.classes
-INSTANCE_FILE = args.instances
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DEFAULT_OUTPUT_DIR = os.path.join(REPO_ROOT, "generated_files")
 
 
-ontology_dir = os.path.dirname(CLASS_FILE)
-if ontology_dir and ontology_dir not in onto_path:
-    onto_path.append(ontology_dir)
-# --- New Code Ends Here ---
+def load(class_file, instance_file, reason=True):
+    ontology_dir = os.path.dirname(os.path.abspath(class_file))
+    if ontology_dir not in onto_path:
+        onto_path.append(ontology_dir)
 
-print("Loading Classes...")
-# The TBox file is loaded first, so its imports (if any) are resolved.
-onto = get_ontology(CLASS_FILE).load()
+    print("Loading T-Box ...")
+    tbox = get_ontology(os.path.abspath(class_file)).load()
+    print("Loading A-Box ...")
+    abox = get_ontology(os.path.abspath(instance_file)).load()
 
-print("Loading Instances...")
-# The ABox file is loaded, and it will now search the directory in onto_path
-# for its imports (like 'entity.owx').
-instances_onto = get_ontology(INSTANCE_FILE).load()
-onto.imported_ontologies.append(instances_onto)
-
-print("\nLoaded ontologies:")
-print(" Classes:", onto.base_iri)
-print(" Instances:", instances_onto.base_iri)
+    if reason:
+        print("Running reasoner (HermiT) ...")
+        with abox:
+            sync_reasoner(infer_property_values=True, debug=0)
+        print("Ontology is consistent; inferences materialised.")
+    return tbox, abox
 
 
-all_instances = list(default_world.individuals())
+def write(directory, filename, document):
+    path = os.path.join(directory, filename)
+    with open(path, "w") as handle:
+        yaml.dump(document, handle, sort_keys=False)
+    return path
 
 
-def find_platform_type():
-    kubernetes_deployment_plan = False
-    docker_deployment_plan = False
-
-    DOCKER_IDENTIFIERS = {"2024.Docker_Compose", "2024.Docker_Swarm", "2024.Docker_Engine", "2024.Docker"}
-
-    for instance in all_instances:
-        # Get the string representation of the instance (e.g., "2024.Docker")
-        instance_str = str(instance)
-
-        # 1. CORRECT DOCKER CHECK
-        if instance_str in DOCKER_IDENTIFIERS:
-            docker_deployment_plan = True
-
-        # 2. CORRECT KUBERNETES CHECK
-        if instance_str == "2024.Kubernetes":
-            kubernetes_deployment_plan = True
-
-        # Optimization: Stop early if both are found
-        if docker_deployment_plan and kubernetes_deployment_plan:
-            break
-
-    return kubernetes_deployment_plan, docker_deployment_plan
+def emit_docker_compose(tbox, world, platform, out_dir):
+    docker_functions.describe(tbox, world, platform)
+    compose = docker_functions.generate_docker_compose(tbox, world, platform)
+    return [write(out_dir, "docker-compose.generated.yml", compose)]
 
 
-# After this correction, the output should be (True, True) because both
-# '2024.Docker' and '2024.Kubernetes' exist in your all_instances list.
+def emit_kubernetes_manifests(tbox, world, platform, out_dir):
+    kubernetes_functions.describe(tbox, world, platform)
+    namespace, deployments, volumes, claims = \
+        kubernetes_functions.generate_kubernetes_manifests(tbox, world, platform)
 
-print("\nAll instances in ontology:")
-for inst in all_instances:
-    print(" -", inst)
+    written = []
+    if namespace:
+        written.append(write(out_dir, "kubernetes-namespace.generated.yml", namespace))
+    for index, deployment in enumerate(deployments, start=1):
+        written.append(write(out_dir, "kubernetes-deployment%d.generated.yml" % index, deployment))
+    for index, volume in enumerate(volumes, start=1):
+        written.append(write(out_dir, "kubernetes-volume%d.generated.yml" % index, volume))
+    for index, claim in enumerate(claims, start=1):
+        written.append(write(out_dir, "kubernetes-pvc%d.generated.yml" % index, claim))
+    return written
 
-os.makedirs("../generated_files", exist_ok=True)
-kubernetes_deployment_plan, docker_deployment_plan = find_platform_type()
-print(kubernetes_deployment_plan,docker_deployment_plan)
-if kubernetes_deployment_plan:
-    print("Generate Kubernetes deployment plan")
-    pods_list = kubernetes_functions.find_kubernetes_instances(all_instances)
-    kubernetes_functions.find_kubernetes_data_assertions(pods_list, onto)
-    namespace, deployments, volumes,pvcs, = kubernetes_functions.generate_kubernetes_yaml_files(pods_list, onto)
-    deployment_counter=0
-    volume_counter=0
-    pvc_counter=0
-    for deployment in deployments:
-        deployment_counter = deployment_counter +1
-        with open("../generated_files/kubernetes-deployment"+str(deployment_counter)+".generated.yml", "w") as f:
-            yaml.dump(deployment, f, sort_keys=False)
-    with open("../generated_files/kubernetes-namespace.generated.yml", "w") as f:
-        yaml.dump(namespace, f, sort_keys=False)
-    for volume in volumes:
-        volume_counter = volume_counter +1
-        with open("../generated_files/kubernetes-volume"+str(volume_counter)+".generated.yml", "w") as f:
-            yaml.dump(volume, f, sort_keys=False)
-    for pvc in pvcs:
-        pvc_counter = pvc_counter +1
-        with open("../generated_files/kubernetes-pvc"+str(pvc_counter)+".generated.yml", "w") as f:
-            yaml.dump(pvc, f, sort_keys=False)
-    print("Generated Kubernetes files")
-if docker_deployment_plan:
-    print("Generate Docker deployment plan")
-    container_list = docker_functions.find_docker_instances(all_instances)
-    docker_functions.find_docker_data_assertions(container_list, onto)
-    compose = docker_functions.generate_docker_compose(container_list, onto)
 
-    with open("../generated_files/docker-compose.generated.yml", "w") as f:
-        yaml.dump(compose, f, sort_keys=False)
+# artifact_format value -> backend. The only place platform knowledge lives.
+BACKENDS = {
+    "docker-compose": emit_docker_compose,
+    "kubernetes-manifest": emit_kubernetes_manifests,
+}
 
-    print("Generated Docker Compose file")
+
+def main():
+    parser = argparse.ArgumentParser(description="CADO deployment artifact converter")
+    parser.add_argument("--classes", required=True, help="Path to the T-Box OWL file")
+    parser.add_argument("--instances", required=True, help="Path to the A-Box OWL file")
+    parser.add_argument("--out", default=DEFAULT_OUTPUT_DIR, help="Output directory")
+    parser.add_argument("--no-reasoner", action="store_true",
+                        help="Skip reasoning (uses only asserted axioms)")
+    args = parser.parse_args()
+
+    tbox, _ = load(args.classes, args.instances, reason=not args.no_reasoner)
+    os.makedirs(args.out, exist_ok=True)
+
+    platforms = g.target_platforms(tbox, default_world)
+    if not platforms:
+        print("\nNo platform declares an artifact_format; nothing to generate.")
+        return
+
+    print("\nTarget platforms found in the ontology:")
+    for platform in platforms:
+        print("  - %s -> %s" % (platform.name, g.one(platform, "artifact_format")))
+
+    generated = []
+    for platform in platforms:
+        artifact_format = g.one(platform, "artifact_format")
+        backend = BACKENDS.get(artifact_format)
+        if backend is None:
+            print("\nNo backend registered for artifact_format '%s' (platform %s); skipped."
+                  % (artifact_format, platform.name))
+            continue
+        generated.extend(backend(tbox, default_world, platform, args.out))
+
+    print("\nGenerated %d file(s) in %s:" % (len(generated), args.out))
+    for path in sorted(generated):
+        print("  -", os.path.basename(path))
+
+
+if __name__ == "__main__":
+    main()
